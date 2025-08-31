@@ -84,6 +84,21 @@
   .wrap{ padding-top:18px; }
 </style>
 
+
+<style>
+  .hero > section, .hero > .full-row { grid-column: 1 / -1; }
+  .quick-answers { margin-top:16px; display:grid; gap:10px; }
+  .quick-answers details { background:#fff; border:1px solid #eef2f7; border-radius:12px; padding:10px 12px; }
+  .quick-answers summary { cursor:pointer; font-weight:600; outline:none; list-style:none; }
+  .quick-answers summary::-webkit-details-marker { display:none; }
+  .band { margin:18px 0 0; }
+  .band-wrap { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  .chip { display:flex; align-items:center; gap:8px; background:#fff; border:1px solid #eef2f7; border-radius:999px; padding:10px 14px; font-weight:600; color:#0f172a; }
+  .chip i { font-style:normal; background:rgba(232,100,10,.1); border-radius:8px; padding:2px 8px; }
+  @media (max-width:900px){ .band-wrap{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:520px){ .band-wrap{ grid-template-columns:1fr; } }
+</style>
+
 </head>
 <body>
   <div class="wrap">
@@ -110,6 +125,22 @@
           <div class="stat"><b>94%</b><div>Would recommend</div></div>
           <div class="stat"><b>120+</b><div>Hiring partners</div></div>
         </div>
+
+<div class="quick-answers">
+  <details>
+    <summary>Is joining free?</summary>
+    <p class="notice">Yes. Alumni membership is free. Opt out anytime.</p>
+  </details>
+  <details>
+    <summary>What kind of updates will I get?</summary>
+    <p class="notice">Webinars, placement leads, and member-only course discounts. No spam.</p>
+  </details>
+  <details>
+    <summary>How is my data used?</summary>
+    <p class="notice">Only to run the alumni network and contact you about opportunities. <a href="#privacy">See privacy</a>.</p>
+  </details>
+</div>
+
       </div>
 
       <div class="card pad" id="signup">
@@ -167,7 +198,7 @@
           </div>
 
           <div class="full">
-            <label class="helper"><input id="consent" type="checkbox" required> I agree to be contacted about alumni updates, webinars, opportunities and discounts.</label>
+            <label for="consent" class="helper" style="display:flex; align-items:center; gap:8px;"><input id="consent" type="checkbox" required> I agree to be contacted about alumni updates, webinars, opportunities and discounts.</label>
           </div>
 
           <div class="full">
@@ -177,6 +208,16 @@
         </form>
       </div>
     </section>
+
+<section class="section band">
+  <div class="band-wrap">
+    <div class="chip"><i>🎓</i> Advanced workshops</div>
+    <div class="chip"><i>💼</i> Placement leads</div>
+    <div class="chip"><i>💬</i> WhatsApp alerts</div>
+    <div class="chip"><i>🔒</i> Privacy-first</div>
+  </div>
+</section>
+
 
     <!-- ROW 1: ALUMNI SPOTLIGHT (full-width) -->
     <section class="section">
