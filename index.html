@@ -15,7 +15,7 @@
     body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial}
     a{color:var(--brand);text-decoration:none}
     a:hover{text-decoration:underline}
-    .wrap{max-width:1100px;margin:0 auto;padding:24px}
+    .wrap{max-width:1200px;margin:0 auto;padding:24px}
     .header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:8px 0 16px}
     .logo{display:flex;align-items:center;gap:12px}
     .logo img{height:44px;width:auto;object-fit:contain}
@@ -41,9 +41,11 @@
     .benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
     .benefit{display:flex;gap:12px;padding:16px;border:1px solid #eef2f7;border-radius:14px;background:#fff}
     .benefit i{height:36px;width:36px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:rgba(232,100,10,.08);color:var(--brand);font-weight:900}
-    .updates{display:grid;grid-template-columns:1fr;gap:12px}
+    /* Updates as a 4-across grid */
+    .updates{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
     .update{padding:14px;border:1px solid #eef2f7;border-radius:14px;background:#fff}
     .update time{display:block;color:#94a3b8;font-size:12px;margin-bottom:6px}
+    /* Alumni spotlight grid */
     .spotlight{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
     .sp-card{display:flex;gap:12px;align-items:flex-start;padding:14px;border:1px solid #eef2f7;border-radius:14px;background:#fff}
     .sp-card img{height:48px;width:48px;border-radius:12px;object-fit:cover}
@@ -54,9 +56,18 @@
     .split{display:grid;grid-template-columns:1fr 1fr;gap:14px}
     .notice{font-size:13px;color:#64748b}
     .helper{font-size:12px;color:#94a3b8}
-    @media (max-width:960px){
+    @media (max-width:1100px){
+      .updates{grid-template-columns:repeat(3,1fr)}
+      .spotlight{grid-template-columns:repeat(2,1fr)}
+    }
+    @media (max-width:780px){
       .hero{grid-template-columns:1fr}
-      .benefits,.stats,.split,.form,.spotlight{grid-template-columns:1fr}
+      .benefits,.stats,.split,.form{grid-template-columns:1fr}
+      .updates{grid-template-columns:repeat(2,1fr)}
+      .spotlight{grid-template-columns:1fr}
+    }
+    @media (max-width:520px){
+      .updates{grid-template-columns:1fr}
     }
   </style>
 </head>
@@ -64,7 +75,6 @@
   <div class="wrap">
     <header class="header">
       <div class="logo">
-        <!-- Use the file you placed next to index.html -->
         <img src="logo.png" alt="Orane International logo">
         <strong>Orane Alumni</strong>
       </div>
@@ -81,13 +91,13 @@
           <a href="#updates" class="btn ghost">See latest updates</a>
         </div>
         <div class="stats">
-          <div class="stat"><b id="stat-alumni">2,500+</b><div>Alumni onboard</div></div>
+          <div class="stat"><b>2,500+</b><div>Alumni onboard</div></div>
           <div class="stat"><b>94%</b><div>Would recommend</div></div>
           <div class="stat"><b>120+</b><div>Hiring partners</div></div>
         </div>
       </div>
 
-      <!-- Whole card has id=signup for reliable anchor, plus smooth scroll -->
+      <!-- Reliable anchor for the form -->
       <div class="card pad" id="signup">
         <h2>Join the alumni network</h2>
         <form id="alumni-form" class="form" novalidate>
@@ -109,14 +119,8 @@
           </div>
           <div>
             <label>Graduating year</label>
-            <select name="graduating_year">
-              <option value="">Select</option>
-              <script>
-                const ysel = document.currentScript.parentElement.querySelector('select');
-                const y = new Date().getFullYear();
-                for(let i=y;i>=2005;i--){const o=document.createElement('option');o.value=i;o.textContent=i;ysel.appendChild(o)}
-              </script>
-            </select>
+            <!-- text input per your request -->
+            <input name="graduating_year" placeholder="eg 2023" inputmode="numeric" pattern="\\d{4}" title="Enter 4 digits, e.g., 2023">
           </div>
           <div>
             <label>Country</label>
@@ -132,7 +136,6 @@
             <input name="profession" placeholder="Makeup artist, salon owner, trainer…">
           </div>
 
-          <!-- Socials: all visible, none “mysteriously missing” -->
           <div>
             <label>Instagram</label>
             <input name="instagram" placeholder="https://instagram.com/…">
@@ -151,12 +154,7 @@
           </div>
 
           <div class="full">
-            <label>Anything else we should know?</label>
-            <textarea name="notes" rows="3" placeholder="Certifications, interests, preferred roles…"></textarea>
-          </div>
-
-          <div class="full">
-            <label class="helper"><input type="checkbox" required> I agree to be contacted about alumni updates, webinars, opportunities and discounts.</label>
+            <label class="helper"><input id="consent" type="checkbox" required> I agree to be contacted about alumni updates, webinars, opportunities and discounts.</label>
           </div>
 
           <div class="full">
@@ -239,33 +237,50 @@
     });
 
     // 1) Handle Alumni form submission (Google Apps Script endpoint)
-    const ENDPOINT = "https://script.google.com/macros/s/AKfycbw3T-SdX4W0IFqqO-RSkIsrPrIhPUG-nBM-F1voRrBHzFDuqs9e8z-aXII0eYdC0sUz/exec"; // your working endpoint
+    const ENDPOINT = "https://script.google.com/macros/s/AKfycbw3T-SdX4W0IFqqO-RSkIsrPrIhPUG-nBM-F1voRrBHzFDuqs9e8z-aXII0eYdC0sUz/exec"; // keep your working endpoint
     const form = document.getElementById('alumni-form');
     const note = document.getElementById('form-note');
+    const consent = document.getElementById('consent');
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      // Enforce checkbox and HTML validity
+      if (!form.checkValidity() || !consent.checked) {
+        note.textContent = "Please complete all required fields and consent to communications.";
+        form.reportValidity();
+        return;
+      }
+
       note.textContent = "Sending…";
-      const data = Object.fromEntries(new FormData(form).entries());
+
+      // Only include fields your Sheet/Script expect; remove the old 'notes' field entirely
+      const allowed = [
+        "first_name","last_name","email","whatsapp",
+        "graduating_year","country","city",
+        "profession","instagram","facebook","linkedin","snapchat"
+      ];
+      const fd = new FormData(form);
+      const data = {};
+      for (const k of allowed) data[k] = fd.get(k) || "";
+
       try {
         const res = await fetch(ENDPOINT, {
           method: "POST",
+          mode: "no-cors",                 // CORS-safe for Apps Script
           headers: {"Content-Type": "application/json"},
           body: JSON.stringify(data),
         });
-        if (res.ok || res.type === "opaque") {
-          form.reset();
-          note.textContent = "Thanks! Check your email in a few minutes.";
-        } else {
-          note.textContent = "Saved, but could not verify the server response.";
-        }
+        // With no-cors the response is opaque; treat as success if no exception
+        form.reset();
+        note.textContent = "Thanks! Your details were submitted.";
       } catch (err) {
         note.textContent = "Couldn’t submit right now. Try again in a bit.";
         console.error(err);
       }
     });
 
-    // 2) Client-side RSS feed: merge two feeds using rss2json to dodge CORS
+    // 2) Client-side RSS feed: two feeds, deduped, sorted, limit to 8, 4-across grid
     const FEEDS = [
       "https://rss.app/feeds/U7tnzCEaszOSv8mi.xml",
       "https://rss.app/feeds/MvdbwW0vWdVM1cak.xml"
@@ -297,7 +312,6 @@
         }
         if (!items.length) throw new Error("No feed items");
 
-        // Normalize, dedupe by link+title, sort by date desc
         const seen = new Set();
         const normalized = items.map(it => {
           const d = new Date(it.pubDate || it.pub_date || it.date || it.created || Date.now());
@@ -312,14 +326,14 @@
           if (seen.has(k)) return false;
           seen.add(k);
           return true;
-        }).sort((a,b) => b.date - a.date);
+        }).sort((a,b) => b.date - a.date)
+          .slice(0, 8); // limit to 8 items
 
-        // Render vertical list
         updatesEl.innerHTML = "";
-        normalized.slice(0, 10).forEach(item => {
+        normalized.forEach(item => {
           const div = document.createElement('article');
           div.className = "update";
-          const short = item.desc.length > 160 ? item.desc.slice(0,160) + "…" : item.desc;
+          const short = item.desc.length > 140 ? item.desc.slice(0,140) + "…" : item.desc;
           div.innerHTML = `
             <time datetime="${item.date.toISOString()}">${item.date.toLocaleDateString()}</time>
             <a href="${item.link}" target="_blank" rel="noopener"><strong>${item.title}</strong></a>
