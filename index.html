@@ -1,47 +1,202 @@
-<!-- START: Alumni signup form -->
-<section>
-  <h1>Join the Alumni Network</h1>
-  <p>Fill this form to be added to the Orane Alumni Network. Your details go straight to our alumni database.</p>
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Orane Alumni</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --brand: #e8640a;      /* tweak if your orange is different */
+      --ink: #0f172a;        /* near-black text */
+      --muted: #64748b;      /* secondary text */
+      --bg: #f6f7f9;         /* page background */
+      --card: #ffffff;       /* card background */
+      --ring: rgba(232,100,10,.35);
+      --radius: 16px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+    }
+    .wrap{
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .site-header{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      padding: 12px 0 20px;
+    }
+    .site-header img{
+      height: 48px;
+      width: auto;
+    }
+    .site-header h1{
+      margin:0;
+      font-size: clamp(24px, 2.8vw, 36px);
+      letter-spacing:.2px;
+    }
 
-  <form id="alumniForm" style="max-width: 640px;">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
-      <input id="first_name" placeholder="First name" required>
-      <input id="last_name" placeholder="Last name" required>
-    </div>
+    .card{
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: clamp(16px, 3vw, 28px);
+      box-shadow:
+        0 1px 2px rgba(0,0,0,.05),
+        0 10px 25px rgba(15,23,42,.06);
+    }
 
-    <input id="email" type="email" placeholder="Email" style="margin-top:.75rem;width:100%">
-    <input id="whatsapp" placeholder="WhatsApp mobile (with country code)" style="margin-top:.75rem;width:100%">
+    .lead{ color: var(--muted); margin: 6px 0 18px; }
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:.75rem">
-      <input id="city" placeholder="Current City">
-      <input id="country" placeholder="Current Country">
-    </div>
+    form{
+      display: grid;
+      gap: 14px;
+    }
+    .grid-2{
+      display:grid;
+      gap:14px;
+      grid-template-columns: 1fr 1fr;
+    }
+    @media (max-width: 720px){ .grid-2{ grid-template-columns: 1fr; } }
 
-    <input id="graduating_year" placeholder="Graduating year from Orane" style="margin-top:.75rem;width:100%">
+    label{
+      font-weight: 600;
+      font-size: 14px;
+    }
+    input, select, button{
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #d7dbe3;
+      border-radius: 12px;
+      background: #fff;
+      transition: box-shadow .15s ease, border-color .15s ease, transform .02s ease-in-out;
+      outline: none;
+    }
+    input::placeholder{ color:#94a3b8; }
+    input:focus, select:focus{
+      border-color: var(--brand);
+      box-shadow: 0 0 0 4px var(--ring);
+    }
+    button{
+      background: var(--brand);
+      color:#fff;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover{ transform: translateY(-1px); }
+    button:disabled{ opacity:.6; cursor:not-allowed; transform:none; }
 
-    <input id="instagram" placeholder="Instagram profile link" style="margin-top:.75rem;width:100%">
-    <input id="facebook" placeholder="Facebook profile link" style="margin-top:.75rem;width:100%">
-    <input id="snapchat" placeholder="Snapchat profile link" style="margin-top:.75rem;width:100%">
+    #formMsg{ margin-top: 4px; font-weight: 600; }
+    .muted{ color: var(--muted); }
 
-    <label for="occupation" style="display:block;margin-top:.75rem;">Current occupation</label>
-    <select id="occupation" style="width:100%">
-      <option value="">Select…</option>
-      <option>Own business in beauty</option>
-      <option>Freelancer</option>
-      <option>Employed with a company in beauty sector</option>
-      <option>Not working</option>
-    </select>
+    .updates{
+      margin-top: 28px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+    .footer{
+      text-align:center;
+      color: var(--muted);
+      font-size: 13px;
+      margin: 24px 0 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="site-header">
+      <img src="assets/logo.png" alt="Orane logo" onerror="this.style.display='none'">
+      <h1>Join the Alumni Network</h1>
+    </header>
 
-    <button id="submitBtn" type="submit" style="margin-top:1rem;">Sign up</button>
-    <p id="formMsg" role="status" style="margin-top:.75rem;"></p>
-  </form>
-</section>
-<!-- END: Alumni signup form -->
+    <main class="card">
+      <p class="lead">Fill this form to be added to the Orane Alumni Network. Your details go straight to our alumni database.</p>
 
+      <form id="alumniForm" novalidate>
+        <div class="grid-2">
+          <div>
+            <label for="first_name">First name</label>
+            <input id="first_name" placeholder="First name" required>
+          </div>
+          <div>
+            <label for="last_name">Last name</label>
+            <input id="last_name" placeholder="Last name" required>
+          </div>
+        </div>
 
-Latest Updates
-	•	
-<script src="app.js"></script>
+        <div>
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="you@example.com">
+        </div>
+
+        <div>
+          <label for="whatsapp">WhatsApp mobile (with country code)</label>
+          <input id="whatsapp" placeholder="+91 98765 43210">
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <label for="city">Current City</label>
+            <input id="city" placeholder="City">
+          </div>
+          <div>
+            <label for="country">Current Country</label>
+            <input id="country" placeholder="Country">
+          </div>
+        </div>
+
+        <div>
+          <label for="graduating_year">Graduating year from Orane</label>
+          <input id="graduating_year" placeholder="2023">
+        </div>
+
+        <div>
+          <label for="instagram">Instagram profile link</label>
+          <input id="instagram" placeholder="https://instagram.com/yourname">
+        </div>
+        <div>
+          <label for="facebook">Facebook profile link</label>
+          <input id="facebook" placeholder="https://facebook.com/yourname">
+        </div>
+        <div>
+          <label for="snapchat">Snapchat profile link</label>
+          <input id="snapchat" placeholder="https://www.snapchat.com/add/yourname">
+        </div>
+
+        <div>
+          <label for="occupation">Current occupation</label>
+          <select id="occupation">
+            <option value="">Select…</option>
+            <option>Own business in beauty</option>
+            <option>Freelancer</option>
+            <option>Employed with a company in beauty sector</option>
+            <option>Not working</option>
+          </select>
+        </div>
+
+        <button id="submitBtn" type="submit">Sign up</button>
+        <p id="formMsg" role="status" class="muted"></p>
+        <p class="muted" style="margin-top:6px;">Tip: provide at least Email or WhatsApp.</p>
+      </form>
+    </main>
+
+    <section class="updates">
+      <strong>Latest Updates</strong> • Coming soon
+    </section>
+
+    <footer class="footer">
+      <a href="privacy.html">Privacy</a> • © Orane
+    </footer>
+  </div>
+
+  <!-- Your JS; version query busts cache -->
+  <script src="app.js?v=4"></script>
 </body>
 </html>
-
