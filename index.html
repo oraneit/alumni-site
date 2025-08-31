@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Orane Alumni Sign Up</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<header class="header">
+  <img src="assets/orane-logo.png" alt="Orane International" class="logo">
+</header>
+
+<main class="wrap">
+  <h1>Join the Alumni Network</h1>
+  <p class="sub">Fill this form to be added to the Orane Alumni Network. Your details go straight to our alumni database.</p>
+
+  <form id="signup" novalidate>
+    <div class="row half">
+      <label>First Name
+        <input name="first_name" required>
+      </label>
+      <label>Last Name
+        <input name="last_name" required>
+      </label>
+    </div>
+
+    <div class="row">
+      <label>Email
+        <input type="email" name="email" required>
+      </label>
+    </div>
+
+    <div class="row">
+      <label>WhatsApp mobile (with country code)
+        <input name="whatsapp" placeholder="+919876543210" pattern="^\\+?[0-9]{8,15}$" required>
+      </label>
+    </div>
+
+    <div class="row half">
+      <label>Current City
+        <input name="city">
+      </label>
+      <label>Current Country
+        <input name="country">
+      </label>
+    </div>
+
+    <div class="row">
+      <label>Graduating year from Orane
+        <input name="graduating_year" placeholder="e.g. 2023">
+      </label>
+    </div>
+
+    <div class="row">
+      <label>Instagram profile link
+        <input type="url" name="instagram" placeholder="https://instagram.com/yourhandle">
+      </label>
+    </div>
+
+    <div class="row">
+      <label>Facebook profile link
+        <input type="url" name="facebook" placeholder="https://facebook.com/yourprofile">
+      </label>
+    </div>
+
+    <div class="row">
+      <label>Snapchat profile link
+        <input type="url" name="snapchat" placeholder="https://www.snapchat.com/add/yourhandle">
+      </label>
+    </div>
+
+    <div class="row">
+      <label>Current occupation
+        <select name="occupation">
+          <option value="">Select…</option>
+          <option>Own business in beauty</option>
+          <option>Freelancer</option>
+          <option>Employed with a company in beauty sector</option>
+          <option>Not working</option>
+        </select>
+      </label>
+    </div>
+
+    <!-- hidden honeypot anti-spam -->
+    <input type="text" name="company_website" class="hp" tabindex="-1" autocomplete="off">
+
+    <button type="submit" id="btn">Sign up</button>
+    <p id="msg" class="muted"></p>
+  </form>
+
+  <section class="updates">
+    <h2>Latest Updates</h2>
+    <ul id="feed"></ul>
+  </section>
+</main>
+
+<script>
+  window.API_URL = "https://script.google.com/macros/s/AKfycbw3T-SdX4W0IFqqO-RSkIsrPrIhPUG-nBM-F1voRrBHzFDuqs9e8z-aXII0eYdC0sUz/exec";
+</script>
+<script src="assets/app.js"></script>
+</body>
+</html>

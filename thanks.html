@@ -1,0 +1,15 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>You're in</title>
+<link rel="stylesheet" href="assets/styles.css">
+</head><body>
+<main class="wrap center">
+  <h1>Thanks! Check WhatsApp</h1>
+  <p>We saved your details. Join the WhatsApp group or ping us directly.</p>
+  <a class="cta" id="wa" href="#" target="_blank" rel="noopener">Open WhatsApp</a>
+</main>
+<script>
+  const link = localStorage.getItem('wa_link') || (window.WHATSAPP_LINK || '#');
+  document.getElementById('wa').href = link;
+</script>
+</body></html>
