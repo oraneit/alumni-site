@@ -1,202 +1,106 @@
-<!doctype html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>Orane Alumni</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    :root{
-      --brand: #e8640a;      /* tweak if your orange is different */
-      --ink: #0f172a;        /* near-black text */
-      --muted: #64748b;      /* secondary text */
-      --bg: #f6f7f9;         /* page background */
-      --card: #ffffff;       /* card background */
-      --ring: rgba(232,100,10,.35);
-      --radius: 16px;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      background: var(--bg);
-      color: var(--ink);
-      font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
-    }
-    .wrap{
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 24px;
-    }
-    .site-header{
-      display:flex;
-      align-items:center;
-      gap:16px;
-      padding: 12px 0 20px;
-    }
-    .site-header img{
-      height: 48px;
-      width: auto;
-    }
-    .site-header h1{
-      margin:0;
-      font-size: clamp(24px, 2.8vw, 36px);
-      letter-spacing:.2px;
-    }
-
-    .card{
-      background: var(--card);
-      border-radius: var(--radius);
-      padding: clamp(16px, 3vw, 28px);
-      box-shadow:
-        0 1px 2px rgba(0,0,0,.05),
-        0 10px 25px rgba(15,23,42,.06);
-    }
-
-    .lead{ color: var(--muted); margin: 6px 0 18px; }
-
-    form{
-      display: grid;
-      gap: 14px;
-    }
-    .grid-2{
-      display:grid;
-      gap:14px;
-      grid-template-columns: 1fr 1fr;
-    }
-    @media (max-width: 720px){ .grid-2{ grid-template-columns: 1fr; } }
-
-    label{
-      font-weight: 600;
-      font-size: 14px;
-    }
-    input, select, button{
-      width: 100%;
-      padding: 12px 14px;
-      border: 1px solid #d7dbe3;
-      border-radius: 12px;
-      background: #fff;
-      transition: box-shadow .15s ease, border-color .15s ease, transform .02s ease-in-out;
-      outline: none;
-    }
-    input::placeholder{ color:#94a3b8; }
-    input:focus, select:focus{
-      border-color: var(--brand);
-      box-shadow: 0 0 0 4px var(--ring);
-    }
-    button{
-      background: var(--brand);
-      color:#fff;
-      font-weight: 700;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover{ transform: translateY(-1px); }
-    button:disabled{ opacity:.6; cursor:not-allowed; transform:none; }
-
-    #formMsg{ margin-top: 4px; font-weight: 600; }
-    .muted{ color: var(--muted); }
-
-    .updates{
-      margin-top: 28px;
-      color: var(--muted);
-      font-size: 15px;
-    }
-    .footer{
-      text-align:center;
-      color: var(--muted);
-      font-size: 13px;
-      margin: 24px 0 8px;
-    }
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000; min-height: 14.0px}
+    span.s1 {font-kerning: none}
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header class="site-header">
-      <img src="assets/orane-logo.png" alt="Orane logo" onerror="this.style.display='none'">
-      <h1>Join the Alumni Network</h1>
-    </header>
-
-    <main class="card">
-      <p class="lead">Fill this form to be added to the Orane Alumni Network. Your details go straight to our alumni database.</p>
-
-      <form id="alumniForm" novalidate>
-        <div class="grid-2">
-          <div>
-            <label for="first_name">First name</label>
-            <input id="first_name" placeholder="First name" required>
-          </div>
-          <div>
-            <label for="last_name">Last name</label>
-            <input id="last_name" placeholder="Last name" required>
-          </div>
-        </div>
-
-        <div>
-          <label for="email">Email</label>
-          <input id="email" type="email" placeholder="you@example.com">
-        </div>
-
-        <div>
-          <label for="whatsapp">WhatsApp mobile (with country code)</label>
-          <input id="whatsapp" placeholder="+91 98765 43210">
-        </div>
-
-        <div class="grid-2">
-          <div>
-            <label for="city">Current City</label>
-            <input id="city" placeholder="City">
-          </div>
-          <div>
-            <label for="country">Current Country</label>
-            <input id="country" placeholder="Country">
-          </div>
-        </div>
-
-        <div>
-          <label for="graduating_year">Graduating year from Orane</label>
-          <input id="graduating_year" placeholder="2023">
-        </div>
-
-        <div>
-          <label for="instagram">Instagram profile link</label>
-          <input id="instagram" placeholder="https://instagram.com/yourname">
-        </div>
-        <div>
-          <label for="facebook">Facebook profile link</label>
-          <input id="facebook" placeholder="https://facebook.com/yourname">
-        </div>
-        <div>
-          <label for="snapchat">Snapchat profile link</label>
-          <input id="snapchat" placeholder="https://www.snapchat.com/add/yourname">
-        </div>
-
-        <div>
-          <label for="occupation">Current occupation</label>
-          <select id="occupation">
-            <option value="">Select…</option>
-            <option>Own business in beauty</option>
-            <option>Freelancer</option>
-            <option>Employed with a company in beauty sector</option>
-            <option>Not working</option>
-          </select>
-        </div>
-
-        <button id="submitBtn" type="submit">Sign up</button>
-        <p id="formMsg" role="status" class="muted"></p>
-        <p class="muted" style="margin-top:6px;">Tip: provide at least Email or WhatsApp.</p>
-      </form>
-    </main>
-
-    <section class="updates">
-      <strong>Latest Updates</strong> • Coming soon
-    </section>
-
-    <footer class="footer">
-      <a href="privacy.html">Privacy</a> • © Orane
-    </footer>
-  </div>
-
-  <!-- Your JS; version query busts cache -->
-  <script src="app.js?v=4"></script>
+<p class="p1"><span class="s1">cd ~/alumni-site</span></p>
+<p class="p1"><span class="s1">cat &gt; index.html &lt;&lt;'HTML'</span></p>
+<p class="p1"><span class="s1">&lt;!doctype html&gt;</span></p>
+<p class="p1"><span class="s1">&lt;html&gt;</span></p>
+<p class="p1"><span class="s1">&lt;head&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;meta charset="utf-8"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;title&gt;Orane Alumni&lt;/title&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;style&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>:root{--brand:#e8640a;--ink:#0f172a;--muted:#64748b;--bg:#f6f7f9;--card:#fff;--ring:rgba(232,100,10,.35);--radius:16px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>*{box-sizing:border-box}html,body{height:100%}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.wrap{max-width:960px;margin:0 auto;padding:24px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.site-header{display:flex;align-items:center;gap:16px;padding:12px 0 20px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.site-header img{height:48px;width:auto}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.site-header h1{margin:0;font-size:clamp(24px,2.8vw,36px)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.card{background:var(--card);border-radius:var(--radius);padding:clamp(16px,3vw,28px);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>box-shadow:0 1px 2px rgba(0,0,0,.05),0 10px 25px rgba(15,23,42,.06)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.lead{color:var(--muted);margin:6px 0 18px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>form{display:grid;gap:14px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.grid-2{display:grid;gap:14px;grid-template-columns:1fr 1fr}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>@media (max-width:720px){.grid-2{grid-template-columns:1fr}}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>label{font-weight:600;font-size:14px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>input,select,button{width:100%;padding:12px 14px;border:1px solid #d7dbe3;border-radius:12px;background:#fff;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>transition:box-shadow .15s,border-color .15s,transform .02s;outline:none}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>input::placeholder{color:#94a3b8}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>input:focus,select:focus{border-color:var(--brand);box-shadow:0 0 0 4px var(--ring)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>button{background:var(--brand);color:#fff;font-weight:700;border:none;cursor:pointer}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>button:hover{transform:translateY(-1px)}button:disabled{opacity:.6;cursor:not-allowed;transform:none}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>#formMsg{margin-top:4px;font-weight:600}.muted{color:var(--muted)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.updates{margin-top:28px;color:var(--muted);font-size:15px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.footer{text-align:center;color:var(--muted);font-size:13px;margin:24px 0 8px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
+<p class="p1"><span class="s1">&lt;body&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;div class="wrap"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;header class="site-header"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;img src="assets/orane-logo.png" alt="Orane logo" width="220" height="60" style="height:48px;width:auto" onerror="this.style.display='none'"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;h1&gt;Join the Alumni Network&lt;/h1&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/header&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;main class="card"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;p class="lead"&gt;Fill this form to be added to the Orane Alumni Network. Your details go straight to our alumni database.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;form id="alumniForm" novalidate&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="grid-2"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label for="first_name"&gt;First name&lt;/label&gt;&lt;input id="first_name" placeholder="First name" required&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label for="last_name"&gt;Last name&lt;/label&gt;&lt;input id="last_name" placeholder="Last name" required&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div&gt;&lt;label for="email"&gt;Email&lt;/label&gt;&lt;input id="email" type="email" placeholder="you@example.com"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div&gt;&lt;label for="whatsapp"&gt;WhatsApp mobile (with country code)&lt;/label&gt;&lt;input id="whatsapp" placeholder="+91 98765 43210"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="grid-2"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label for="city"&gt;Current City&lt;/label&gt;&lt;input id="city" placeholder="City"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label for="country"&gt;Current Country&lt;/label&gt;&lt;input id="country" placeholder="Country"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div&gt;&lt;label for="graduating_year"&gt;Graduating year from Orane&lt;/label&gt;&lt;input id="graduating_year" placeholder="2023"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div&gt;&lt;label for="instagram"&gt;Instagram profile link&lt;/label&gt;&lt;input id="instagram" placeholder="https://instagram.com/yourname"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div&gt;&lt;label for="facebook"&gt;Facebook profile link&lt;/label&gt;&lt;input id="facebook" placeholder="https://facebook.com/yourname"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div&gt;&lt;label for="snapchat"&gt;Snapchat profile link&lt;/label&gt;&lt;input id="snapchat" placeholder="https://www.snapchat.com/add/yourname"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;label for="occupation"&gt;Current occupation&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;select id="occupation"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;option value=""&gt;Select…&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;option&gt;Own business in beauty&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;option&gt;Freelancer&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;option&gt;Employed with a company in beauty sector&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;option&gt;Not working&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/select&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;button id="submitBtn" type="submit"&gt;Sign up&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;p id="formMsg" role="status" class="muted"&gt;&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;p class="muted" style="margin-top:6px;"&gt;Tip: provide at least Email or WhatsApp.&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/form&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/main&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;section class="updates"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;strong&gt;Latest Updates&lt;/strong&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;ul id="updatesList" style="margin:8px 0 0 18px; padding:0;"&gt;&lt;/ul&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;footer class="footer"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;a href="privacy.html"&gt;Privacy&lt;/a&gt; • © Orane</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/footer&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;script src="app.js?v=7"&gt;&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+<p class="p1"><span class="s1">HTML</span></p>
 </body>
 </html>
