@@ -21,6 +21,7 @@
     .logo img{height:44px;width:auto;object-fit:contain}
     .badge{display:inline-flex;align-items:center;gap:8px;border:1px solid #e2e8f0;border-radius:999px;padding:6px 12px;background:#fff;color:#0f172a}
     .badge small{color:var(--muted);font-weight:500}
+
     .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center;margin:12px 0 28px}
     .card{background:var(--card);border-radius:var(--radius);box-shadow:0 2px 10px rgba(15,23,42,.06);border:1px solid #eef2f7}
     .card.pad{padding:20px}
@@ -33,38 +34,39 @@
     .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
     .stat{background:#fff;border:1px solid #eef2f7;border-radius:12px;padding:14px;text-align:center}
     .stat b{font-size:22px}
+
     .form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     .form .full{grid-column:1/-1}
     label{display:block;font-size:13px;color:#0f172a;margin:0 0 6px 2px}
     input,select,textarea{width:100%;padding:12px 12px;border:1px solid #e2e8f0;border-radius:12px;background:#fff;color:#0f172a;outline:0}
     input:focus,select:focus,textarea:focus{box-shadow:0 0 0 4px var(--ring);border-color:var(--brand)}
-    .benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-    .benefit{display:flex;gap:12px;padding:16px;border:1px solid #eef2f7;border-radius:14px;background:#fff}
-    .benefit i{height:36px;width:36px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:rgba(232,100,10,.08);color:var(--brand);font-weight:900}
-    /* Updates as a 4-across grid */
-    .updates{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-    .update{padding:14px;border:1px solid #eef2f7;border-radius:14px;background:#fff}
-    .update time{display:block;color:#94a3b8;font-size:12px;margin-bottom:6px}
-    /* Alumni spotlight grid */
+
+    .section{margin:26px 0}
+    .section h2{font-size:28px;margin:0 0 12px}
+
+    /* Alumni spotlight grid (full row) */
     .spotlight{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
     .sp-card{display:flex;gap:12px;align-items:flex-start;padding:14px;border:1px solid #eef2f7;border-radius:14px;background:#fff}
     .sp-card img{height:48px;width:48px;border-radius:12px;object-fit:cover}
-    .section{margin:26px 0}
-    .section h2{font-size:22px;margin:0 0 12px}
-    .footer{color:#6b7280;font-size:13px;margin:22px 0 8px}
-    .tag{display:inline-block;background:#0f172a;color:#fff;font-size:12px;border-radius:999px;padding:6px 10px}
-    .split{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+    /* Latest updates = 4 across on desktop, then 3/2/1 */
+    .updates{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .update{padding:14px;border:1px solid #eef2f7;border-radius:14px;background:#fff}
+    .update time{display:block;color:#94a3b8;font-size:12px;margin-bottom:6px}
     .notice{font-size:13px;color:#64748b}
     .helper{font-size:12px;color:#94a3b8}
+
+    .footer{color:#6b7280;font-size:13px;margin:22px 0 8px}
+
     @media (max-width:1100px){
-      .updates{grid-template-columns:repeat(3,1fr)}
       .spotlight{grid-template-columns:repeat(2,1fr)}
+      .updates{grid-template-columns:repeat(3,1fr)}
     }
     @media (max-width:780px){
       .hero{grid-template-columns:1fr}
-      .benefits,.stats,.split,.form{grid-template-columns:1fr}
-      .updates{grid-template-columns:repeat(2,1fr)}
+      .form,.stats{grid-template-columns:1fr}
       .spotlight{grid-template-columns:1fr}
+      .updates{grid-template-columns:repeat(2,1fr)}
     }
     @media (max-width:520px){
       .updates{grid-template-columns:1fr}
@@ -81,9 +83,10 @@
       <span class="badge"><small>Beauty & Wellness Careers</small> Alumni Network</span>
     </header>
 
+    <!-- HERO + FORM -->
     <section class="hero">
       <div class="card pad">
-        <span class="tag">Alumni Network</span>
+        <span class="tag" style="display:inline-block;background:#0f172a;color:#fff;font-size:12px;border-radius:999px;padding:6px 10px">Alumni Network</span>
         <h1>Stay connected. Get opportunities. Keep leveling up.</h1>
         <p>Join thousands of Orane grads getting invites to expert webinars, placement leads, and member-only discounts on advanced courses.</p>
         <div class="cta-row">
@@ -97,7 +100,6 @@
         </div>
       </div>
 
-      <!-- Reliable anchor for the form -->
       <div class="card pad" id="signup">
         <h2>Join the alumni network</h2>
         <form id="alumni-form" class="form" novalidate>
@@ -119,7 +121,6 @@
           </div>
           <div>
             <label>Graduating year</label>
-            <!-- text input per your request -->
             <input name="graduating_year" placeholder="eg 2023" inputmode="numeric" pattern="\\d{4}" title="Enter 4 digits, e.g., 2023">
           </div>
           <div>
@@ -165,35 +166,27 @@
       </div>
     </section>
 
+    <!-- ROW 1: ALUMNI SPOTLIGHT (full-width) -->
     <section class="section">
-      <h2>Why join</h2>
-      <div class="benefits">
-        <div class="benefit"><i>🎓</i><div><strong>Advanced learning</strong><br><span class="notice">Invites to masterclasses and alumni-only workshops.</span></div></div>
-        <div class="benefit"><i>💼</i><div><strong>Career pipeline</strong><br><span class="notice">Placement leads with reputable salons, clinics and brands.</span></div></div>
-        <div class="benefit"><i>💸</i><div><strong>Member discounts</strong><br><span class="notice">Save on certificate refreshers and new specialist courses.</span></div></div>
-      </div>
-    </section>
-
-    <section class="section split">
       <div class="card pad">
         <h2>Alumni spotlight</h2>
         <div class="spotlight" id="spotlight">
           <article class="sp-card">
-            <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=200" alt="Alumni portrait 1">
+            <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=200&auto=format&fit=crop" alt="Alumni portrait 1" onerror="this.onerror=null;this.src='https://via.placeholder.com/96?text=Alumni'">
             <div>
               <strong>Bridal Specialist, Chandigarh</strong>
               <p class="notice">Grew bookings 3x after our bridal styling refresher.</p>
             </div>
           </article>
           <article class="sp-card">
-            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200" alt="Alumni portrait 2">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop" alt="Alumni portrait 2" onerror="this.onerror=null;this.src='https://via.placeholder.com/96?text=Alumni'">
             <div>
               <strong>Makeup Artist, Dubai</strong>
               <p class="notice">Landed a fashion week gig via alumni referrals.</p>
             </div>
           </article>
           <article class="sp-card">
-            <img src="https://images.unsplash.com/photo-1536305030434-83e6a3cb1ec7?q=80&w=200" alt="Alumni portrait 3">
+            <img src="https://images.unsplash.com/photo-1536305030434-83e6a3cb1ec7?q=80&w=200&auto=format&fit=crop" alt="Alumni portrait 3" onerror="this.onerror=null;this.src='https://via.placeholder.com/96?text=Alumni'">
             <div>
               <strong>Skin Therapist, Bengaluru</strong>
               <p class="notice">Moved into a clinic role after advanced aesthetics workshop.</p>
@@ -201,7 +194,10 @@
           </article>
         </div>
       </div>
+    </section>
 
+    <!-- ROW 2: LATEST UPDATES (full-width, 4 across) -->
+    <section class="section">
       <div class="card pad">
         <h2 id="updates">Latest updates</h2>
         <div id="updates-list" class="updates" aria-live="polite"></div>
@@ -209,7 +205,7 @@
       </div>
     </section>
 
-    <!-- Privacy policy -->
+    <!-- Privacy -->
     <section id="privacy" class="section card pad">
       <h2>Privacy & communications</h2>
       <p class="notice">
@@ -223,7 +219,7 @@
   </div>
 
   <script>
-    // Smooth scroll for the "Join free" button, then focus first field
+    // Smooth scroll for "Join free"
     document.getElementById('join-btn')?.addEventListener('click', (e) => {
       const target = document.querySelector('#signup');
       if (target) {
@@ -236,25 +232,21 @@
       }
     });
 
-    // 1) Handle Alumni form submission (Google Apps Script endpoint)
-    const ENDPOINT = "https://script.google.com/macros/s/AKfycbw3T-SdX4W0IFqqO-RSkIsrPrIhPUG-nBM-F1voRrBHzFDuqs9e8z-aXII0eYdC0sUz/exec"; // keep your working endpoint
+    // Form submission with strict consent
+    const ENDPOINT = "https://script.google.com/macros/s/AKfycbw3T-SdX4W0IFqqO-RSkIsrPrIhPUG-nBM-F1voRrBHzFDuqs9e8z-aXII0eYdC0sUz/exec";
     const form = document.getElementById('alumni-form');
     const note = document.getElementById('form-note');
     const consent = document.getElementById('consent');
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-
-      // Enforce checkbox and HTML validity
       if (!form.checkValidity() || !consent.checked) {
         note.textContent = "Please complete all required fields and consent to communications.";
         form.reportValidity();
         return;
       }
-
       note.textContent = "Sending…";
 
-      // Only include fields your Sheet/Script expect; remove the old 'notes' field entirely
       const allowed = [
         "first_name","last_name","email","whatsapp",
         "graduating_year","country","city",
@@ -265,13 +257,12 @@
       for (const k of allowed) data[k] = fd.get(k) || "";
 
       try {
-        const res = await fetch(ENDPOINT, {
+        await fetch(ENDPOINT, {
           method: "POST",
-          mode: "no-cors",                 // CORS-safe for Apps Script
+          mode: "no-cors",
           headers: {"Content-Type": "application/json"},
           body: JSON.stringify(data),
         });
-        // With no-cors the response is opaque; treat as success if no exception
         form.reset();
         note.textContent = "Thanks! Your details were submitted.";
       } catch (err) {
@@ -280,7 +271,7 @@
       }
     });
 
-    // 2) Client-side RSS feed: two feeds, deduped, sorted, limit to 8, 4-across grid
+    // RSS: merge two feeds, dedupe, sort, limit 8, render 4-across
     const FEEDS = [
       "https://rss.app/feeds/U7tnzCEaszOSv8mi.xml",
       "https://rss.app/feeds/MvdbwW0vWdVM1cak.xml"
@@ -327,7 +318,7 @@
           seen.add(k);
           return true;
         }).sort((a,b) => b.date - a.date)
-          .slice(0, 8); // limit to 8 items
+          .slice(0, 8);
 
         updatesEl.innerHTML = "";
         normalized.forEach(item => {
@@ -343,7 +334,7 @@
         });
         updatesNote.textContent = "";
       } catch (err) {
-        updatesNote.textContent = "Couldn’t fetch updates. If this keeps happening, use a tiny Netlify proxy.";
+        updatesNote.textContent = "Couldn’t fetch updates. If this keeps happening, use a small Netlify proxy.";
         console.warn(err);
       }
     })();
