@@ -18,7 +18,7 @@
     .wrap{max-width:1100px;margin:0 auto;padding:24px}
     .header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:8px 0 16px}
     .logo{display:flex;align-items:center;gap:12px}
-    .logo img{height:40px;width:40px;border-radius:10px;object-fit:cover}
+    .logo img{height:44px;width:auto;object-fit:contain}
     .badge{display:inline-flex;align-items:center;gap:8px;border:1px solid #e2e8f0;border-radius:999px;padding:6px 12px;background:#fff;color:#0f172a}
     .badge small{color:var(--muted);font-weight:500}
     .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center;margin:12px 0 28px}
@@ -36,23 +36,27 @@
     .form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     .form .full{grid-column:1/-1}
     label{display:block;font-size:13px;color:#0f172a;margin:0 0 6px 2px}
-    input,select{width:100%;padding:12px 12px;border:1px solid #e2e8f0;border-radius:12px;background:#fff;color:#0f172a;outline:0}
-    input:focus,select:focus{box-shadow:0 0 0 4px var(--ring);border-color:var(--brand)}
+    input,select,textarea{width:100%;padding:12px 12px;border:1px solid #e2e8f0;border-radius:12px;background:#fff;color:#0f172a;outline:0}
+    input:focus,select:focus,textarea:focus{box-shadow:0 0 0 4px var(--ring);border-color:var(--brand)}
     .benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
     .benefit{display:flex;gap:12px;padding:16px;border:1px solid #eef2f7;border-radius:14px;background:#fff}
     .benefit i{height:36px;width:36px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:rgba(232,100,10,.08);color:var(--brand);font-weight:900}
-    .updates{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .updates{display:grid;grid-template-columns:1fr;gap:12px}
     .update{padding:14px;border:1px solid #eef2f7;border-radius:14px;background:#fff}
-    .update time{display:block;color:var(--muted);font-size:12px;margin-bottom:6px}
+    .update time{display:block;color:#94a3b8;font-size:12px;margin-bottom:6px}
+    .spotlight{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .sp-card{display:flex;gap:12px;align-items:flex-start;padding:14px;border:1px solid #eef2f7;border-radius:14px;background:#fff}
+    .sp-card img{height:48px;width:48px;border-radius:12px;object-fit:cover}
     .section{margin:26px 0}
     .section h2{font-size:22px;margin:0 0 12px}
     .footer{color:#6b7280;font-size:13px;margin:22px 0 8px}
     .tag{display:inline-block;background:#0f172a;color:#fff;font-size:12px;border-radius:999px;padding:6px 10px}
     .split{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-    .notice{font-size:13px;color:var(--muted)}
+    .notice{font-size:13px;color:#64748b}
+    .helper{font-size:12px;color:#94a3b8}
     @media (max-width:960px){
       .hero{grid-template-columns:1fr}
-      .benefits,.updates,.stats,.split,.form{grid-template-columns:1fr}
+      .benefits,.stats,.split,.form,.spotlight{grid-template-columns:1fr}
     }
   </style>
 </head>
@@ -60,7 +64,8 @@
   <div class="wrap">
     <header class="header">
       <div class="logo">
-        <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=200" alt="Orane logo">
+        <!-- Use the file you placed next to index.html -->
+        <img src="logo.png" alt="Orane International logo">
         <strong>Orane Alumni</strong>
       </div>
       <span class="badge"><small>Beauty & Wellness Careers</small> Alumni Network</span>
@@ -72,7 +77,7 @@
         <h1>Stay connected. Get opportunities. Keep leveling up.</h1>
         <p>Join thousands of Orane grads getting invites to expert webinars, placement leads, and member-only discounts on advanced courses.</p>
         <div class="cta-row">
-          <a href="#signup" class="btn primary">Join free</a>
+          <a href="#signup" class="btn primary" id="join-btn">Join free</a>
           <a href="#updates" class="btn ghost">See latest updates</a>
         </div>
         <div class="stats">
@@ -81,24 +86,26 @@
           <div class="stat"><b>120+</b><div>Hiring partners</div></div>
         </div>
       </div>
-      <div class="card pad">
-        <h2 id="signup">Join the alumni network</h2>
+
+      <!-- Whole card has id=signup for reliable anchor, plus smooth scroll -->
+      <div class="card pad" id="signup">
+        <h2>Join the alumni network</h2>
         <form id="alumni-form" class="form" novalidate>
           <div>
             <label>First name</label>
-            <input name="first_name" required>
+            <input name="first_name" autocomplete="given-name" required>
           </div>
           <div>
             <label>Last name</label>
-            <input name="last_name" required>
+            <input name="last_name" autocomplete="family-name" required>
           </div>
           <div class="full">
             <label>Email</label>
-            <input type="email" name="email" required>
+            <input type="email" name="email" autocomplete="email" required>
           </div>
           <div>
             <label>WhatsApp number</label>
-            <input name="whatsapp" placeholder="+91…">
+            <input name="whatsapp" placeholder="+91…" autocomplete="tel">
           </div>
           <div>
             <label>Graduating year</label>
@@ -106,26 +113,52 @@
               <option value="">Select</option>
               <script>
                 const ysel = document.currentScript.parentElement.querySelector('select');
-                const y = new Date().getFullYear(); for(let i=y;i>=2005;i--){const o=document.createElement('option');o.value=i;o.textContent=i;ysel.appendChild(o)}
+                const y = new Date().getFullYear();
+                for(let i=y;i>=2005;i--){const o=document.createElement('option');o.value=i;o.textContent=i;ysel.appendChild(o)}
               </script>
             </select>
           </div>
           <div>
             <label>Country</label>
-            <input name="country" placeholder="India">
+            <input name="country" placeholder="India" autocomplete="country-name">
           </div>
           <div>
             <label>City</label>
-            <input name="city" placeholder="Delhi">
+            <input name="city" placeholder="Delhi" autocomplete="address-level2">
           </div>
+
           <div class="full">
             <label>Current profession</label>
             <input name="profession" placeholder="Makeup artist, salon owner, trainer…">
           </div>
-          <div class="full">
-            <label>Social profiles (optional)</label>
-            <input name="social" placeholder="Instagram/LinkedIn/Facebook links">
+
+          <!-- Socials: all visible, none “mysteriously missing” -->
+          <div>
+            <label>Instagram</label>
+            <input name="instagram" placeholder="https://instagram.com/…">
           </div>
+          <div>
+            <label>Facebook</label>
+            <input name="facebook" placeholder="https://facebook.com/…">
+          </div>
+          <div>
+            <label>LinkedIn</label>
+            <input name="linkedin" placeholder="https://linkedin.com/in/…">
+          </div>
+          <div>
+            <label>Snapchat</label>
+            <input name="snapchat" placeholder="https://snapchat.com/add/…">
+          </div>
+
+          <div class="full">
+            <label>Anything else we should know?</label>
+            <textarea name="notes" rows="3" placeholder="Certifications, interests, preferred roles…"></textarea>
+          </div>
+
+          <div class="full">
+            <label class="helper"><input type="checkbox" required> I agree to be contacted about alumni updates, webinars, opportunities and discounts.</label>
+          </div>
+
           <div class="full">
             <button class="btn primary" type="submit">Submit</button>
             <span class="notice" id="form-note"></span>
@@ -146,13 +179,31 @@
     <section class="section split">
       <div class="card pad">
         <h2>Alumni spotlight</h2>
-        <p class="notice">Real graduates doing real work. Want to be featured? Reply to the welcome email with your story and handles.</p>
-        <ul id="spotlight" class="notice" style="padding-left:18px;line-height:1.7">
-          <li>Salon owner in Chandigarh grew bookings 3x after our bridal styling refresher.</li>
-          <li>Makeup artist in Dubai landed a fashion week gig via alumni referrals.</li>
-          <li>Skin therapist in Bengaluru moved into a clinic role after advanced aesthetics workshop.</li>
-        </ul>
+        <div class="spotlight" id="spotlight">
+          <article class="sp-card">
+            <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=200" alt="Alumni portrait 1">
+            <div>
+              <strong>Bridal Specialist, Chandigarh</strong>
+              <p class="notice">Grew bookings 3x after our bridal styling refresher.</p>
+            </div>
+          </article>
+          <article class="sp-card">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200" alt="Alumni portrait 2">
+            <div>
+              <strong>Makeup Artist, Dubai</strong>
+              <p class="notice">Landed a fashion week gig via alumni referrals.</p>
+            </div>
+          </article>
+          <article class="sp-card">
+            <img src="https://images.unsplash.com/photo-1536305030434-83e6a3cb1ec7?q=80&w=200" alt="Alumni portrait 3">
+            <div>
+              <strong>Skin Therapist, Bengaluru</strong>
+              <p class="notice">Moved into a clinic role after advanced aesthetics workshop.</p>
+            </div>
+          </article>
+        </div>
       </div>
+
       <div class="card pad">
         <h2 id="updates">Latest updates</h2>
         <div id="updates-list" class="updates" aria-live="polite"></div>
@@ -174,10 +225,24 @@
   </div>
 
   <script>
+    // Smooth scroll for the "Join free" button, then focus first field
+    document.getElementById('join-btn')?.addEventListener('click', (e) => {
+      const target = document.querySelector('#signup');
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({behavior:'smooth', block:'start'});
+        setTimeout(() => {
+          const first = document.querySelector('#alumni-form input[name="first_name"]');
+          first && first.focus();
+        }, 400);
+      }
+    });
+
     // 1) Handle Alumni form submission (Google Apps Script endpoint)
-    const ENDPOINT = "https://script.google.com/macros/s/AKfycbw3T-SdX4W0IFqqO-RSkIsrPrIhPUG-nBM-F1voRrBHzFDuqs9e8z-aXII0eYdC0sUz/exec"; // replace if needed
+    const ENDPOINT = "https://script.google.com/macros/s/AKfycbw3T-SdX4W0IFqqO-RSkIsrPrIhPUG-nBM-F1voRrBHzFDuqs9e8z-aXII0eYdC0sUz/exec"; // your working endpoint
     const form = document.getElementById('alumni-form');
     const note = document.getElementById('form-note');
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       note.textContent = "Sending…";
@@ -192,7 +257,7 @@
           form.reset();
           note.textContent = "Thanks! Check your email in a few minutes.";
         } else {
-          note.textContent = "Saved, but we could not verify the server response.";
+          note.textContent = "Saved, but could not verify the server response.";
         }
       } catch (err) {
         note.textContent = "Couldn’t submit right now. Try again in a bit.";
@@ -232,6 +297,7 @@
         }
         if (!items.length) throw new Error("No feed items");
 
+        // Normalize, dedupe by link+title, sort by date desc
         const seen = new Set();
         const normalized = items.map(it => {
           const d = new Date(it.pubDate || it.pub_date || it.date || it.created || Date.now());
@@ -248,23 +314,22 @@
           return true;
         }).sort((a,b) => b.date - a.date);
 
+        // Render vertical list
         updatesEl.innerHTML = "";
-        normalized.slice(0, 9).forEach(item => {
+        normalized.slice(0, 10).forEach(item => {
           const div = document.createElement('article');
           div.className = "update";
-          const short = item.desc.length > 140 ? item.desc.slice(0,140) + "…" : item.desc;
+          const short = item.desc.length > 160 ? item.desc.slice(0,160) + "…" : item.desc;
           div.innerHTML = `
             <time datetime="${item.date.toISOString()}">${item.date.toLocaleDateString()}</time>
-            <a href="${item.link}" target="_blank" rel="noopener">
-              <strong>${item.title}</strong>
-            </a>
+            <a href="${item.link}" target="_blank" rel="noopener"><strong>${item.title}</strong></a>
             <p class="notice">${short}</p>
           `;
           updatesEl.appendChild(div);
         });
         updatesNote.textContent = "";
       } catch (err) {
-        updatesNote.textContent = "Couldn’t fetch updates. Check the feed URLs or add a Netlify Function proxy.";
+        updatesNote.textContent = "Couldn’t fetch updates. If this keeps happening, use a tiny Netlify proxy.";
         console.warn(err);
       }
     })();
