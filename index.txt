@@ -1,0 +1,47 @@
+<!-- START: Alumni signup form -->
+<section>
+  <h1>Join the Alumni Network</h1>
+  <p>Fill this form to be added to the Orane Alumni Network. Your details go straight to our alumni database.</p>
+
+  <form id="alumniForm" style="max-width: 640px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+      <input id="first_name" placeholder="First name" required>
+      <input id="last_name" placeholder="Last name" required>
+    </div>
+
+    <input id="email" type="email" placeholder="Email" style="margin-top:.75rem;width:100%">
+    <input id="whatsapp" placeholder="WhatsApp mobile (with country code)" style="margin-top:.75rem;width:100%">
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:.75rem">
+      <input id="city" placeholder="Current City">
+      <input id="country" placeholder="Current Country">
+    </div>
+
+    <input id="graduating_year" placeholder="Graduating year from Orane" style="margin-top:.75rem;width:100%">
+
+    <input id="instagram" placeholder="Instagram profile link" style="margin-top:.75rem;width:100%">
+    <input id="facebook" placeholder="Facebook profile link" style="margin-top:.75rem;width:100%">
+    <input id="snapchat" placeholder="Snapchat profile link" style="margin-top:.75rem;width:100%">
+
+    <label for="occupation" style="display:block;margin-top:.75rem;">Current occupation</label>
+    <select id="occupation" style="width:100%">
+      <option value="">Select…</option>
+      <option>Own business in beauty</option>
+      <option>Freelancer</option>
+      <option>Employed with a company in beauty sector</option>
+      <option>Not working</option>
+    </select>
+
+    <button id="submitBtn" type="submit" style="margin-top:1rem;">Sign up</button>
+    <p id="formMsg" role="status" style="margin-top:.75rem;"></p>
+  </form>
+</section>
+<!-- END: Alumni signup form -->
+
+
+Latest Updates
+	•	
+<script src="app.js"></script>
+</body>
+</html>
+
