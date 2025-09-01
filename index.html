@@ -13,92 +13,119 @@
     *{box-sizing:border-box}
     html,body{height:100%}
     body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial}
+    img{max-width:100%;height:auto;display:block}
     a{color:var(--brand);text-decoration:none}
     a:hover{text-decoration:underline}
-    .wrap{max-width:1200px;margin:0 auto;padding:24px}
-    .header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:8px 0 16px}
+
+    /* Shell */
+    .wrap{max-width:1200px;margin:0 auto;padding:20px clamp(12px,4vw,24px)}
+    .header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:8px 0 8px;flex-wrap:wrap}
     .logo{display:flex;align-items:center;gap:12px}
     .logo img{height:44px;width:auto;object-fit:contain}
     .badge{display:inline-flex;align-items:center;gap:8px;border:1px solid #e2e8f0;border-radius:999px;padding:6px 12px;background:#fff;color:#0f172a}
     .badge small{color:var(--muted);font-weight:500}
 
-    .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center;margin:12px 0 28px}
-    .card{background:var(--card);border-radius:var(--radius);box-shadow:0 2px 10px rgba(15,23,42,.06);border:1px solid #eef2f7}
+    /* Cards */
+    .card{background:var(--card);border-radius:var(--radius);box-shadow:0 2px 10px rgba(15,23,42,.06);border:1px solid #eef2f7;overflow:hidden}
     .card.pad{padding:20px}
-    .hero h1{font-size:clamp(28px,4vw,44px);line-height:1.15;margin:10px 0}
-    .hero p{color:var(--muted);margin:10px 0 18px}
-    .cta-row{display:flex;gap:12px;flex-wrap:wrap}
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:12px 16px;font-weight:600;cursor:pointer}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns:1.25fr 1fr;gap:28px;align-items:start;margin:12px 0 20px}
+    .hero h1{font-size:clamp(28px,6vw,48px);line-height:1.05;margin:10px 0 8px}
+    .hero p{color:var(--muted);margin:10px 0 14px}
+    .tag{display:inline-block;background:#0f172a;color:#fff;font-size:12px;border-radius:999px;padding:6px 10px}
+    .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:12px 16px;font-weight:600;cursor:pointer;min-height:44px}
     .btn.primary{background:var(--brand);color:#fff}
     .btn.ghost{background:transparent;color:var(--brand);border:1px solid var(--brand)}
     .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
     .stat{background:#fff;border:1px solid #eef2f7;border-radius:12px;padding:14px;text-align:center}
     .stat b{font-size:22px}
 
+    /* Form */
     .form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     .form .full{grid-column:1/-1}
     label{display:block;font-size:13px;color:#0f172a;margin:0 0 6px 2px}
-    input,select,textarea{width:100%;padding:12px 12px;border:1px solid #e2e8f0;border-radius:12px;background:#fff;color:#0f172a;outline:0}
+    input,select,textarea{width:100%;padding:12px;border:1px solid #e2e8f0;border-radius:12px;background:#fff;color:#0f172a;outline:0;min-height:44px}
     input:focus,select:focus,textarea:focus{box-shadow:0 0 0 4px var(--ring);border-color:var(--brand)}
+    .helper{font-size:12px;color:#94a3b8}
+    .notice{font-size:13px;color:#64748b}
 
-    .section{margin:26px 0}
-    .section h2{font-size:28px;margin:0 0 12px}
+    /* Quick answers */
+    .quick-answers { margin-top:14px; display:grid; gap:10px; }
+    .quick-answers details { background:#fff; border:1px solid #eef2f7; border-radius:12px; padding:10px 12px; }
+    .quick-answers summary { cursor:pointer; font-weight:600; outline:none; list-style:none; }
+    .quick-answers summary::-webkit-details-marker{display:none}
 
-    /* Alumni spotlight grid (full row) */
+    /* Trust band */
+    .band { margin:16px 0 0; }
+    .band-wrap { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+    .chip {
+      display:flex; align-items:center; gap:8px;
+      background:#fff; border:1px solid #eef2f7; border-radius:999px; padding:10px 14px;
+      font-weight:600; color:#0f172a;
+    }
+    .chip i { font-style:normal; background:rgba(232,100,10,.1); border-radius:8px; padding:2px 8px; }
+
+    /* Sections */
+    .section{margin:22px 0}
+    .section h2{font-size:clamp(22px,3.8vw,28px);margin:0 0 12px}
+
+    /* Spotlight grid (row by itself) */
     .spotlight{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
     .sp-card{display:flex;gap:12px;align-items:flex-start;padding:14px;border:1px solid #eef2f7;border-radius:14px;background:#fff}
     .sp-card img{height:48px;width:48px;border-radius:12px;object-fit:cover}
 
-    /* Latest updates = 4 across on desktop, then 3/2/1 */
+    /* Updates grid: 4 across desktop */
     .updates{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
     .update{padding:14px;border:1px solid #eef2f7;border-radius:14px;background:#fff}
     .update time{display:block;color:#94a3b8;font-size:12px;margin-bottom:6px}
-    .notice{font-size:13px;color:#64748b}
-    .helper{font-size:12px;color:#94a3b8}
 
+    /* Footer */
     .footer{color:#6b7280;font-size:13px;margin:22px 0 8px}
 
-    @media (max-width:1100px){
+    /* Force any accidental child to full width if placed after the hero */
+    .hero > section, .hero > .full-row { grid-column:1/-1; }
+
+    /* ====== Responsive breakpoints ====== */
+
+    /* Large tablets (iPad landscape) and below */
+    @media (max-width: 1024px){
+      .hero{grid-template-columns:1fr;gap:18px}
+      #signup{align-self:start}
+      .form{grid-template-columns:1fr}               /* single column form */
+      .stats{grid-template-columns:repeat(3,1fr)}
       .spotlight{grid-template-columns:repeat(2,1fr)}
-      .updates{grid-template-columns:repeat(3,1fr)}
+      .updates{grid-template-columns:repeat(3,1fr)}  /* 3 across on iPad */
+      .band-wrap{grid-template-columns:repeat(3,1fr)}
     }
-    @media (max-width:780px){
-      .hero{grid-template-columns:1fr}
-      .form,.stats{grid-template-columns:1fr}
+
+    /* Small tablets / big phones */
+    @media (max-width: 780px){
+      .wrap{padding:16px}
+      .header{gap:10px}
+      .badge{order:3}
+      .cta-row .btn{flex:1}                          /* buttons stretch nicely */
+      .stats{grid-template-columns:1fr 1fr 1fr}
       .spotlight{grid-template-columns:1fr}
-      .updates{grid-template-columns:repeat(2,1fr)}
+      .updates{grid-template-columns:repeat(2,1fr)}  /* 2 across */
+      .band-wrap{grid-template-columns:repeat(2,1fr)}
     }
-    @media (max-width:520px){
-      .updates{grid-template-columns:1fr}
+
+    /* Phones */
+    @media (max-width: 520px){
+      .wrap{padding:14px}
+      .updates{grid-template-columns:1fr}            /* 1 across */
+      .band-wrap{grid-template-columns:1fr}
+      .logo img{height:36px}
+      .btn{width:100%}
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      html:focus-within{scroll-behavior:auto}
+      *{animation:none!important;transition:none!important}
     }
   </style>
-
-<style>
-  .hero{ grid-template-columns: 1.25fr 1fr; align-items: start; }
-  .hero .card.pad{ padding:24px; }
-  .hero .card.pad h1,.hero .card.pad h2{ margin-top:0; }
-  #signup{ align-self:start; }
-  .cta-row{ margin-top:8px; }
-  .stats{ margin-top:16px; }
-  .header{ padding-bottom:8px; }
-  .wrap{ padding-top:18px; }
-</style>
-
-
-<style>
-  .hero > section, .hero > .full-row { grid-column: 1 / -1; }
-  .quick-answers { margin-top:16px; display:grid; gap:10px; }
-  .quick-answers details { background:#fff; border:1px solid #eef2f7; border-radius:12px; padding:10px 12px; }
-  .quick-answers summary { cursor:pointer; font-weight:600; outline:none; list-style:none; }
-  .quick-answers summary::-webkit-details-marker { display:none; }
-  .band { margin:18px 0 0; }
-  .band-wrap { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
-  .chip { display:flex; align-items:center; gap:8px; background:#fff; border:1px solid #eef2f7; border-radius:999px; padding:10px 14px; font-weight:600; color:#0f172a; }
-  .chip i { font-style:normal; background:rgba(232,100,10,.1); border-radius:8px; padding:2px 8px; }
-  @media (max-width:900px){ .band-wrap{ grid-template-columns:repeat(2,1fr); } }
-  @media (max-width:520px){ .band-wrap{ grid-template-columns:1fr; } }
-</style>
-
 </head>
 <body>
   <div class="wrap">
@@ -113,7 +140,7 @@
     <!-- HERO + FORM -->
     <section class="hero">
       <div class="card pad">
-        <span class="tag" style="display:inline-block;background:#0f172a;color:#fff;font-size:12px;border-radius:999px;padding:6px 10px">Alumni Network</span>
+        <span class="tag">Alumni Network</span>
         <h1>Stay connected. Get opportunities. Keep leveling up.</h1>
         <p>Join thousands of Orane grads getting invites to expert webinars, placement leads, and member-only discounts on advanced courses.</p>
         <div class="cta-row">
@@ -126,21 +153,21 @@
           <div class="stat"><b>120+</b><div>Hiring partners</div></div>
         </div>
 
-<div class="quick-answers">
-  <details>
-    <summary>Is joining free?</summary>
-    <p class="notice">Yes. Alumni membership is free. Opt out anytime.</p>
-  </details>
-  <details>
-    <summary>What kind of updates will I get?</summary>
-    <p class="notice">Webinars, placement leads, and member-only course discounts. No spam.</p>
-  </details>
-  <details>
-    <summary>How is my data used?</summary>
-    <p class="notice">Only to run the alumni network and contact you about opportunities. <a href="#privacy">See privacy</a>.</p>
-  </details>
-</div>
-
+        <!-- quick answers pads the left card height on desktop and helps UX -->
+        <div class="quick-answers">
+          <details>
+            <summary>Is joining free?</summary>
+            <p class="notice">Yes. Alumni membership is free. Opt out anytime.</p>
+          </details>
+          <details>
+            <summary>What updates will I get?</summary>
+            <p class="notice">Webinars, placement leads, and member-only course discounts. No spam.</p>
+          </details>
+          <details>
+            <summary>How is my data used?</summary>
+            <p class="notice">Only to run the alumni network and contact you about opportunities. <a href="#privacy">See privacy</a>.</p>
+          </details>
+        </div>
       </div>
 
       <div class="card pad" id="signup">
@@ -164,7 +191,7 @@
           </div>
           <div>
             <label>Graduating year</label>
-            <input name="graduating_year" placeholder="eg 2023" inputmode="numeric" pattern="^[0-9]{4}$" minlength="4" maxlength="4" title="Enter 4 digits, e.g., 2023">
+            <input name="graduating_year" placeholder="eg 2025" inputmode="numeric" minlength="4" maxlength="4" pattern="^[0-9]{4}$" title="Enter 4 digits, e.g., 2025">
           </div>
           <div>
             <label>Country</label>
@@ -198,7 +225,10 @@
           </div>
 
           <div class="full">
-            <label for="consent" class="helper" style="display:flex; align-items:center; gap:8px;"><input id="consent" type="checkbox" required> I agree to be contacted about alumni updates, webinars, opportunities and discounts.</label>
+            <label for="consent" class="helper" style="display:flex; align-items:center; gap:8px;">
+              <input id="consent" type="checkbox" required>
+              I agree to be contacted about alumni updates, webinars, opportunities and discounts.
+            </label>
           </div>
 
           <div class="full">
@@ -209,17 +239,17 @@
       </div>
     </section>
 
-<section class="section band">
-  <div class="band-wrap">
-    <div class="chip"><i>🎓</i> Advanced workshops</div>
-    <div class="chip"><i>💼</i> Placement leads</div>
-    <div class="chip"><i>💬</i> WhatsApp alerts</div>
-    <div class="chip"><i>🔒</i> Privacy-first</div>
-  </div>
-</section>
+    <!-- TRUST BAND (subtle row between hero and content) -->
+    <section class="section band">
+      <div class="band-wrap">
+        <div class="chip"><i>🎓</i> Advanced workshops</div>
+        <div class="chip"><i>💼</i> Placement leads</div>
+        <div class="chip"><i>💬</i> WhatsApp alerts</div>
+        <div class="chip"><i>🔒</i> Privacy-first</div>
+      </div>
+    </section>
 
-
-    <!-- ROW 1: ALUMNI SPOTLIGHT (full-width) -->
+    <!-- ROW: ALUMNI SPOTLIGHT (full width) -->
     <section class="section">
       <div class="card pad">
         <h2>Alumni spotlight</h2>
@@ -249,7 +279,7 @@
       </div>
     </section>
 
-    <!-- ROW 2: LATEST UPDATES (full-width, 4 across) -->
+    <!-- ROW: LATEST UPDATES (full width; 4/3/2/1 responsive) -->
     <section class="section">
       <div class="card pad">
         <h2 id="updates">Latest updates</h2>
@@ -281,11 +311,19 @@
         setTimeout(() => {
           const first = document.querySelector('#alumni-form input[name="first_name"]');
           first && first.focus();
-        }, 400);
+        }, 350);
       }
     });
 
-    // Form submission with strict consent
+    // Graduating year: keep only digits and cap at 4
+    const gy = document.querySelector('input[name="graduating_year"]');
+    if (gy) {
+      gy.addEventListener('input', () => {
+        gy.value = gy.value.replace(/[^0-9]/g,'').slice(0,4);
+      });
+    }
+
+    // Form submission (Apps Script)
     const ENDPOINT = "https://script.google.com/macros/s/AKfycbw3T-SdX4W0IFqqO-RSkIsrPrIhPUG-nBM-F1voRrBHzFDuqs9e8z-aXII0eYdC0sUz/exec";
     const form = document.getElementById('alumni-form');
     const note = document.getElementById('form-note');
@@ -312,7 +350,7 @@
       try {
         await fetch(ENDPOINT, {
           method: "POST",
-          mode: "no-cors",
+          mode: "no-cors", // CORS-safe for Apps Script
           headers: {"Content-Type": "application/json"},
           body: JSON.stringify(data),
         });
@@ -324,7 +362,7 @@
       }
     });
 
-    // RSS: merge two feeds, dedupe, sort, limit 8, render 4-across
+    // RSS: two feeds, dedupe, sort, limit 8, render responsive grid
     const FEEDS = [
       "https://rss.app/feeds/U7tnzCEaszOSv8mi.xml",
       "https://rss.app/feeds/MvdbwW0vWdVM1cak.xml"
