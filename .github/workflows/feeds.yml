@@ -1,0 +1,34 @@
+name: Build feeds
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'placements/**'
+      - 'scripts/gen_feed.py'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Generate feeds
+        env:
+          SITE_BASE_URL: ${{ vars.SITE_BASE_URL }}
+        run: python scripts/gen_feed.py
+      - name: Commit feeds
+        run: |
+          if [[ -n "$(git status --porcelain feed.*)" ]]; then
+            git config user.name "ci-bot"
+            git config user.email "ci@example.com"
+            git add feed.json feed.xml
+            git commit -m "chore: rebuild feeds"
+            git push
+          else
+            echo "No feed changes."
+          fi
