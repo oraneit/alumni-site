@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
+<channel>
+<title>Latest Placements</title>
+<link>https://your-site.example</link>
+<description>Newest first</description>
+<lastBuildDate>2025-09-01T07:17:27.414395+00:00</lastBuildDate>
+<item>
+<guid isPermaLink='false'>429598f28016</guid>
+<link>https://your-site.example/placements/Disha%20Bohral.png</link>
+<pubDate>2025-09-01T07:17:20.981012+00:00</pubDate>
+<enclosure url="https://your-site.example/placements/Disha%20Bohral.png" type="image/png"/>
+<media:content url="https://your-site.example/placements/Disha%20Bohral.png" type="image/png" medium="image"/>
+</item>
+</channel></rss>
