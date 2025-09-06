@@ -71,12 +71,12 @@
     .section{margin:22px 0}
     .section h2{font-size:clamp(22px,3.8vw,28px);margin:0 0 12px}
 
-    /* Spotlight grid (row by itself) */
+    /* Spotlight grid */
     .spotlight{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
     .sp-card{display:flex;gap:12px;align-items:flex-start;padding:14px;border:1px solid #eef2f7;border-radius:14px;background:#fff}
     .sp-card img{height:48px;width:48px;border-radius:12px;object-fit:cover}
 
-    /* Updates grid: 4 across desktop */
+    /* Updates grid */
     .updates{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
     .update{padding:14px;border:1px solid #eef2f7;border-radius:14px;background:#fff}
     .update time{display:block;color:#94a3b8;font-size:12px;margin-bottom:6px}
@@ -84,43 +84,35 @@
     /* Footer */
     .footer{color:#6b7280;font-size:13px;margin:22px 0 8px}
 
-    /* Force any accidental child to full width if placed after the hero */
     .hero > section, .hero > .full-row { grid-column:1/-1; }
 
-    /* ====== Responsive breakpoints ====== */
-
-    /* Large tablets (iPad landscape) and below */
+    /* Responsive */
     @media (max-width: 1024px){
       .hero{grid-template-columns:1fr;gap:18px}
       #signup{align-self:start}
-      .form{grid-template-columns:1fr}               /* single column form */
+      .form{grid-template-columns:1fr}
       .stats{grid-template-columns:repeat(3,1fr)}
       .spotlight{grid-template-columns:repeat(2,1fr)}
-      .updates{grid-template-columns:repeat(3,1fr)}  /* 3 across on iPad */
+      .updates{grid-template-columns:repeat(3,1fr)}
       .band-wrap{grid-template-columns:repeat(3,1fr)}
     }
-
-    /* Small tablets / big phones */
     @media (max-width: 780px){
       .wrap{padding:16px}
       .header{gap:10px}
       .badge{order:3}
-      .cta-row .btn{flex:1}                          /* buttons stretch nicely */
+      .cta-row .btn{flex:1}
       .stats{grid-template-columns:1fr 1fr 1fr}
       .spotlight{grid-template-columns:1fr}
-      .updates{grid-template-columns:repeat(2,1fr)}  /* 2 across */
+      .updates{grid-template-columns:repeat(2,1fr)}
       .band-wrap{grid-template-columns:repeat(2,1fr)}
     }
-
-    /* Phones */
     @media (max-width: 520px){
       .wrap{padding:14px}
-      .updates{grid-template-columns:1fr}            /* 1 across */
+      .updates{grid-template-columns:1fr}
       .band-wrap{grid-template-columns:1fr}
       .logo img{height:36px}
       .btn{width:100%}
     }
-
     @media (prefers-reduced-motion: reduce){
       html:focus-within{scroll-behavior:auto}
       *{animation:none!important;transition:none!important}
@@ -139,21 +131,35 @@
 
     <!-- HERO + FORM -->
     <section class="hero">
+      <!-- LEFT: hero content -->
       <div class="card pad">
-        <span class="tag">Alumni Network</span>
-        <h1>Stay connected. Get opportunities. Keep leveling up.</h1>
-        <p>Join thousands of Orane grads getting invites to expert webinars, placement leads, and member-only discounts on advanced courses.</p>
+        <span class="tag" data-copy="hero.eyebrow">Alumni Network</span>
+
+        <h1 class="alumni-title" data-copy="hero.headline">
+          Stay connected. Get opportunities. Keep leveling up.
+        </h1>
+
+        <p class="alumni-sub" data-copy="hero.subline">
+          Join thousands of Orane grads getting invites to expert webinars, placement leads, and member-only discounts on advanced courses.
+        </p>
+
         <div class="cta-row">
-          <a href="#signup" class="btn primary" id="join-btn">Join free</a>
-          <a href="#updates" class="btn ghost">See latest updates</a>
-        </div>
-        <div class="stats">
-          <div class="stat"><b>2,500+</b><div>Alumni onboard</div></div>
-          <div class="stat"><b>94%</b><div>Would recommend</div></div>
-          <div class="stat"><b>120+</b><div>Hiring partners</div></div>
+          <a class="btn primary" id="join-btn"
+             data-copy="hero.primaryCta.text"
+             data-href="hero.primaryCta.href"
+             href="#signup">Join free</a>
+          <a class="btn ghost"
+             data-copy="hero.secondaryCta.text"
+             data-href="hero.secondaryCta.href"
+             href="#updates">See latest updates</a>
         </div>
 
-        <!-- quick answers pads the left card height on desktop and helps UX -->
+        <div class="stats" data-repeat="stats">
+          <article class="stat"><b>2,500+</b><div>Alumni onboard</div></article>
+          <article class="stat"><b>94%</b><div>Would recommend</div></article>
+          <article class="stat"><b>120+</b><div>Hiring partners</div></article>
+        </div>
+
         <div class="quick-answers">
           <details>
             <summary>Is joining free?</summary>
@@ -170,67 +176,28 @@
         </div>
       </div>
 
+      <!-- RIGHT: signup form -->
       <div class="card pad" id="signup">
         <h2>Join the alumni network</h2>
         <form id="alumni-form" class="form" novalidate>
-          <div>
-            <label>First name</label>
-            <input name="first_name" autocomplete="given-name" required>
-          </div>
-          <div>
-            <label>Last name</label>
-            <input name="last_name" autocomplete="family-name" required>
-          </div>
+          <div><label>First name</label><input name="first_name" autocomplete="given-name" required></div>
+          <div><label>Last name</label><input name="last_name" autocomplete="family-name" required></div>
+          <div class="full"><label>Email</label><input type="email" name="email" autocomplete="email" required></div>
+          <div><label>WhatsApp number</label><input name="whatsapp" placeholder="+91…" autocomplete="tel"></div>
+          <div><label>Graduating year</label><input name="graduating_year" placeholder="eg 2025" inputmode="numeric" minlength="4" maxlength="4" pattern="^[0-9]{4}$" title="Enter 4 digits, e.g., 2025"></div>
+          <div><label>Country</label><input name="country" placeholder="India" autocomplete="country-name"></div>
+          <div><label>City</label><input name="city" placeholder="Delhi" autocomplete="address-level2"></div>
+          <div class="full"><label>Current profession</label><input name="profession" placeholder="Makeup artist, salon owner, trainer…"></div>
+          <div><label>Instagram</label><input name="instagram" placeholder="https://instagram.com/…"></div>
+          <div><label>Facebook</label><input name="facebook" placeholder="https://facebook.com/…"></div>
+          <div><label>LinkedIn</label><input name="linkedin" placeholder="https://linkedin.com/in/…"></div>
+          <div><label>Snapchat</label><input name="snapchat" placeholder="https://snapchat.com/add/…"></div>
           <div class="full">
-            <label>Email</label>
-            <input type="email" name="email" autocomplete="email" required>
-          </div>
-          <div>
-            <label>WhatsApp number</label>
-            <input name="whatsapp" placeholder="+91…" autocomplete="tel">
-          </div>
-          <div>
-            <label>Graduating year</label>
-            <input name="graduating_year" placeholder="eg 2025" inputmode="numeric" minlength="4" maxlength="4" pattern="^[0-9]{4}$" title="Enter 4 digits, e.g., 2025">
-          </div>
-          <div>
-            <label>Country</label>
-            <input name="country" placeholder="India" autocomplete="country-name">
-          </div>
-          <div>
-            <label>City</label>
-            <input name="city" placeholder="Delhi" autocomplete="address-level2">
-          </div>
-
-          <div class="full">
-            <label>Current profession</label>
-            <input name="profession" placeholder="Makeup artist, salon owner, trainer…">
-          </div>
-
-          <div>
-            <label>Instagram</label>
-            <input name="instagram" placeholder="https://instagram.com/…">
-          </div>
-          <div>
-            <label>Facebook</label>
-            <input name="facebook" placeholder="https://facebook.com/…">
-          </div>
-          <div>
-            <label>LinkedIn</label>
-            <input name="linkedin" placeholder="https://linkedin.com/in/…">
-          </div>
-          <div>
-            <label>Snapchat</label>
-            <input name="snapchat" placeholder="https://snapchat.com/add/…">
-          </div>
-
-          <div class="full">
-            <label for="consent" class="helper" style="display:flex; align-items:center; gap:8px;">
+            <label for="consent" class="helper" style="display:flex;align-items:center;gap:8px;">
               <input id="consent" type="checkbox" required>
               I agree to be contacted about alumni updates, webinars, opportunities and discounts.
             </label>
           </div>
-
           <div class="full">
             <button class="btn primary" type="submit">Submit</button>
             <span class="notice" id="form-note"></span>
@@ -239,7 +206,7 @@
       </div>
     </section>
 
-    <!-- TRUST BAND (subtle row between hero and content) -->
+    <!-- TRUST BAND -->
     <section class="section band">
       <div class="band-wrap">
         <div class="chip"><i>🎓</i> Advanced workshops</div>
@@ -249,37 +216,23 @@
       </div>
     </section>
 
-    <!-- ROW: ALUMNI SPOTLIGHT (full width) -->
-    <section class="section">
-      <div class="card pad">
-        <h2>Alumni spotlight</h2>
-        <div class="spotlight" id="spotlight">
-          <article class="sp-card">
-            <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=200&auto=format&fit=crop" alt="Alumni portrait 1" onerror="this.onerror=null;this.src='https://via.placeholder.com/96?text=Alumni'">
-            <div>
-              <strong>Bridal Specialist, Chandigarh</strong>
-              <p class="notice">Grew bookings 3x after our bridal styling refresher.</p>
-            </div>
-          </article>
-          <article class="sp-card">
-            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop" alt="Alumni portrait 2" onerror="this.onerror=null;this.src='https://via.placeholder.com/96?text=Alumni'">
-            <div>
-              <strong>Makeup Artist, Dubai</strong>
-              <p class="notice">Landed a fashion week gig via alumni referrals.</p>
-            </div>
-          </article>
-          <article class="sp-card">
-            <img src="https://images.unsplash.com/photo-1536305030434-83e6a3cb1ec7?q=80&w=200&auto=format&fit=crop" alt="Alumni portrait 3" onerror="this.onerror=null;this.src='https://via.placeholder.com/96?text=Alumni'">
-            <div>
-              <strong>Skin Therapist, Bengaluru</strong>
-              <p class="notice">Moved into a clinic role after advanced aesthetics workshop.</p>
-            </div>
-          </article>
-        </div>
+    <!-- ALUMNI SPOTLIGHT -->
+    <section class="card" aria-labelledby="spotlight-heading">
+      <h2 id="spotlight-heading">Alumni Spotlight</h2>
+      <style>
+        #alumni-spotlight {display:grid;gap:16px;grid-template-columns:repeat(3,1fr);}
+        #alumni-spotlight img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:12px}
+        @media (max-width:900px){#alumni-spotlight{grid-template-columns:repeat(2,1fr)}}
+        @media (max-width:640px){#alumni-spotlight{grid-template-columns:1fr}}
+      </style>
+      <div id="alumni-spotlight">
+        <img src="images/samiksha.png" alt="Samiksha placement card" loading="lazy">
+        <img src="images/narinder-singh.png" alt="Narinder Singh placement card" loading="lazy">
+        <img src="images/vasvi-kapoor.png" alt="Vasvi Kapoor placement card" loading="lazy">
       </div>
     </section>
 
-    <!-- ROW: LATEST UPDATES (full width; 4/3/2/1 responsive) -->
+    <!-- LATEST UPDATES -->
     <section class="section">
       <div class="card pad">
         <h2 id="updates">Latest updates</h2>
@@ -292,7 +245,7 @@
     <section id="privacy" class="section card pad">
       <h2>Privacy & communications</h2>
       <p class="notice">
-        When you submit this form, we collect your name, email, WhatsApp number, graduating year, country, city, current profession and any social links. We use this information to run the Orane Alumni Network and to contact you about alumni updates, webinars, placement opportunities and member discounts. We do not sell your data. We may share it with trusted service providers that help us send emails or operate this website, under confidentiality. By submitting the form you consent to this use, and you can opt out of marketing emails at any time via the unsubscribe link. You can request access, correction or deletion of your data by emailing <a href="mailto:privacy@oranealumni.netlify.app">privacy@oranealumni.netlify.app</a>. We handle personal data in line with applicable Indian laws, including the Information Technology Act, 2000, the SPDI Rules, 2011, and the Digital Personal Data Protection framework as and when applicable.
+        When you submit this form, we collect your name, email, WhatsApp number, graduating year, country, city, current profession and social links. We use this information to run the Orane Alumni Network and to contact you about alumni updates, webinars, placement opportunities and member discounts. We do not sell your data. You can request deletion by emailing <a href="mailto:privacy@oranealumni.netlify.app">privacy@oranealumni.netlify.app</a>.
       </p>
     </section>
 
@@ -301,6 +254,44 @@
     </footer>
   </div>
 
+  <!-- JSON content injector -->
+  <script>
+  (async function () {
+    const getByPath = (obj, path) => path.split('.').reduce((o,k)=>(o||{})[k], obj);
+    let content = {};
+    try {
+      const res = await fetch('content.json', { cache: 'no-store' });
+      if (res.ok) content = await res.json();
+    } catch (e) {
+      console.warn('content.json not found; using inline defaults');
+    }
+    document.querySelectorAll('[data-copy]').forEach(el => {
+      const key = el.getAttribute('data-copy');
+      const val = getByPath(content, key);
+      if (typeof val === 'string') el.textContent = val;
+    });
+    document.querySelectorAll('[data-href]').forEach(el => {
+      const key = el.getAttribute('data-href');
+      const val = getByPath(content, key);
+      if (typeof val === 'string') el.setAttribute('href', val);
+    });
+    document.querySelectorAll('[data-repeat]').forEach(container => {
+      const key = container.getAttribute('data-repeat');
+      const arr = getByPath(content, key);
+      if (Array.isArray(arr)) {
+        container.innerHTML = '';
+        arr.forEach(obj => {
+          const card = document.createElement('article');
+          card.className = 'stat';
+          card.innerHTML = `<b>${obj.value ?? ''}</b><div>${obj.label ?? ''}</div>`;
+          container.appendChild(card);
+        });
+      }
+    });
+  })();
+  </script>
+
+  <!-- existing site logic -->
   <script>
     // Smooth scroll for "Join free"
     document.getElementById('join-btn')?.addEventListener('click', (e) => {
@@ -309,8 +300,7 @@
         e.preventDefault();
         target.scrollIntoView({behavior:'smooth', block:'start'});
         setTimeout(() => {
-          const first = document.querySelector('#alumni-form input[name="first_name"]');
-          first && first.focus();
+          document.querySelector('#alumni-form input[name="first_name"]')?.focus();
         }, 350);
       }
     });
@@ -350,7 +340,7 @@
       try {
         await fetch(ENDPOINT, {
           method: "POST",
-          mode: "no-cors", // CORS-safe for Apps Script
+          mode: "no-cors",
           headers: {"Content-Type": "application/json"},
           body: JSON.stringify(data),
         });
