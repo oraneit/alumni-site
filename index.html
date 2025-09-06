@@ -151,7 +151,7 @@
           <a class="btn ghost"
              data-copy="hero.secondaryCta.text"
              data-href="hero.secondaryCta.href"
-             href="#updates">See latest updates</a>
+             href="#spotlight-heading">See Success Stories</a>
         </div>
 
         <div class="stats" data-repeat="stats">
@@ -314,7 +314,7 @@
     }
 
     // Form submission (Apps Script)
-    const ENDPOINT = "https://script.google.com/macros/s/AKfycbw3T-SdX4W0IFqqO-RSkIsrPrIhPUG-nBM-F1voRrBHzFDuqs9e8z-aXII0eYdC0sUz/exec";
+    const ENDPOINT = "https://script.google.com/macros/s/AKfycbzOq32JmHsqIYFXZWdSKY8m2QDa1BKrCrIlVjiA17fyln76wOxf5tY6yMU_07wxPxAJ/exec";
     const form = document.getElementById('alumni-form');
     const note = document.getElementById('form-note');
     const consent = document.getElementById('consent');
@@ -345,7 +345,8 @@
           body: JSON.stringify(data),
         });
         form.reset();
-        note.textContent = "Thanks! Your details were submitted.";
+localStorage.setItem("justJoined","1");
+window.location.href = "directory.html";
       } catch (err) {
         note.textContent = "Couldn’t submit right now. Try again in a bit.";
         console.error(err);

@@ -4,7 +4,7 @@
     "headline": "Dream bigger. Earn better. Go further.",
     "subline": "Your success story is still being written. Update your details to unlock new skills, higher income, and opportunities to build a career abroad.",
     "primaryCta": { "text": "Update & Grow", "href": "#signup" },
-    "secondaryCta": { "text": "See Success Stories", "href": "#updates" }
+    "secondaryCta": { "text": "See Success Stories", "href": "#spotlight-heading" }
   },
   "stats": [
     { "value": "10,000+", "label": "Learners mastering new skills on our app" },
