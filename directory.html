@@ -51,17 +51,17 @@ function initials(a,b){return ((a||"")+" "+(b||"")).trim().split(/\s+/).slice(0,
 function card(p){
   const img = p.photo_url ? `<img src="${p.photo_url}" alt="" class="avatar" style="object-fit:cover">`
                           : `<div class="avatar">${initials(p.first_name,p.last_name)}</div>`;
+  const meta = [
+    [p.city, p.country].filter(Boolean).join(", "),
+    p.graduating_year ? `Class of ${p.graduating_year}` : "",
+    p.profession
+  ].filter(Boolean).join(" • ");
   const soc = [
     p.instagram && `<a href="${p.instagram}" target="_blank" rel="noopener">IG</a>`,
     p.facebook && `<a href="${p.facebook}" target="_blank" rel="noopener">FB</a>`,
     p.linkedin && `<a href="${p.linkedin}" target="_blank" rel="noopener">IN</a>`,
     p.snapchat && `<a href="${p.snapchat}" target="_blank" rel="noopener">SC</a>`
   ].filter(Boolean).join("");
-  const meta = [
-  [p.city, p.country].filter(Boolean).join(", "),
-  p.graduating_year ? `Class of ${p.graduating_year}` : "",
-  p.profession
-].filter(Boolean).join(" • ");
   const name = [p.first_name,p.last_name].filter(Boolean).join(" ")||"Unnamed";
   return `<article class="card pad profile">${img}<div><div class="name">${name}</div><div class="meta">${meta}</div><div class="links">${soc}</div></div></article>`;
 }
@@ -73,46 +73,41 @@ function render(list){
 
 function applyFilters(all){
   const term = (q.value||"").toLowerCase();
-  const y = year.value||""; const c = country.value||"";
+  const y = year.value||""; const c = (country.value||"").toLowerCase();
   return all.filter(p=>{
     if (y && String(p.graduating_year||"") !== y) return false;
-    if (c && String(p.country||"").toLowerCase() !== c.toLowerCase()) return false;
+    if (c && String(p.country||"").toLowerCase() !== c) return false;
     if (!term) return true;
     const hay = [p.first_name,p.last_name,p.city,p.country,p.profession].join(" ").toLowerCase();
     return hay.includes(term);
   });
 }
 
-function normalizeRows(rows){
-  // dedupe by email/whatsapp, else by name+city
-  const seen = new Set();
-  const out = [];
-  for (const r of rows){
-    const key = (r.email||'') + '|' + (r.whatsapp||'') || ((r.first_name||'')+' '+(r.last_name||'')+'|'+(r.city||''));
-    if (seen.has(key)) continue;
-    seen.add(key);
-    out.push(r);
+function dedupe(rows){
+  const seen=new Set(), out=[];
+  for(const r of rows){
+    const k = (r.email||r.whatsapp)
+      ? `${r.email||''}|${r.whatsapp||''}`
+      : `${(r.first_name||'').trim().toLowerCase()} ${(r.last_name||'').trim().toLowerCase()}|${(r.city||'').trim().toLowerCase()}`;
+    if(seen.has(k)) continue; seen.add(k); out.push(r);
   }
-  // sort by last, then first
   out.sort((a,b)=>{
-    const al=(a.last_name||'').localeCompare(b.last_name||'',undefined,{sensitivity:'base'});
-    if(al!==0) return al;
-    return (a.first_name||'').localeCompare(b.first_name||'',undefined,{sensitivity:'base'});
+    const la=(a.last_name||'').localeCompare(b.last_name||'',undefined,{sensitivity:'base'});
+    return la!==0 ? la : (a.first_name||'').localeCompare(b.first_name||'',undefined,{sensitivity:'base'});
   });
   return out;
 }
 
-/* --- loaders --- */
+/* ---- Loaders ---- */
 function jsonp(url){
   return new Promise((resolve,reject)=>{
     const cb='cb'+Math.random().toString(36).slice(2);
     const s=document.createElement('script');
-    const t=setTimeout(()=>{ cleanup(); reject(new Error('JSONP timeout')); },12000);
-    function cleanup(){ clearTimeout(t); delete window[cb]; try{s.remove();}catch(_){ } }
-    window[cb]=(data)=>{ cleanup(); resolve(data); };
-    s.src=url+(url.includes('?')?'&':'?')+'callback='+cb;
-    s.async=true;
-    s.onerror=()=>{ cleanup(); reject(new Error('JSONP onerror')); };
+    const t=setTimeout(()=>{cleanup();reject(new Error('JSONP timeout'));},12000);
+    function cleanup(){clearTimeout(t);delete window[cb];try{s.remove();}catch(_){}} 
+    window[cb]=(data)=>{cleanup();resolve(data);};
+    s.src=url+(url.includes('?')?'&':'?')+'callback='+cb+'&t='+Date.now();
+    s.async=true;s.onerror=()=>{cleanup();reject(new Error('JSONP onerror'));};
     document.head.appendChild(s);
   });
 }
@@ -126,18 +121,17 @@ async function load(){
   try{
     statusEl.textContent='Loading…';
     let data;
-    try {
-      data = await jsonp(ENDPOINT+'?list=1');
-    } catch (_) {
-      data = await fetchViaProxy(ENDPOINT+'?list=1');
-    }
-    const rows = normalizeRows(Array.isArray(data.rows)?data.rows:[])
+    try { data = await jsonp(ENDPOINT+'?list=1'); }
+    catch { data = await fetchViaProxy(ENDPOINT+'?list=1'); }
+
+    const rows = dedupe(Array.isArray(data.rows)?data.rows:[])
       .filter(r => (r.first_name||r.last_name||r.email||r.whatsapp));
-    // populate filters
+
     const years=[...new Set(rows.map(r=>r.graduating_year).filter(Boolean))].sort();
     year.innerHTML = '<option value="">Year</option>' + years.map(y=>`<option>${y}</option>`).join('');
     const countries=[...new Set(rows.map(r=>r.country).filter(Boolean))].sort();
     country.innerHTML = '<option value="">Country</option>' + countries.map(c=>`<option>${c}</option>`).join('');
+
     const state={all:rows};
     function update(){ render(applyFilters(state.all)); }
     q.addEventListener('input',update);
