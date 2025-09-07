@@ -57,7 +57,11 @@ function card(p){
     p.linkedin && `<a href="${p.linkedin}" target="_blank" rel="noopener">IN</a>`,
     p.snapchat && `<a href="${p.snapchat}" target="_blank" rel="noopener">SC</a>`
   ].filter(Boolean).join("");
-  const meta = [p.profession, [p.city,p.country].filter(Boolean).join(", "), p.graduating_year].filter(Boolean).join(" • ");
+  const meta = [
+  [p.city, p.country].filter(Boolean).join(", "),
+  p.graduating_year ? `Class of ${p.graduating_year}` : "",
+  p.profession
+].filter(Boolean).join(" • ");
   const name = [p.first_name,p.last_name].filter(Boolean).join(" ")||"Unnamed";
   return `<article class="card pad profile">${img}<div><div class="name">${name}</div><div class="meta">${meta}</div><div class="links">${soc}</div></div></article>`;
 }
