@@ -1,0 +1,40 @@
+<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Directory v8</title>
+<p><a href="index.html">← Back to main page</a></p>
+<h1>HELLO DIRECTORY v8</h1>
+<p id="status">Loading…</p><ul id="list"></ul>
+<script>
+const ENDPOINT="https://script.google.com/macros/s/AKfycbwdlzu3UKQzhOpc50tFDX8yG5asLHWWJPBgs0sDuPswaTabwvwpKKCLS3asNOFtTsjf/exec";
+
+function jsonp(url){
+  return new Promise((resolve,reject)=>{
+    const cb='cb'+Math.random().toString(36).slice(2);
+    const s=document.createElement('script');
+    const t=setTimeout(()=>{ delete window[cb]; try{s.remove();}catch(_){}
+      reject(new Error('JSONP timeout: '+s.src)); },12000);
+
+    window[cb]=(data)=>{ clearTimeout(t); try{ resolve(data); }
+      finally{ delete window[cb]; try{s.remove();}catch(_){} } };
+
+    s.src=url+(url.includes('?')?'&':'?')+'callback='+cb;
+    s.async=true;
+    s.onerror=()=>{ clearTimeout(t); delete window[cb];
+      reject(new Error('JSONP onerror: '+s.src)); };
+    console.log('JSONP request:', s.src);
+    document.head.appendChild(s);
+  });
+}
+
+(async()=>{try{
+  const j=await jsonp(ENDPOINT+'?list=1');
+  console.log('JSONP ok', j);
+  const rows=(Array.isArray(j.rows)?j.rows:[]).filter(r=>r.first_name||r.last_name||r.email||r.whatsapp);
+  document.getElementById('status').textContent=`${rows.length} profiles`;
+  document.getElementById('list').innerHTML =
+    rows.map(r=>`<li>${[r.first_name,r.last_name].filter(Boolean).join(' ')} — ${r.city||''} ${r.country||''}</li>`).join('') || '<li>None</li>';
+}catch(e){
+  console.error('Directory load failed:', e);
+  document.getElementById('status').textContent='Load failed';
+}})();
+</script>
+

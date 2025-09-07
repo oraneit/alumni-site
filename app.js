@@ -1,5 +1,5 @@
 // app.js — sends the form to your Google Apps Script
-const ENDPOINT = "https://script.google.com/macros/s/AKfycbwSxmqgGefIpcxxndPj6ugG9wQOv0q2fd_9gSZTAhWT5RKTZQM-7qo6vltAN5F8qmlA/exec";
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbwdlzu3UKQzhOpc50tFDX8yG5asLHWWJPBgs0sDuPswaTabwvwpKKCLS3asNOFtTsjf/exec";
 
 function v(sel) { const el = document.querySelector(sel); return el ? (el.value || "").trim() : ""; }
 function setMsg(txt, ok=false) {

@@ -80,11 +80,11 @@
     .updates{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
     .update{padding:14px;border:1px solid #eef2f7;border-radius:14px;background:#fff}
     .update time{display:block;color:#94a3b8;font-size:12px;margin-bottom:6px}
-
+    .update .thumb{width:100%;border-radius:12px;margin-top:8px;aspect-ratio:16/9;object-fit:cover}
     /* Footer */
     .footer{color:#6b7280;font-size:13px;margin:22px 0 8px}
 
-    .hero > section, .hero > .full-row { grid-column:1/-1; }
+    .hero > section, .hero > .full-row { grid-column:1/-1; }  
 
     /* Responsive */
     @media (max-width: 1024px){
@@ -148,10 +148,8 @@
              data-copy="hero.primaryCta.text"
              data-href="hero.primaryCta.href"
              href="#signup">Join free</a>
-          <a class="btn ghost"
-             data-copy="hero.secondaryCta.text"
-             data-href="hero.secondaryCta.href"
-             href="#spotlight-heading">See Success Stories</a>
+          <a class="btn ghost" href="#spotlight-heading">See Success Stories</a>
+
         </div>
 
         <div class="stats" data-repeat="stats">
@@ -192,6 +190,10 @@
           <div><label>Facebook</label><input name="facebook" placeholder="https://facebook.com/…"></div>
           <div><label>LinkedIn</label><input name="linkedin" placeholder="https://linkedin.com/in/…"></div>
           <div><label>Snapchat</label><input name="snapchat" placeholder="https://snapchat.com/add/…"></div>
+          <div class="full">
+          <label>Anything else we should know?</label>
+          <textarea name="anything_else" placeholder="e.g., preferred roles, portfolio link"></textarea>
+          </div>
           <div class="full">
             <label for="consent" class="helper" style="display:flex;align-items:center;gap:8px;">
               <input id="consent" type="checkbox" required>
@@ -314,7 +316,7 @@
     }
 
     // Form submission (Apps Script)
-    const ENDPOINT = "https://script.google.com/macros/s/AKfycbzOq32JmHsqIYFXZWdSKY8m2QDa1BKrCrIlVjiA17fyln76wOxf5tY6yMU_07wxPxAJ/exec";
+    const ENDPOINT = "https://script.google.com/macros/s/AKfycbwdlzu3UKQzhOpc50tFDX8yG5asLHWWJPBgs0sDuPswaTabwvwpKKCLS3asNOFtTsjf/exec";
     const form = document.getElementById('alumni-form');
     const note = document.getElementById('form-note');
     const consent = document.getElementById('consent');
@@ -338,15 +340,16 @@
       for (const k of allowed) data[k] = fd.get(k) || "";
 
       try {
-        await fetch(ENDPOINT, {
-          method: "POST",
-          mode: "no-cors",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify(data),
-        });
+        const payload = new URLSearchParams(data).toString();
+      await fetch(ENDPOINT, {
+        method: "POST",
+        mode: "no-cors", // keeps it opaque but delivers body
+        headers: {"Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"},
+        body: payload,
+});
         form.reset();
-localStorage.setItem("justJoined","1");
-window.location.href = "directory.html";
+        localStorage.setItem("justJoined","1");
+        window.location.href = "directory.html";
       } catch (err) {
         note.textContent = "Couldn’t submit right now. Try again in a bit.";
         console.error(err);
@@ -354,72 +357,94 @@ window.location.href = "directory.html";
     });
 
     // RSS: two feeds, dedupe, sort, limit 8, render responsive grid
-    const FEEDS = [
+    <script>
+      const FEED_URLS = [
       "https://rss.app/feeds/U7tnzCEaszOSv8mi.xml",
       "https://rss.app/feeds/MvdbwW0vWdVM1cak.xml"
-    ].map(u => `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(u)}`);
+    ];
+      const META_ENDPOINT = "https://script.google.com/macros/s/AKfycbwdlzu3UKQzhOpc50tFDX8yG5asLHWWJPBgs0sDuPswaTabwvwpKKCLS3asNOFtTsjf/exec";
 
-    const updatesEl = document.getElementById('updates-list');
-    const updatesNote = document.getElementById('updates-note');
+      const updatesEl = document.getElementById('updates-list');
+      const updatesNote = document.getElementById('updates-note');
 
-    function sanitize(html) {
-      const tmp = document.createElement('div');
-      tmp.innerHTML = html || "";
-      return tmp.textContent || tmp.innerText || "";
-    }
+      const sanitize = (html) => {
+        const d=document.createElement('div'); d.innerHTML=html||""; return d.textContent||d.innerText||"";
+    };
 
-    async function fetchFeed(url) {
-      const r = await fetch(url);
-      if (!r.ok) throw new Error(`Feed fetch failed: ${r.status}`);
-      return r.json();
-    }
+    async function fetchViaRss2Json(feedUrl){
+      const u = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}&t=${Date.now()}`;
+      const r = await fetch(u, { cache: "no-store" });
+    if (!r.ok) throw new Error(`rss2json ${r.status}`); return r.json();
+  }
+    async function fetchViaProxy(feedUrl){
+      const base = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}&t=${Date.now()}`;
+      const prox = `https://api.allorigins.win/raw?url=${encodeURIComponent(base)}`;
+      const r = await fetch(prox, { cache: "no-store" });
+    if (!r.ok) throw new Error(`proxy ${r.status}`); return r.json();
+  }
+    async function fetchFeed(feedUrl){ try{ return await fetchViaRss2Json(feedUrl); } catch{ return await fetchViaProxy(feedUrl); } }
+
+    const pickImg = (it) =>
+    it.thumbnail || (it.enclosure && (it.enclosure.link || it.enclosure.url)) || "";
+
+    async function getOgImage(link){
+      try{
+        const url = `${META_ENDPOINT}?meta=${encodeURIComponent(link)}`;
+        const prox = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+        const r = await fetch(prox, { cache: "no-store" });
+        if (!r.ok) return "";
+        const j = await r.json();
+        return j && j.image || "";
+    }   catch { return ""; }
+  }
 
     (async () => {
-      try {
-        const results = await Promise.allSettled(FEEDS.map(fetchFeed));
-        let items = [];
-        for (const r of results) {
-          if (r.status === "fulfilled" && r.value && Array.isArray(r.value.items)) {
-            items = items.concat(r.value.items);
-          }
-        }
-        if (!items.length) throw new Error("No feed items");
+    try {
+      const results = await Promise.allSettled(FEED_URLS.map(fetchFeed));
+      let items = [];
+      for (const r of results)
+        if (r.status === "fulfilled" && Array.isArray(r.value.items)) items = items.concat(r.value.items);
+      if (!items.length) throw new Error("No feed items");
 
-        const seen = new Set();
-        const normalized = items.map(it => {
-          const d = new Date(it.pubDate || it.pub_date || it.date || it.created || Date.now());
-          return {
-            title: it.title || "Untitled",
-            link: it.link || it.url || "#",
-            date: d,
-            desc: sanitize(it.description || it.content || it.contentSnippet || "")
-          };
-        }).filter(it => {
-          const k = it.link + "|" + it.title;
-          if (seen.has(k)) return false;
-          seen.add(k);
-          return true;
-        }).sort((a,b) => b.date - a.date)
-          .slice(0, 8);
+      const seen = new Set();
+      let normalized = items.map(it => {
+        const d = new Date(it.pubDate || it.pub_date || it.date || it.created || Date.now());
+        return {
+          title: it.title || "Untitled",
+          link: it.link || it.url || "#",
+          date: d,
+          desc: sanitize(it.description || it.content || it.contentSnippet || ""),
+          image: pickImg(it)
+        };
+      }).filter(it => {
+        const k = it.link + "|" + it.title;
+        if (seen.has(k)) return false; seen.add(k); return true;
+      }).sort((a,b) => b.date - a.date).slice(0, 8);
 
-        updatesEl.innerHTML = "";
-        normalized.forEach(item => {
-          const div = document.createElement('article');
-          div.className = "update";
-          const short = item.desc.length > 140 ? item.desc.slice(0,140) + "…" : item.desc;
-          div.innerHTML = `
-            <time datetime="${item.date.toISOString()}">${item.date.toLocaleDateString()}</time>
-            <a href="${item.link}" target="_blank" rel="noopener"><strong>${item.title}</strong></a>
-            <p class="notice">${short}</p>
-          `;
-          updatesEl.appendChild(div);
-        });
-        updatesNote.textContent = "";
-      } catch (err) {
-        updatesNote.textContent = "Couldn’t fetch updates. If this keeps happening, use a small Netlify proxy.";
-        console.warn(err);
-      }
-    })();
-  </script>
+      // Fill missing images via og:image
+      await Promise.all(normalized.map(async it => {
+        if (!it.image) it.image = await getOgImage(it.link);
+      }));
+
+      updatesEl.innerHTML = "";
+      normalized.forEach(item => {
+        const div = document.createElement('article');
+        div.className = "update";
+        const short = item.desc.length > 140 ? item.desc.slice(0,140) + "…" : item.desc;
+        div.innerHTML = `
+          <time datetime="${item.date.toISOString()}">${item.date.toLocaleDateString()}</time>
+          <a href="${item.link}" target="_blank" rel="noopener"><strong>${item.title}</strong></a>
+          ${item.image ? `<img class="thumb" src="${item.image}" alt="">` : ""}
+          <p class="notice">${short}</p>
+        `;
+        updatesEl.appendChild(div);
+      });
+      updatesNote.textContent = "";
+    } catch (err) {
+      updatesNote.textContent = "Couldn’t fetch updates. Proxy also failed.";
+      console.warn(err);
+    }
+  })();
+</script>
 </body>
 </html>
