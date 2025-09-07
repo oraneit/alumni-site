@@ -1,0 +1,75 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Alumni Directory</title>
+<p><a href="index.html">← Back to main page</a></p>
+<h1>Alumni Directory</h1>
+<p id="status">Loading…</p>
+<ul id="list"></ul>
+
+<script>
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbwdlzu3UKQzhOpc50tFDX8yG5asLHWWJPBgs0sDuPswaTabwvwpKKCLS3asNOFtTsjf/exec";
+const statusEl = document.getElementById('status');
+const listEl = document.getElementById('list');
+
+/* --- JSONP first --- */
+function jsonp(url){
+  return new Promise((resolve,reject)=>{
+    const cb = 'cb' + Math.random().toString(36).slice(2);
+    const s  = document.createElement('script');
+    const t  = setTimeout(()=>{ cleanup(); reject(new Error('JSONP timeout')); }, 12000);
+
+    function cleanup(){ clearTimeout(t); delete window[cb]; try{s.remove();}catch(_){} }
+
+    window[cb] = (data)=>{ cleanup(); resolve(data); };
+    s.src = url + (url.includes('?') ? '&' : '?') + 'callback=' + cb;
+    s.async = true;
+    s.onerror = ()=>{ cleanup(); reject(new Error('JSONP onerror')); };
+    console.log('JSONP request:', s.src);
+    document.head.appendChild(s);
+  });
+}
+
+/* --- CORS proxy fallback (plain JSON) --- */
+async function fetchViaProxy(url){
+  const prox = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
+  const r = await fetch(prox, { cache: 'no-store' });
+  if (!r.ok) throw new Error('Proxy HTTP ' + r.status);
+  const txt = await r.text();           // Apps Script returns JSON when no callback param
+  return JSON.parse(txt);
+}
+
+/* --- render helpers --- */
+function render(rows){
+  const clean = (Array.isArray(rows) ? rows : [])
+    .filter(r => r.first_name || r.last_name || r.email || r.whatsapp);
+  statusEl.textContent = `${clean.length} profiles`;
+  listEl.innerHTML = clean.map(r => {
+    const name = [r.first_name, r.last_name].filter(Boolean).join(' ') || 'Unnamed';
+    const meta = [ (r.profession||'').trim(), [r.city, r.country].filter(Boolean).join(', '), r.graduating_year ]
+                  .filter(Boolean).join(' • ');
+    return `<li><strong>${name}</strong> — ${meta}</li>`;
+  }).join('') || '<li>None</li>';
+}
+
+/* --- load flow --- */
+(async () => {
+  try {
+    statusEl.textContent = 'Loading via JSONP…';
+    const j = await jsonp(ENDPOINT + '?list=1');
+    console.log('JSONP ok');
+    render(j.rows);
+  } catch (e1) {
+    console.warn('JSONP failed:', e1.message);
+    try {
+      statusEl.textContent = 'Loading via proxy…';
+      const j = await fetchViaProxy(ENDPOINT + '?list=1');
+      console.log('Proxy ok');
+      render(j.rows);
+    } catch (e2) {
+      console.error('Proxy failed:', e2);
+      statusEl.textContent = 'Load failed';
+    }
+  }
+})();
+</script>
