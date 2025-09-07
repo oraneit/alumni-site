@@ -322,39 +322,38 @@
     const consent = document.getElementById('consent');
 
     form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (!form.checkValidity() || !consent.checked) {
-        note.textContent = "Please complete all required fields and consent to communications.";
-        form.reportValidity();
-        return;
-      }
-      note.textContent = "Sending…";
+    e.preventDefault();
+    if (!form.checkValidity() || !consent.checked) {
+    note.textContent = "Please complete all required fields and consent to communications.";
+    form.reportValidity();
+    return;
+  }
+  note.textContent = "Sending…";
 
-      const allowed = [
-        "first_name","last_name","email","whatsapp",
-        "graduating_year","country","city",
-        "profession","instagram","facebook","linkedin","snapchat"
-      ];
-      const fd = new FormData(form);
-      const data = {};
-      for (const k of allowed) data[k] = fd.get(k) || "";
+  const allowed = ["first_name","last_name","email","whatsapp","graduating_year","country","city","profession","instagram","facebook","linkedin","snapchat","anything_else"];
+  const fd = new FormData(form);
+  const data = {};
+  for (const k of allowed) data[k] = fd.get(k) || "";
 
-      try {
-        const payload = new URLSearchParams(data).toString();
-      await fetch(ENDPOINT, {
+  try {
+    const payload = new URLSearchParams(data).toString();
+    await Promise.race([
+      fetch(ENDPOINT, {
         method: "POST",
-        mode: "no-cors", // keeps it opaque but delivers body
+        mode: "no-cors",
         headers: {"Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"},
-        body: payload,
+        body: payload
+      }),
+      new Promise(r => setTimeout(r, 1500))
+    ]);
+  } catch (err) {
+    console.warn("submit error", err);
+  } finally {
+    form.reset();
+    localStorage.setItem("justJoined","1");
+    window.location.href = "directory.html";
+  }
 });
-        form.reset();
-        localStorage.setItem("justJoined","1");
-        window.location.href = "directory.html";
-      } catch (err) {
-        note.textContent = "Couldn’t submit right now. Try again in a bit.";
-        console.error(err);
-      }
-    });
 
     // RSS: two feeds, dedupe, sort, limit 8, render responsive grid
     <script>
