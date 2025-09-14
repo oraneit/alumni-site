@@ -6,10 +6,7 @@
   <title>Orane Alumni — Stay Connected, Grow Faster</title>
   <meta name="description" content="Join the Orane International Alumni Network to get exclusive webinars, career boosts, and discounts.">
   <style>
-    :root{
-      --brand:#e8640a; --ink:#0f172a; --muted:#64748b; --bg:#f6f7f9; --card:#fff; --ring:rgba(232,100,10,.35);
-      --radius:16px;
-    }
+    :root{ --brand:#e8640a; --ink:#0f172a; --muted:#64748b; --bg:#f6f7f9; --card:#fff; --ring:rgba(232,100,10,.35); --radius:16px; }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial}
@@ -51,20 +48,10 @@
     .helper{font-size:12px;color:#94a3b8}
     .notice{font-size:13px;color:#64748b}
 
-    /* Quick answers */
-    .quick-answers { margin-top:14px; display:grid; gap:10px; }
-    .quick-answers details { background:#fff; border:1px solid #eef2f7; border-radius:12px; padding:10px 12px; }
-    .quick-answers summary { cursor:pointer; font-weight:600; outline:none; list-style:none; }
-    .quick-answers summary::-webkit-details-marker{display:none}
-
     /* Trust band */
     .band { margin:16px 0 0; }
     .band-wrap { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
-    .chip {
-      display:flex; align-items:center; gap:8px;
-      background:#fff; border:1px solid #eef2f7; border-radius:999px; padding:10px 14px;
-      font-weight:600; color:#0f172a;
-    }
+    .chip { display:flex; align-items:center; gap:8px; background:#fff; border:1px solid #eef2f7; border-radius:999px; padding:10px 14px; font-weight:600; color:#0f172a; }
     .chip i { font-style:normal; background:rgba(232,100,10,.1); border-radius:8px; padding:2px 8px; }
 
     /* Sections */
@@ -76,11 +63,6 @@
     .sp-card{display:flex;gap:12px;align-items:flex-start;padding:14px;border:1px solid #eef2f7;border-radius:14px;background:#fff}
     .sp-card img{height:48px;width:48px;border-radius:12px;object-fit:cover}
 
-    /* Updates grid */
-    .updates{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-    .update{padding:14px;border:1px solid #eef2f7;border-radius:14px;background:#fff}
-    .update time{display:block;color:#94a3b8;font-size:12px;margin-bottom:6px}
-    .update .thumb{width:100%;border-radius:12px;margin-top:8px;aspect-ratio:16/9;object-fit:cover}
     /* Footer */
     .footer{color:#6b7280;font-size:13px;margin:22px 0 8px}
 
@@ -93,7 +75,6 @@
       .form{grid-template-columns:1fr}
       .stats{grid-template-columns:repeat(3,1fr)}
       .spotlight{grid-template-columns:repeat(2,1fr)}
-      .updates{grid-template-columns:repeat(3,1fr)}
       .band-wrap{grid-template-columns:repeat(3,1fr)}
     }
     @media (max-width: 780px){
@@ -103,12 +84,10 @@
       .cta-row .btn{flex:1}
       .stats{grid-template-columns:1fr 1fr 1fr}
       .spotlight{grid-template-columns:1fr}
-      .updates{grid-template-columns:repeat(2,1fr)}
       .band-wrap{grid-template-columns:repeat(2,1fr)}
     }
     @media (max-width: 520px){
       .wrap{padding:14px}
-      .updates{grid-template-columns:1fr}
       .band-wrap{grid-template-columns:1fr}
       .logo img{height:36px}
       .btn{width:100%}
@@ -149,7 +128,6 @@
              data-href="hero.primaryCta.href"
              href="#signup">Join free</a>
           <a class="btn ghost" href="#spotlight-heading">See Success Stories</a>
-
         </div>
 
         <div class="stats" data-repeat="stats">
@@ -191,8 +169,13 @@
           <div><label>LinkedIn</label><input name="linkedin" placeholder="https://linkedin.com/in/…"></div>
           <div><label>Snapchat</label><input name="snapchat" placeholder="https://snapchat.com/add/…"></div>
           <div class="full">
-          <label>Anything else we should know?</label>
-          <textarea name="anything_else" placeholder="e.g., preferred roles, portfolio link"></textarea>
+            <label>Anything else we should know?</label>
+            <textarea name="anything_else" placeholder="e.g., preferred roles, portfolio link"></textarea>
+          </div>
+          <div class="full">
+            <label>Profile photo (optional)</label>
+            <input type="file" name="photo" accept="image/*">
+            <div class="helper">Max ~5 MB. JPG or PNG.</div>
           </div>
           <div class="full">
             <label for="consent" class="helper" style="display:flex;align-items:center;gap:8px;">
@@ -205,48 +188,7 @@
             <span class="notice" id="form-note"></span>
           </div>
         </form>
-        <script id="alumni-submit">
-    const form    = document.getElementById('alumni-form');
-    const note    = document.getElementById('form-note');
-    const consent = document.getElementById('consent');
-    const ENDPOINT = "https://script.google.com/macros/s/AKfycby88hNEmXqnZ5D6T4LDUL96elLWI-MWyJruMXHccmN4q2VP8cRotIkUA0bpBIE6rj3m/exec";
-
-    if (form) {
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        if (!form.checkValidity() || !consent.checked) {
-          note.textContent = "Please complete all required fields and consent to communications.";
-          form.reportValidity();
-          return;
-        }
-        note.textContent = "Sending…";
-
-        const allowed = ["first_name","last_name","email","whatsapp","graduating_year","country","city","profession","instagram","facebook","linkedin","snapchat","anything_else"];
-        const fd = new FormData(form);
-        const data = {}; for (const k of allowed) data[k] = fd.get(k) || "";
-
-        try {
-          const payload = new URLSearchParams(data).toString();
-          await Promise.race([
-            fetch(ENDPOINT, {
-              method: "POST",
-              mode: "no-cors",
-              headers: {"Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"},
-              body: payload
-            }),
-            new Promise(r => setTimeout(r, 1500))
-          ]);
-        } catch (err) {
-          console.warn("submit error", err);
-        } finally {
-          form.reset();
-          localStorage.setItem("justJoined","1");
-          window.location.href = "directory.html";
-        }
-      });
-    }
-  </script>
-  </div>
+      </div>
     </section>
 
     <!-- TRUST BAND -->
@@ -275,7 +217,6 @@
       </div>
     </section>
 
-
     <!-- Privacy -->
     <section id="privacy" class="section card pad">
       <h2>Privacy & communications</h2>
@@ -289,7 +230,63 @@
     </footer>
   </div>
 
-  <!-- JSON content injector -->
-  
+  <!-- JS -->
+  <script>
+    // Smooth scroll for "Join free"
+    document.getElementById('join-btn')?.addEventListener('click', (e) => {
+      const target = document.querySelector('#signup');
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({behavior:'smooth', block:'start'});
+        setTimeout(() => {
+          document.querySelector('#alumni-form input[name="first_name"]')?.focus();
+        }, 350);
+      }
+    });
+
+    // Graduating year: keep only digits and cap at 4
+    const gy = document.querySelector('input[name="graduating_year"]');
+    if (gy) {
+      gy.addEventListener('input', () => {
+        gy.value = gy.value.replace(/[^0-9]/g,'').slice(0,4);
+      });
+    }
+
+    // Form submission (Apps Script; supports photo upload)
+    const ENDPOINT = "https://script.google.com/macros/s/AKfycby88hNEmXqnZ5D6T4LDUL96elLWI-MWyJruMXHccmN4q2VP8cRotIkUA0bpBIE6rj3m/exec";
+    const form = document.getElementById('alumni-form');
+    const note = document.getElementById('form-note');
+    const consent = document.getElementById('consent');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.checkValidity() || !consent.checked) {
+        note.textContent = "Please complete all required fields and consent to communications.";
+        form.reportValidity();
+        return;
+      }
+      note.textContent = "Sending…";
+
+      const fd = new FormData(form); // includes the file if chosen
+      const file = fd.get('photo');
+      if (file && file.size && file.size > 5 * 1024 * 1024) {
+        note.textContent = "Image too large (max 5 MB).";
+        return;
+      }
+
+      try {
+        await Promise.race([
+          fetch(ENDPOINT, { method: "POST", mode: "no-cors", body: fd }), // let browser set multipart boundary
+          new Promise(r => setTimeout(r, 1500))
+        ]);
+      } catch (err) {
+        console.warn("submit error", err);
+      } finally {
+        form.reset();
+        localStorage.setItem("justJoined","1");
+        window.location.href = "directory.html";
+      }
+    });
+  </script>
 </body>
 </html>
