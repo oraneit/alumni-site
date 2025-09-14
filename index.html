@@ -205,7 +205,48 @@
             <span class="notice" id="form-note"></span>
           </div>
         </form>
-      </div>
+        <script id="alumni-submit">
+    const form    = document.getElementById('alumni-form');
+    const note    = document.getElementById('form-note');
+    const consent = document.getElementById('consent');
+    const ENDPOINT = "https://script.google.com/macros/s/AKfycby88hNEmXqnZ5D6T4LDUL96elLWI-MWyJruMXHccmN4q2VP8cRotIkUA0bpBIE6rj3m/exec";
+
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!form.checkValidity() || !consent.checked) {
+          note.textContent = "Please complete all required fields and consent to communications.";
+          form.reportValidity();
+          return;
+        }
+        note.textContent = "Sending…";
+
+        const allowed = ["first_name","last_name","email","whatsapp","graduating_year","country","city","profession","instagram","facebook","linkedin","snapchat","anything_else"];
+        const fd = new FormData(form);
+        const data = {}; for (const k of allowed) data[k] = fd.get(k) || "";
+
+        try {
+          const payload = new URLSearchParams(data).toString();
+          await Promise.race([
+            fetch(ENDPOINT, {
+              method: "POST",
+              mode: "no-cors",
+              headers: {"Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"},
+              body: payload
+            }),
+            new Promise(r => setTimeout(r, 1500))
+          ]);
+        } catch (err) {
+          console.warn("submit error", err);
+        } finally {
+          form.reset();
+          localStorage.setItem("justJoined","1");
+          window.location.href = "directory.html";
+        }
+      });
+    }
+  </script>
+  </div>
     </section>
 
     <!-- TRUST BAND -->
@@ -234,14 +275,6 @@
       </div>
     </section>
 
-    <!-- LATEST UPDATES -->
-    <section class="section">
-      <div class="card pad">
-        <h2 id="updates">Latest updates</h2>
-        <div id="updates-list" class="updates" aria-live="polite"></div>
-        <div class="notice" id="updates-note">Fetching updates…</div>
-      </div>
-    </section>
 
     <!-- Privacy -->
     <section id="privacy" class="section card pad">
@@ -257,193 +290,6 @@
   </div>
 
   <!-- JSON content injector -->
-  <script>
-  (async function () {
-    const getByPath = (obj, path) => path.split('.').reduce((o,k)=>(o||{})[k], obj);
-    let content = {};
-    try {
-      const res = await fetch('content.json', { cache: 'no-store' });
-      if (res.ok) content = await res.json();
-    } catch (e) {
-      console.warn('content.json not found; using inline defaults');
-    }
-    document.querySelectorAll('[data-copy]').forEach(el => {
-      const key = el.getAttribute('data-copy');
-      const val = getByPath(content, key);
-      if (typeof val === 'string') el.textContent = val;
-    });
-    document.querySelectorAll('[data-href]').forEach(el => {
-      const key = el.getAttribute('data-href');
-      const val = getByPath(content, key);
-      if (typeof val === 'string') el.setAttribute('href', val);
-    });
-    document.querySelectorAll('[data-repeat]').forEach(container => {
-      const key = container.getAttribute('data-repeat');
-      const arr = getByPath(content, key);
-      if (Array.isArray(arr)) {
-        container.innerHTML = '';
-        arr.forEach(obj => {
-          const card = document.createElement('article');
-          card.className = 'stat';
-          card.innerHTML = `<b>${obj.value ?? ''}</b><div>${obj.label ?? ''}</div>`;
-          container.appendChild(card);
-        });
-      }
-    });
-  })();
-  </script>
-
-  <!-- existing site logic -->
-  <script>
-    // Smooth scroll for "Join free"
-    document.getElementById('join-btn')?.addEventListener('click', (e) => {
-      const target = document.querySelector('#signup');
-      if (target) {
-        e.preventDefault();
-        target.scrollIntoView({behavior:'smooth', block:'start'});
-        setTimeout(() => {
-          document.querySelector('#alumni-form input[name="first_name"]')?.focus();
-        }, 350);
-      }
-    });
-
-    // Graduating year: keep only digits and cap at 4
-    const gy = document.querySelector('input[name="graduating_year"]');
-    if (gy) {
-      gy.addEventListener('input', () => {
-        gy.value = gy.value.replace(/[^0-9]/g,'').slice(0,4);
-      });
-    }
-
-    // Form submission (Apps Script)
-    const ENDPOINT = "https://script.google.com/macros/s/AKfycbwdlzu3UKQzhOpc50tFDX8yG5asLHWWJPBgs0sDuPswaTabwvwpKKCLS3asNOFtTsjf/exec";
-    const form = document.getElementById('alumni-form');
-    const note = document.getElementById('form-note');
-    const consent = document.getElementById('consent');
-
-    form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    if (!form.checkValidity() || !consent.checked) {
-    note.textContent = "Please complete all required fields and consent to communications.";
-    form.reportValidity();
-    return;
-  }
-  note.textContent = "Sending…";
-
-  const allowed = ["first_name","last_name","email","whatsapp","graduating_year","country","city","profession","instagram","facebook","linkedin","snapchat","anything_else"];
-  const fd = new FormData(form);
-  const data = {};
-  for (const k of allowed) data[k] = fd.get(k) || "";
-
-  try {
-    const payload = new URLSearchParams(data).toString();
-    await Promise.race([
-      fetch(ENDPOINT, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {"Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"},
-        body: payload
-      }),
-      new Promise(r => setTimeout(r, 1500))
-    ]);
-  } catch (err) {
-    console.warn("submit error", err);
-  } finally {
-    form.reset();
-    localStorage.setItem("justJoined","1");
-    window.location.href = "directory.html";
-  }
-});
-</script>
-<!-- RSS: two feeds, proxy fallback, thumbnails -->
-<script>
-      const FEED_URLS = [
-      "https://rss.app/feeds/U7tnzCEaszOSv8mi.xml",
-      "https://rss.app/feeds/MvdbwW0vWdVM1cak.xml"
-    ];
-      const META_ENDPOINT = "https://script.google.com/macros/s/AKfycbwdlzu3UKQzhOpc50tFDX8yG5asLHWWJPBgs0sDuPswaTabwvwpKKCLS3asNOFtTsjf/exec";
-
-      const updatesEl = document.getElementById('updates-list');
-      const updatesNote = document.getElementById('updates-note');
-
-      const sanitize = (html) => {
-        const d=document.createElement('div'); d.innerHTML=html||""; return d.textContent||d.innerText||"";
-    };
-
-    async function fetchViaRss2Json(feedUrl){
-      const u = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}&t=${Date.now()}`;
-      const r = await fetch(u, { cache: "no-store" });
-    if (!r.ok) throw new Error(`rss2json ${r.status}`); return r.json();
-  }
-    async function fetchViaProxy(feedUrl){
-      const base = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}&t=${Date.now()}`;
-      const prox = `https://api.allorigins.win/raw?url=${encodeURIComponent(base)}`;
-      const r = await fetch(prox, { cache: "no-store" });
-    if (!r.ok) throw new Error(`proxy ${r.status}`); return r.json();
-  }
-    async function fetchFeed(feedUrl){ try{ return await fetchViaRss2Json(feedUrl); } catch{ return await fetchViaProxy(feedUrl); } }
-
-    const pickImg = (it) =>
-    it.thumbnail || (it.enclosure && (it.enclosure.link || it.enclosure.url)) || "";
-
-    async function getOgImage(link){
-      try{
-        const url = `${META_ENDPOINT}?meta=${encodeURIComponent(link)}`;
-        const prox = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
-        const r = await fetch(prox, { cache: "no-store" });
-        if (!r.ok) return "";
-        const j = await r.json();
-        return j && j.image || "";
-    }   catch { return ""; }
-  }
-
-    (async () => {
-    try {
-      const results = await Promise.allSettled(FEED_URLS.map(fetchFeed));
-      let items = [];
-      for (const r of results)
-        if (r.status === "fulfilled" && Array.isArray(r.value.items)) items = items.concat(r.value.items);
-      if (!items.length) throw new Error("No feed items");
-
-      const seen = new Set();
-      let normalized = items.map(it => {
-        const d = new Date(it.pubDate || it.pub_date || it.date || it.created || Date.now());
-        return {
-          title: it.title || "Untitled",
-          link: it.link || it.url || "#",
-          date: d,
-          desc: sanitize(it.description || it.content || it.contentSnippet || ""),
-          image: pickImg(it)
-        };
-      }).filter(it => {
-        const k = it.link + "|" + it.title;
-        if (seen.has(k)) return false; seen.add(k); return true;
-      }).sort((a,b) => b.date - a.date).slice(0, 8);
-
-      // Fill missing images via og:image
-      await Promise.all(normalized.map(async it => {
-        if (!it.image) it.image = await getOgImage(it.link);
-      }));
-
-      updatesEl.innerHTML = "";
-      normalized.forEach(item => {
-        const div = document.createElement('article');
-        div.className = "update";
-        const short = item.desc.length > 140 ? item.desc.slice(0,140) + "…" : item.desc;
-        div.innerHTML = `
-          <time datetime="${item.date.toISOString()}">${item.date.toLocaleDateString()}</time>
-          <a href="${item.link}" target="_blank" rel="noopener"><strong>${item.title}</strong></a>
-          ${item.image ? `<img class="thumb" src="${item.image}" alt="">` : ""}
-          <p class="notice">${short}</p>
-        `;
-        updatesEl.appendChild(div);
-      });
-      updatesNote.textContent = "";
-    } catch (err) {
-      updatesNote.textContent = "Couldn’t fetch updates. Proxy also failed.";
-      console.warn(err);
-    }
-  })();
-</script>
+  
 </body>
 </html>
