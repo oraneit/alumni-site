@@ -16,7 +16,7 @@
 
     /* Shell */
     .wrap{max-width:1200px;margin:0 auto;padding:20px clamp(12px,4vw,24px)}
-    .header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:8px 0 8px;flex-wrap:wrap}
+    .header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:8px 0;flex-wrap:wrap}
     .logo{display:flex;align-items:center;gap:12px}
     .logo img{height:44px;width:auto;object-fit:contain}
     .badge{display:inline-flex;align-items:center;gap:8px;border:1px solid #e2e8f0;border-radius:999px;padding:6px 12px;background:#fff;color:#0f172a}
@@ -27,7 +27,10 @@
     .card.pad{padding:20px}
 
     /* Hero */
-    .hero{display:grid;grid-template-columns:1.25fr 1fr;gap:28px;align-items:start;margin:12px 0 20px}
+    .hero-shell{background:
+        radial-gradient(1200px 400px at 10% -10%, rgba(232,100,10,.08), transparent 60%),
+        radial-gradient(1200px 400px at 110% 10%, rgba(232,100,10,.06), transparent 60%);}
+    .hero{display:grid;grid-template-columns:1.15fr 1fr;gap:28px;align-items:start;margin:12px 0 20px}
     .hero h1{font-size:clamp(28px,6vw,48px);line-height:1.05;margin:10px 0 8px}
     .hero p{color:var(--muted);margin:10px 0 14px}
     .tag{display:inline-block;background:#0f172a;color:#fff;font-size:12px;border-radius:999px;padding:6px 10px}
@@ -58,13 +61,18 @@
     .section{margin:22px 0}
     .section h2{font-size:clamp(22px,3.8vw,28px);margin:0 0 12px}
 
-    /* Spotlight grid */
-    .spotlight{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-    .sp-card{display:flex;gap:12px;align-items:flex-start;padding:14px;border:1px solid #eef2f7;border-radius:14px;background:#fff}
-    .sp-card img{height:48px;width:48px;border-radius:12px;object-fit:cover}
+    /* Spotlight: simple slider */
+    .spotlight-strip{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(240px, 1fr);gap:14px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x mandatory}
+    .spotlight-strip::-webkit-scrollbar{height:8px}
+    .spotlight-strip::-webkit-scrollbar-thumb{background:#e5e7eb;border-radius:8px}
+    .sp-card{scroll-snap-align:start;background:#fff;border:1px solid #eef2f7;border-radius:14px;overflow:hidden}
+    .sp-card img{width:100%;aspect-ratio:1/1;object-fit:cover}
+    .sp-card .sp-meta{padding:10px 12px;font-size:13px;color:#475569}
 
     /* Footer */
     .footer{color:#6b7280;font-size:13px;margin:22px 0 8px}
+    .footer.dark{margin:0;padding:24px;background:#0f172a;color:#cbd5e1}
+    .footer.dark a{color:#fff;text-decoration:underline}
 
     .hero > section, .hero > .full-row { grid-column:1/-1; }  
 
@@ -74,7 +82,6 @@
       #signup{align-self:start}
       .form{grid-template-columns:1fr}
       .stats{grid-template-columns:repeat(3,1fr)}
-      .spotlight{grid-template-columns:repeat(2,1fr)}
       .band-wrap{grid-template-columns:repeat(3,1fr)}
     }
     @media (max-width: 780px){
@@ -83,7 +90,6 @@
       .badge{order:3}
       .cta-row .btn{flex:1}
       .stats{grid-template-columns:1fr 1fr 1fr}
-      .spotlight{grid-template-columns:1fr}
       .band-wrap{grid-template-columns:repeat(2,1fr)}
     }
     @media (max-width: 520px){
@@ -96,101 +102,121 @@
       html:focus-within{scroll-behavior:auto}
       *{animation:none!important;transition:none!important}
     }
+
+    /* Tiny helpers */
+    details.disclosure{border:1px dashed #e5e7eb;border-radius:12px;padding:10px 12px}
+    details.disclosure summary{cursor:pointer;font-weight:600;list-style:none}
+    details.disclosure summary::-webkit-details-marker{display:none}
   </style>
 </head>
 <body>
+  <div class="hero-shell">
+    <div class="wrap">
+      <header class="header">
+        <div class="logo">
+          <img src="logo.png" alt="Orane International logo">
+          <strong>Orane Alumni</strong>
+        </div>
+        <span class="badge"><small>Beauty & Wellness Careers</small> Alumni Network</span>
+      </header>
+
+      <!-- HERO + FORM -->
+      <section class="hero">
+        <!-- LEFT: hero content -->
+        <div class="card pad">
+          <span class="tag" data-copy="hero.eyebrow">Alumni Network</span>
+
+          <h1 class="alumni-title" data-copy="hero.headline">
+            Stay connected. Get opportunities. Keep leveling up.
+          </h1>
+
+          <p class="alumni-sub" data-copy="hero.subline">
+            Join thousands of Orane grads getting invites to expert webinars, placement leads, and member-only discounts on advanced courses.
+          </p>
+
+          <div class="cta-row">
+            <a class="btn primary" id="join-btn"
+               data-copy="hero.primaryCta.text"
+               data-href="hero.primaryCta.href"
+               href="#signup">Join free</a>
+            <a class="btn ghost" href="#spotlight-heading">See Success Stories</a>
+          </div>
+
+          <div class="stats" data-repeat="stats">
+            <article class="stat"><b>2,500+</b><div>Alumni onboard</div></article>
+            <article class="stat"><b>94%</b><div>Would recommend</div></article>
+            <article class="stat"><b>120+</b><div>Hiring partners</div></article>
+          </div>
+
+          <div class="quick-answers" style="margin-top:12px;display:grid;gap:10px">
+            <details class="disclosure">
+              <summary>Is joining free?</summary>
+              <p class="notice">Yes. Alumni membership is free. Opt out anytime.</p>
+            </details>
+            <details class="disclosure">
+              <summary>What updates will I get?</summary>
+              <p class="notice">Webinars, placement leads, and member-only course discounts. No spam.</p>
+            </details>
+            <details class="disclosure">
+              <summary>How is my data used?</summary>
+              <p class="notice">Only to run the alumni network and contact you about opportunities. <a href="#privacy">See privacy</a>.</p>
+            </details>
+          </div>
+        </div>
+
+        <!-- RIGHT: signup form -->
+        <div class="card pad" id="signup">
+          <h2>Join the alumni network</h2>
+          <form id="alumni-form" class="form" novalidate>
+            <div><label>First name</label><input name="first_name" autocomplete="given-name" required></div>
+            <div><label>Last name</label><input name="last_name" autocomplete="family-name" required></div>
+            <div class="full"><label>Email</label><input type="email" name="email" autocomplete="email" required></div>
+            <div><label>WhatsApp number</label><input name="whatsapp" placeholder="+91…" autocomplete="tel"></div>
+            <div><label>Graduating year</label><input name="graduating_year" placeholder="eg 2025" inputmode="numeric" minlength="4" maxlength="4" pattern="^[0-9]{4}$" title="Enter 4 digits, e.g., 2025"></div>
+            <div><label>Country</label><input name="country" placeholder="India" autocomplete="country-name"></div>
+            <div><label>City</label><input name="city" placeholder="Delhi" autocomplete="address-level2"></div>
+            <div class="full"><label>Current profession</label><input name="profession" placeholder="Makeup artist, salon owner, trainer…"></div>
+
+            <div class="full">
+              <details class="disclosure">
+                <summary>Add social links (optional)</summary>
+                <div class="form" style="grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+                  <div><label>Instagram</label><input name="instagram" placeholder="https://instagram.com/…"></div>
+                  <div><label>Facebook</label><input name="facebook" placeholder="https://facebook.com/…"></div>
+                  <div><label>LinkedIn</label><input name="linkedin" placeholder="https://linkedin.com/in/…"></div>
+                  <div><label>Snapchat</label><input name="snapchat" placeholder="https://snapchat.com/add/…"></div>
+                </div>
+              </details>
+            </div>
+
+            <div class="full">
+              <label>Anything else we should know?</label>
+              <textarea name="anything_else" placeholder="e.g., preferred roles, portfolio link"></textarea>
+            </div>
+
+            <div class="full">
+              <label>Profile photo (optional)</label>
+              <input type="file" name="photo" accept="image/*">
+              <div class="helper">Max ~5 MB. JPG or PNG.</div>
+            </div>
+
+            <div class="full">
+              <label for="consent" class="helper" style="display:flex;align-items:center;gap:8px;">
+                <input id="consent" type="checkbox" required>
+                I agree to be contacted about alumni updates, webinars, opportunities and discounts.
+              </label>
+            </div>
+            <div class="full">
+              <button class="btn primary" type="submit">Submit</button>
+              <span class="notice" id="form-note"></span>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div>
+  </div>
+
   <div class="wrap">
-    <header class="header">
-      <div class="logo">
-        <img src="logo.png" alt="Orane International logo">
-        <strong>Orane Alumni</strong>
-      </div>
-      <span class="badge"><small>Beauty & Wellness Careers</small> Alumni Network</span>
-    </header>
-
-    <!-- HERO + FORM -->
-    <section class="hero">
-      <!-- LEFT: hero content -->
-      <div class="card pad">
-        <span class="tag" data-copy="hero.eyebrow">Alumni Network</span>
-
-        <h1 class="alumni-title" data-copy="hero.headline">
-          Stay connected. Get opportunities. Keep leveling up.
-        </h1>
-
-        <p class="alumni-sub" data-copy="hero.subline">
-          Join thousands of Orane grads getting invites to expert webinars, placement leads, and member-only discounts on advanced courses.
-        </p>
-
-        <div class="cta-row">
-          <a class="btn primary" id="join-btn"
-             data-copy="hero.primaryCta.text"
-             data-href="hero.primaryCta.href"
-             href="#signup">Join free</a>
-          <a class="btn ghost" href="#spotlight-heading">See Success Stories</a>
-        </div>
-
-        <div class="stats" data-repeat="stats">
-          <article class="stat"><b>2,500+</b><div>Alumni onboard</div></article>
-          <article class="stat"><b>94%</b><div>Would recommend</div></article>
-          <article class="stat"><b>120+</b><div>Hiring partners</div></article>
-        </div>
-
-        <div class="quick-answers">
-          <details>
-            <summary>Is joining free?</summary>
-            <p class="notice">Yes. Alumni membership is free. Opt out anytime.</p>
-          </details>
-          <details>
-            <summary>What updates will I get?</summary>
-            <p class="notice">Webinars, placement leads, and member-only course discounts. No spam.</p>
-          </details>
-          <details>
-            <summary>How is my data used?</summary>
-            <p class="notice">Only to run the alumni network and contact you about opportunities. <a href="#privacy">See privacy</a>.</p>
-          </details>
-        </div>
-      </div>
-
-      <!-- RIGHT: signup form -->
-      <div class="card pad" id="signup">
-        <h2>Join the alumni network</h2>
-        <form id="alumni-form" class="form" novalidate>
-          <div><label>First name</label><input name="first_name" autocomplete="given-name" required></div>
-          <div><label>Last name</label><input name="last_name" autocomplete="family-name" required></div>
-          <div class="full"><label>Email</label><input type="email" name="email" autocomplete="email" required></div>
-          <div><label>WhatsApp number</label><input name="whatsapp" placeholder="+91…" autocomplete="tel"></div>
-          <div><label>Graduating year</label><input name="graduating_year" placeholder="eg 2025" inputmode="numeric" minlength="4" maxlength="4" pattern="^[0-9]{4}$" title="Enter 4 digits, e.g., 2025"></div>
-          <div><label>Country</label><input name="country" placeholder="India" autocomplete="country-name"></div>
-          <div><label>City</label><input name="city" placeholder="Delhi" autocomplete="address-level2"></div>
-          <div class="full"><label>Current profession</label><input name="profession" placeholder="Makeup artist, salon owner, trainer…"></div>
-          <div><label>Instagram</label><input name="instagram" placeholder="https://instagram.com/…"></div>
-          <div><label>Facebook</label><input name="facebook" placeholder="https://facebook.com/…"></div>
-          <div><label>LinkedIn</label><input name="linkedin" placeholder="https://linkedin.com/in/…"></div>
-          <div><label>Snapchat</label><input name="snapchat" placeholder="https://snapchat.com/add/…"></div>
-          <div class="full">
-            <label>Anything else we should know?</label>
-            <textarea name="anything_else" placeholder="e.g., preferred roles, portfolio link"></textarea>
-          </div>
-          <div class="full">
-            <label>Profile photo (optional)</label>
-            <input type="file" name="photo" accept="image/*">
-            <div class="helper">Max ~5 MB. JPG or PNG.</div>
-          </div>
-          <div class="full">
-            <label for="consent" class="helper" style="display:flex;align-items:center;gap:8px;">
-              <input id="consent" type="checkbox" required>
-              I agree to be contacted about alumni updates, webinars, opportunities and discounts.
-            </label>
-          </div>
-          <div class="full">
-            <button class="btn primary" type="submit">Submit</button>
-            <span class="notice" id="form-note"></span>
-          </div>
-        </form>
-      </div>
-    </section>
-
     <!-- TRUST BAND -->
     <section class="section band">
       <div class="band-wrap">
@@ -202,18 +228,21 @@
     </section>
 
     <!-- ALUMNI SPOTLIGHT -->
-    <section class="card" aria-labelledby="spotlight-heading">
-      <h2 id="spotlight-heading">Alumni Spotlight</h2>
-      <style>
-        #alumni-spotlight {display:grid;gap:16px;grid-template-columns:repeat(3,1fr);}
-        #alumni-spotlight img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:12px}
-        @media (max-width:900px){#alumni-spotlight{grid-template-columns:repeat(2,1fr)}}
-        @media (max-width:640px){#alumni-spotlight{grid-template-columns:1fr}}
-      </style>
-      <div id="alumni-spotlight">
-        <img src="images/samiksha.png" alt="Samiksha placement card" loading="lazy">
-        <img src="images/narinder-singh.png" alt="Narinder Singh placement card" loading="lazy">
-        <img src="images/vasvi-kapoor.png" alt="Vasvi Kapoor placement card" loading="lazy">
+    <section class="section card pad" aria-labelledby="spotlight-heading">
+      <h2 id="spotlight-heading" style="margin-bottom:10px">Alumni Spotlight</h2>
+      <div class="spotlight-strip" id="alumni-spotlight">
+        <article class="sp-card">
+          <img src="images/samiksha.png" alt="Samiksha placement card" loading="lazy">
+          <div class="sp-meta">Samiksha · Makeup Artist</div>
+        </article>
+        <article class="sp-card">
+          <img src="images/narinder-singh.png" alt="Narinder Singh placement card" loading="lazy">
+          <div class="sp-meta">Narinder Singh · Salon Owner</div>
+        </article>
+        <article class="sp-card">
+          <img src="images/vasvi-kapoor.png" alt="Vasvi Kapoor placement card" loading="lazy">
+          <div class="sp-meta">Vasvi Kapoor · Hair Stylist</div>
+        </article>
       </div>
     </section>
 
@@ -224,11 +253,17 @@
         When you submit this form, we collect your name, email, WhatsApp number, graduating year, country, city, current profession and social links. We use this information to run the Orane Alumni Network and to contact you about alumni updates, webinars, placement opportunities and member discounts. We do not sell your data. You can request deletion by emailing <a href="mailto:support@orane.com">support@orane.com</a>.
       </p>
     </section>
-
-    <footer class="footer">
-      © 2025 Orane International • <a href="#privacy">Privacy Policy</a> • <a href="#signup">Join the alumni network</a>
-    </footer>
   </div>
+
+  <footer class="footer dark">
+    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+      <div>© 2025 Orane International</div>
+      <nav style="display:flex;gap:14px">
+        <a href="#privacy">Privacy Policy</a>
+        <a href="#signup">Join the alumni network</a>
+      </nav>
+    </div>
+  </footer>
 
   <!-- JS -->
   <script>
@@ -259,34 +294,4 @@
     const consent = document.getElementById('consent');
 
     form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (!form.checkValidity() || !consent.checked) {
-        note.textContent = "Please complete all required fields and consent to communications.";
-        form.reportValidity();
-        return;
-      }
-      note.textContent = "Sending…";
-
-      const fd = new FormData(form); // includes the file if chosen
-      const file = fd.get('photo');
-      if (file && file.size && file.size > 5 * 1024 * 1024) {
-        note.textContent = "Image too large (max 5 MB).";
-        return;
-      }
-
-      try {
-        await Promise.race([
-          fetch(ENDPOINT, { method: "POST", mode: "no-cors", body: fd }), // let browser set multipart boundary
-          new Promise(r => setTimeout(r, 1500))
-        ]);
-      } catch (err) {
-        console.warn("submit error", err);
-      } finally {
-        form.reset();
-        localStorage.setItem("justJoined","1");
-        window.location.href = "directory.html";
-      }
-    });
-  </script>
-</body>
-</html>
+      e.p
