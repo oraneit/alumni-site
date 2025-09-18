@@ -84,3 +84,43 @@ The codebase is now ready for git push and production deployment.
 3. Test photo upload functionality
 
 The photo upload issue is now resolved with proper Google Drive integration.
+
+## Auto-Scrolling Alumni Carousel - Latest Update
+
+### New Features Added:
+
+1. **Auto-Scrolling Carousel**
+   - Automatically cycles through alumni images every 4 seconds
+   - Smooth CSS transitions with professional animations
+   - Pause on hover for better user experience
+   - Manual navigation with arrow buttons and dot indicators
+
+2. **Dynamic Image Loading**
+   - Loads alumni images from `alumni-images.json` configuration
+   - Automatically detects available images in the `images/` folder
+   - Fallback system for missing images
+   - Easy to add new alumni by updating JSON file
+
+3. **Responsive Design**
+   - Adapts to different screen sizes (desktop, tablet, mobile)
+   - Touch-friendly controls on mobile devices
+   - Optimized card sizes for each breakpoint
+   - Maintains aspect ratios across devices
+
+4. **Enhanced User Experience**
+   - Professional overlay text with alumni names and roles
+   - Visual indicators showing current position
+   - Smooth transitions between slides
+   - Accessible navigation controls
+
+### Files Added/Modified:
+- `index.html` - Updated with new carousel CSS and JavaScript
+- `alumni-images.json` - Configuration file for easy image management
+- `ALUMNI_CAROUSEL_GUIDE.md` - Complete guide for managing the carousel
+
+### How to Add New Images:
+1. Upload images to the `images/` folder
+2. Update `alumni-images.json` with new entries
+3. Carousel automatically includes new images
+
+The alumni spotlight section is now a dynamic, professional carousel that showcases success stories beautifully!
