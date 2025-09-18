@@ -1,0 +1,6 @@
+<svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+  <rect width="80" height="80" fill="#f0f0f0" stroke="#ddd" stroke-width="1" rx="8"/>
+  <text x="40" y="35" text-anchor="middle" font-family="system-ui" font-size="10" fill="#666">QR</text>
+  <text x="40" y="50" text-anchor="middle" font-family="system-ui" font-size="8" fill="#999">Code</text>
+  <text x="40" y="62" text-anchor="middle" font-family="system-ui" font-size="6" fill="#999">Coming Soon</text>
+</svg>

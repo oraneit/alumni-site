@@ -1,118 +1,497 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Orane Alumni — Stay Connected, Grow Faster</title>
-  <meta name="description" content="Join the Orane International Alumni Network to get exclusive webinars, career boosts, and discounts.">
+  <meta name="description"
+    content="Join the Orane International Alumni Network to get exclusive webinars, career boosts, and discounts.">
   <style>
-    :root{ --brand:#e8640a; --ink:#0f172a; --muted:#64748b; --bg:#f6f7f9; --card:#fff; --ring:rgba(232,100,10,.35); --radius:16px; }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial}
-    img{max-width:100%;height:auto;display:block}
-    a{color:var(--brand);text-decoration:none}
-    a:hover{text-decoration:underline}
+    :root {
+      --brand: #e8640a;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --bg: #f6f7f9;
+      --card: #fff;
+      --ring: rgba(232, 100, 10, .35);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      height: 100%
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block
+    }
+
+    a {
+      color: var(--brand);
+      text-decoration: none
+    }
+
+    a:hover {
+      text-decoration: underline
+    }
 
     /* Shell */
-    .wrap{max-width:1200px;margin:0 auto;padding:20px clamp(12px,4vw,24px)}
-    .header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:8px 0;flex-wrap:wrap}
-    .logo{display:flex;align-items:center;gap:12px}
-    .logo img{height:44px;width:auto;object-fit:contain}
-    .badge{display:inline-flex;align-items:center;gap:8px;border:1px solid #e2e8f0;border-radius:999px;padding:6px 12px;background:#fff;color:#0f172a}
-    .badge small{color:var(--muted);font-weight:500}
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px clamp(12px, 4vw, 24px)
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 8px 0;
+      flex-wrap: wrap
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
+
+    .logo img {
+      height: 44px;
+      width: auto;
+      object-fit: contain
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid #e2e8f0;
+      border-radius: 999px;
+      padding: 6px 12px;
+      background: #fff;
+      color: #0f172a
+    }
+
+    .badge small {
+      color: var(--muted);
+      font-weight: 500
+    }
 
     /* Cards */
-    .card{background:var(--card);border-radius:var(--radius);box-shadow:0 2px 10px rgba(15,23,42,.06);border:1px solid #eef2f7;overflow:hidden}
-    .card.pad{padding:20px}
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: 0 2px 10px rgba(15, 23, 42, .06);
+      border: 1px solid #eef2f7;
+      overflow: hidden
+    }
+
+    .card.pad {
+      padding: 20px
+    }
 
     /* Hero */
-    .hero-shell{background:
-      radial-gradient(1200px 400px at 10% -10%, rgba(232,100,10,.08), transparent 60%),
-      radial-gradient(1200px 400px at 110% 10%, rgba(232,100,10,.06), transparent 60%);}
-    .hero{display:grid;grid-template-columns:1.15fr 1fr;gap:28px;align-items:start;margin:12px 0 20px}
-    .hero h1{font-size:clamp(28px,6vw,48px);line-height:1.05;margin:10px 0 8px}
-    .hero p{color:var(--muted);margin:10px 0 14px}
-    .tag{display:inline-block;background:#0f172a;color:#fff;font-size:12px;border-radius:999px;padding:6px 10px}
-    .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:12px 16px;font-weight:600;cursor:pointer;min-height:44px}
-    .btn.primary{background:var(--brand);color:#fff}
-    .btn.ghost{background:transparent;color:var(--brand);border:1px solid var(--brand)}
-    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
-    .stat{background:#fff;border:1px solid #eef2f7;border-radius:12px;padding:14px;text-align:center}
-    .stat b{font-size:22px}
+    .hero-shell {
+      background:
+        radial-gradient(1200px 400px at 10% -10%, rgba(232, 100, 10, .08), transparent 60%),
+        radial-gradient(1200px 400px at 110% 10%, rgba(232, 100, 10, .06), transparent 60%);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 28px;
+      align-items: start;
+      margin: 12px 0 20px
+    }
+
+    .hero h1 {
+      font-size: clamp(28px, 6vw, 48px);
+      line-height: 1.05;
+      margin: 10px 0 8px
+    }
+
+    .hero p {
+      color: var(--muted);
+      margin: 10px 0 14px
+    }
+
+    .tag {
+      display: inline-block;
+      background: #0f172a;
+      color: #fff;
+      font-size: 12px;
+      border-radius: 999px;
+      padding: 6px 10px
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 8px
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-weight: 600;
+      cursor: pointer;
+      min-height: 44px
+    }
+
+    .btn.primary {
+      background: var(--brand);
+      color: #fff
+    }
+
+    .btn.ghost {
+      background: transparent;
+      color: var(--brand);
+      border: 1px solid var(--brand)
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 16px
+    }
+
+    .stat {
+      background: #fff;
+      border: 1px solid #eef2f7;
+      border-radius: 12px;
+      padding: 14px;
+      text-align: center
+    }
+
+    .stat b {
+      font-size: 22px
+    }
 
     /* Form */
-    .form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .form .full{grid-column:1/-1}
-    label{display:block;font-size:13px;color:#0f172a;margin:0 0 6px 2px}
-    input,select,textarea{width:100%;padding:12px;border:1px solid #e2e8f0;border-radius:12px;background:#fff;color:#0f172a;outline:0;min-height:44px}
-    input:focus,select:focus,textarea:focus{box-shadow:0 0 0 4px var(--ring);border-color:var(--brand)}
-    .helper{font-size:12px;color:#94a3b8}
-    .notice{font-size:13px;color:#64748b}
+    .form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px
+    }
+
+    .form .full {
+      grid-column: 1/-1
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      color: #0f172a;
+      margin: 0 0 6px 2px
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      background: #fff;
+      color: #0f172a;
+      outline: 0;
+      min-height: 44px
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      box-shadow: 0 0 0 4px var(--ring);
+      border-color: var(--brand)
+    }
+
+    .helper {
+      font-size: 12px;
+      color: #94a3b8
+    }
+
+    .notice {
+      font-size: 13px;
+      color: #64748b
+    }
 
     /* Trust band */
-    .band { margin:16px 0 0; }
-    .band-wrap { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
-    .chip { display:flex; align-items:center; gap:8px; background:#fff; border:1px solid #eef2f7; border-radius:999px; padding:10px 14px; font-weight:600; color:#0f172a; }
-    .chip i { font-style:normal; background:rgba(232,100,10,.1); border-radius:8px; padding:2px 8px; }
+    .band {
+      margin: 16px 0 0;
+    }
+
+    .band-wrap {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      border: 1px solid #eef2f7;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .chip i {
+      font-style: normal;
+      background: rgba(232, 100, 10, .1);
+      border-radius: 8px;
+      padding: 2px 8px;
+    }
 
     /* Spotlight slider */
-    .spotlight-strip{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(240px,1fr);gap:14px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x mandatory}
-    .spotlight-strip::-webkit-scrollbar{height:8px}
-    .spotlight-strip::-webkit-scrollbar-thumb{background:#e5e7eb;border-radius:8px}
-    .sp-card{scroll-snap-align:start;background:#fff;border:1px solid #eef2f7;border-radius:14px;overflow:hidden}
-    .sp-card img{width:100%;aspect-ratio:1/1;object-fit:cover}
-    .sp-card .sp-meta{padding:10px 12px;font-size:13px;color:#475569}
+    .spotlight-strip {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(240px, 1fr);
+      gap: 14px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      scroll-snap-type: x mandatory
+    }
+
+    .spotlight-strip::-webkit-scrollbar {
+      height: 8px
+    }
+
+    .spotlight-strip::-webkit-scrollbar-thumb {
+      background: #e5e7eb;
+      border-radius: 8px
+    }
+
+    .sp-card {
+      scroll-snap-align: start;
+      background: #fff;
+      border: 1px solid #eef2f7;
+      border-radius: 14px;
+      overflow: hidden
+    }
+
+    .sp-card img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      object-fit: cover
+    }
+
+    .sp-card .sp-meta {
+      padding: 10px 12px;
+      font-size: 13px;
+      color: #475569
+    }
 
     /* Updates grid */
-    .updates{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-    .update{padding:14px;border:1px solid #eef2f7;border-radius:14px;background:#fff}
-    .update time{display:block;color:#94a3b8;font-size:12px;margin-bottom:6px}
+    .updates {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px
+    }
+
+    .update {
+      padding: 14px;
+      border: 1px solid #eef2f7;
+      border-radius: 14px;
+      background: #fff
+    }
+
+    .update time {
+      display: block;
+      color: #94a3b8;
+      font-size: 12px;
+      margin-bottom: 6px
+    }
 
     /* Footer */
-    .footer{color:#6b7280;font-size:13px;margin:22px 0 8px}
-    .footer.dark{margin:0;padding:24px;background:#0f172a;color:#cbd5e1}
-    .footer.dark a{color:#fff;text-decoration:underline}
+    .footer {
+      color: #6b7280;
+      font-size: 13px;
+      margin: 22px 0 8px
+    }
 
-    .hero > section, .hero > .full-row { grid-column:1/-1; }
+    .footer.dark {
+      margin: 0;
+      padding: 24px;
+      background: #0f172a;
+      color: #cbd5e1
+    }
+
+    .footer.dark a {
+      color: #fff;
+      text-decoration: underline
+    }
+
+    .hero>section,
+    .hero>.full-row {
+      grid-column: 1/-1;
+    }
 
     /* Responsive */
-    @media (max-width: 1024px){
-      .hero{grid-template-columns:1fr;gap:18px}
-      #signup{align-self:start}
-      .form{grid-template-columns:1fr}
-      .stats{grid-template-columns:repeat(3,1fr)}
-      .updates{grid-template-columns:repeat(3,1fr)}
-      .band-wrap{grid-template-columns:repeat(3,1fr)}
+    @media (max-width: 1024px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 18px
+      }
+
+      #signup {
+        align-self: start
+      }
+
+      .form {
+        grid-template-columns: 1fr
+      }
+
+      .stats {
+        grid-template-columns: repeat(3, 1fr)
+      }
+
+      .updates {
+        grid-template-columns: repeat(3, 1fr)
+      }
+
+      .band-wrap {
+        grid-template-columns: repeat(3, 1fr)
+      }
     }
-    @media (max-width: 780px){
-      .wrap{padding:16px}
-      .header{gap:10px}
-      .badge{order:3}
-      .cta-row .btn{flex:1}
-      .stats{grid-template-columns:1fr 1fr 1fr}
-      .updates{grid-template-columns:repeat(2,1fr)}
-      .band-wrap{grid-template-columns:repeat(2,1fr)}
+
+    @media (max-width: 780px) {
+      .wrap {
+        padding: 16px
+      }
+
+      .header {
+        gap: 10px
+      }
+
+      .badge {
+        order: 3
+      }
+
+      .cta-row .btn {
+        flex: 1
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr 1fr
+      }
+
+      .updates {
+        grid-template-columns: repeat(2, 1fr)
+      }
+
+      .band-wrap {
+        grid-template-columns: repeat(2, 1fr)
+      }
     }
-    @media (max-width: 520px){
-      .wrap{padding:14px}
-      .updates{grid-template-columns:1fr}
-      .band-wrap{grid-template-columns:1fr}
-      .logo img{height:36px}
-      .btn{width:100%}
+
+    @media (max-width: 520px) {
+      .wrap {
+        padding: 14px
+      }
+
+      .updates {
+        grid-template-columns: 1fr
+      }
+
+      .band-wrap {
+        grid-template-columns: 1fr
+      }
+
+      .logo img {
+        height: 36px
+      }
+
+      .btn {
+        width: 100%
+      }
     }
-    @media (prefers-reduced-motion: reduce){
-      html:focus-within{scroll-behavior:auto}
-      *{animation:none!important;transition:none!important}
+
+    @media (prefers-reduced-motion: reduce) {
+      html:focus-within {
+        scroll-behavior: auto
+      }
+
+      * {
+        animation: none !important;
+        transition: none !important
+      }
     }
 
     /* Collapsible helpers */
-    details.disclosure{border:1px dashed #e5e7eb;border-radius:12px;padding:10px 12px}
-    details.disclosure summary{cursor:pointer;font-weight:600;list-style:none}
-    details.disclosure summary::-webkit-details-marker{display:none}
+    details.disclosure {
+      border: 1px dashed #e5e7eb;
+      border-radius: 12px;
+      padding: 10px 12px
+    }
+
+    details.disclosure summary {
+      cursor: pointer;
+      font-weight: 600;
+      list-style: none
+    }
+
+    details.disclosure summary::-webkit-details-marker {
+      display: none
+    }
+
+    /* App links styling */
+    .app-links {
+      margin-top: 16px;
+      display: grid;
+      gap: 12px;
+      grid-template-columns: 1fr 1fr;
+      align-items: center
+    }
+
+    .app-links .store img {
+      height: 40px;
+      width: auto
+    }
+
+    .qr {
+      width: 80px;
+      height: 80px;
+      background: #f0f0f0;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      font-size: 12px;
+      color: #666
+    }
   </style>
 </head>
+
 <body>
   <div class="hero-shell">
     <div class="wrap">
@@ -135,21 +514,26 @@
           </h1>
 
           <p class="alumni-sub" data-copy="hero.subline">
-            Join thousands of Orane grads getting invites to expert webinars, placement leads, and member-only discounts on advanced courses.
+            Join thousands of Orane grads getting invites to expert webinars, placement leads, and member-only discounts
+            on advanced courses.
           </p>
 
           <div class="cta-row">
-            <a class="btn primary" id="join-btn"
-               data-copy="hero.primaryCta.text"
-               data-href="hero.primaryCta.href"
-               href="#signup">Join free</a>
+            <a class="btn primary" id="join-btn" data-copy="hero.primaryCta.text" data-href="hero.primaryCta.href"
+              href="#signup">Join free</a>
             <a class="btn ghost" href="#spotlight-heading">See Success Stories</a>
           </div>
 
           <div class="stats" data-repeat="stats">
-            <article class="stat"><b>2,500+</b><div>Alumni onboard</div></article>
-            <article class="stat"><b>94%</b><div>Would recommend</div></article>
-            <article class="stat"><b>120+</b><div>Hiring partners</div></article>
+            <article class="stat"><b>2,500+</b>
+              <div>Alumni onboard</div>
+            </article>
+            <article class="stat"><b>94%</b>
+              <div>Would recommend</div>
+            </article>
+            <article class="stat"><b>120+</b>
+              <div>Hiring partners</div>
+            </article>
           </div>
 
           <div class="quick-answers" style="margin-top:12px;display:grid;gap:10px">
@@ -163,11 +547,39 @@
             </details>
             <details class="disclosure">
               <summary>How is my data used?</summary>
-              <p class="notice">Only to run the alumni network and contact you about opportunities. <a href="#privacy">See privacy</a>.</p>
+              <p class="notice">Only to run the alumni network and contact you about opportunities. <a
+                  href="#privacy">See privacy</a>.</p>
+            </details>
+            <details class="disclosure">
+              <summary>Do I get a certificate?</summary>
+              <p class="notice">Yes. You may request an Orane alumni certificate after verification.</p>
+            </details>
+            <details class="disclosure">
+              <summary>How soon will someone contact me?</summary>
+              <p class="notice">Usually within 24–48 hours on WhatsApp or email.</p>
+            </details>
+            <details class="disclosure">
+              <summary>Can I update my profile later?</summary>
+              <p class="notice">Yes. Reply on our WhatsApp or email to update your details.</p>
             </details>
           </div>
-        </div>
-
+        </div> <!-- closes .card.pad -->
+        <!-- App download section - uncomment when app URLs are available
+  <div class="app-links" style="margin-top:16px;display:grid;gap:12px;grid-template-columns:1fr 1fr;align-items:center">
+    <div style="display:grid;gap:8px">
+      <a class="store" href="#" target="_blank" rel="noopener" aria-label="Download on the App Store">
+        <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store" style="height:40px">
+      </a>
+      <a class="store" href="#" target="_blank" rel="noopener" aria-label="Get it on Google Play">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play" style="height:40px">
+      </a>
+    </div>
+    <div style="text-align:center">
+      <div style="width:80px;height:80px;background:#f0f0f0;border:1px solid #ddd;border-radius:8px;display:flex;align-items:center;justify-content:center;margin:0 auto">QR</div>
+      <div style="font-size:12px;color:#666;margin-top:4px">Scan to download</div>
+    </div>
+  </div>
+  -->
         <!-- RIGHT: signup form -->
         <div class="card pad" id="signup">
           <h2>Join the alumni network</h2>
@@ -176,10 +588,12 @@
             <div><label>Last name</label><input name="last_name" autocomplete="family-name" required></div>
             <div class="full"><label>Email</label><input type="email" name="email" autocomplete="email" required></div>
             <div><label>WhatsApp number</label><input name="whatsapp" placeholder="+91…" autocomplete="tel"></div>
-            <div><label>Graduating year</label><input name="graduating_year" placeholder="eg 2025" inputmode="numeric" minlength="4" maxlength="4" pattern="^[0-9]{4}$" title="Enter 4 digits, e.g., 2025"></div>
+            <div><label>Graduating year</label><input name="graduating_year" placeholder="eg 2025" inputmode="numeric"
+                minlength="4" maxlength="4" pattern="^[0-9]{4}$" title="Enter 4 digits, e.g., 2025"></div>
             <div><label>Country</label><input name="country" placeholder="India" autocomplete="country-name"></div>
             <div><label>City</label><input name="city" placeholder="Delhi" autocomplete="address-level2"></div>
-            <div class="full"><label>Current profession</label><input name="profession" placeholder="Makeup artist, salon owner, trainer…"></div>
+            <div class="full"><label>Current profession</label><input name="profession"
+                placeholder="Makeup artist, salon owner, trainer…"></div>
 
             <div class="full">
               <details class="disclosure">
@@ -263,7 +677,10 @@
     <section id="privacy" class="section card pad">
       <h2>Privacy & communications</h2>
       <p class="notice">
-        When you submit this form, we collect your name, email, WhatsApp number, graduating year, country, city, current profession and social links. We use this information to run the Orane Alumni Network and to contact you about alumni updates, webinars, placement opportunities and member discounts. We do not sell your data. You can request deletion by emailing <a href="mailto:support@orane.com">support@orane.com</a>.
+        When you submit this form, we collect your name, email, WhatsApp number, graduating year, country, city, current
+        profession and social links. We use this information to run the Orane Alumni Network and to contact you about
+        alumni updates, webinars, placement opportunities and member discounts. We do not sell your data. You can
+        request deletion by emailing <a href="mailto:support@orane.com">support@orane.com</a>.
       </p>
     </section>
   </div>
@@ -280,37 +697,37 @@
 
   <!-- JSON content injector -->
   <script>
-  (async function () {
-    const getByPath = (obj, path) => path.split('.').reduce((o,k)=>(o||{})[k], obj);
-    let content = {};
-    try {
-      const res = await fetch('content.json', { cache: 'no-store' });
-      if (res.ok) content = await res.json();
-    } catch (e) {}
-    document.querySelectorAll('[data-copy]').forEach(el => {
-      const key = el.getAttribute('data-copy');
-      const val = getByPath(content, key);
-      if (typeof val === 'string') el.textContent = val;
-    });
-    document.querySelectorAll('[data-href]').forEach(el => {
-      const key = el.getAttribute('data-href');
-      const val = getByPath(content, key);
-      if (typeof val === 'string') el.setAttribute('href', val);
-    });
-    document.querySelectorAll('[data-repeat]').forEach(container => {
-      const key = container.getAttribute('data-repeat');
-      const arr = getByPath(content, key);
-      if (Array.isArray(arr)) {
-        container.innerHTML = '';
-        arr.forEach(obj => {
-          const card = document.createElement('article');
-          card.className = 'stat';
-          card.innerHTML = `<b>${obj.value ?? ''}</b><div>${obj.label ?? ''}</div>`;
-          container.appendChild(card);
-        });
-      }
-    });
-  })();
+    (async function () {
+      const getByPath = (obj, path) => path.split('.').reduce((o, k) => (o || {})[k], obj);
+      let content = {};
+      try {
+        const res = await fetch('content.json', { cache: 'no-store' });
+        if (res.ok) content = await res.json();
+      } catch (e) { }
+      document.querySelectorAll('[data-copy]').forEach(el => {
+        const key = el.getAttribute('data-copy');
+        const val = getByPath(content, key);
+        if (typeof val === 'string') el.textContent = val;
+      });
+      document.querySelectorAll('[data-href]').forEach(el => {
+        const key = el.getAttribute('data-href');
+        const val = getByPath(content, key);
+        if (typeof val === 'string') el.setAttribute('href', val);
+      });
+      document.querySelectorAll('[data-repeat]').forEach(container => {
+        const key = container.getAttribute('data-repeat');
+        const arr = getByPath(content, key);
+        if (Array.isArray(arr)) {
+          container.innerHTML = '';
+          arr.forEach(obj => {
+            const card = document.createElement('article');
+            card.className = 'stat';
+            card.innerHTML = `<b>${obj.value ?? ''}</b><div>${obj.label ?? ''}</div>`;
+            container.appendChild(card);
+          });
+        }
+      });
+    })();
   </script>
 
   <!-- Existing site logic -->
@@ -320,7 +737,7 @@
       const target = document.querySelector('#signup');
       if (target) {
         e.preventDefault();
-        target.scrollIntoView({behavior:'smooth', block:'start'});
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         setTimeout(() => {
           document.querySelector('#alumni-form input[name="first_name"]')?.focus();
         }, 350);
@@ -331,7 +748,7 @@
     const gy = document.querySelector('input[name="graduating_year"]');
     if (gy) {
       gy.addEventListener('input', () => {
-        gy.value = gy.value.replace(/[^0-9]/g,'').slice(0,4);
+        gy.value = gy.value.replace(/[^0-9]/g, '').slice(0, 4);
       });
     }
 
@@ -362,53 +779,83 @@
           fetch(ENDPOINT, { method: "POST", mode: "no-cors", body: fd }),
           new Promise(r => setTimeout(r, 1500))
         ]);
-      } catch(e) {
+      } catch (e) {
         console.warn(e);
       } finally {
         form.reset();
-        localStorage.setItem("justJoined","1");
+        localStorage.setItem("justJoined", "1");
         window.location.href = "directory.html";
       }
     });
 
-    </script>
-</body>
-</html>
-  <!-- Updates from updates.json -->
-  <script>
+    // RSS updates (unchanged)
+    const FEEDS = [
+      "https://rss.app/feeds/U7tnzCEaszOSv8mi.xml",
+      "https://rss.app/feeds/MvdbwW0vWdVM1cak.xml"
+    ].map(u => `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(u)}`);
+
+    const updatesEl = document.getElementById('updates-list');
+    const updatesNote = document.getElementById('updates-note');
+
+    function sanitize(html) {
+      const tmp = document.createElement('div');
+      tmp.innerHTML = html || "";
+      return tmp.textContent || tmp.innerText || "";
+    }
+
+    async function fetchFeed(url) {
+      const r = await fetch(url);
+      if (!r.ok) throw new Error(`Feed fetch failed: ${r.status}`);
+      return r.json();
+    }
+
     (async () => {
-      const list = document.getElementById('updates-list');
-      const note = document.getElementById('updates-note');
-      if (!list) return;
       try {
-        const res = await fetch('updates.json?v=2', {cache:'no-store'});
-        const items = await res.json(); // [{title,date,url,summary}]
-        if (!Array.isArray(items) || items.length === 0) throw new Error('no items');
+        const results = await Promise.allSettled(FEEDS.map(fetchFeed));
+        let items = [];
+        for (const r of results) {
+          if (r.status === "fulfilled" && r.value && Array.isArray(r.value.items)) {
+            items = items.concat(r.value.items);
+          }
+        }
+        if (!items.length) throw new Error("No feed items");
 
-        list.innerHTML = '';
-        items.slice(0,8).forEach(it => {
-          const d = it.date ? new Date(it.date) : null;
-          const dateStr = d ? d.toLocaleDateString() : '';
-          const title = it.url
-            ? `<a href="${it.url}" target="_blank" rel="noopener"><strong>${escapeHtml(it.title||'Update')}</strong></a>`
-            : `<strong>${escapeHtml(it.title||'Update')}</strong>`;
-          const summary = it.summary ? escapeHtml(it.summary) : '';
-          const card = document.createElement('article');
-          card.className = 'update';
-          card.innerHTML = `
-            <time datetime="${d ? d.toISOString() : ''}">${dateStr}</time>
-            ${title}
-            <p class="notice">${summary}</p>
+        const seen = new Set();
+        const normalized = items.map(it => {
+          const d = new Date(it.pubDate || it.pub_date || it.date || it.created || Date.now());
+          return {
+            title: it.title || "Untitled",
+            link: it.link || it.url || "#",
+            date: d,
+            desc: sanitize(it.description || it.content || it.contentSnippet || "")
+          };
+        }).filter(it => {
+          const k = it.link + "|" + it.title;
+          if (seen.has(k)) return false;
+          seen.add(k);
+          return true;
+        }).sort((a, b) => b.date - a.date)
+          .slice(0, 8);
+
+        updatesEl.innerHTML = "";
+        normalized.forEach(item => {
+          const div = document.createElement('article');
+          div.className = "update";
+          const short = item.desc.length > 140 ? item.desc.slice(0, 140) + "…" : item.desc;
+          div.innerHTML = `
+            <time datetime="${item.date.toISOString()}">${item.date.toLocaleDateString()}</time>
+            <a href="${item.link}" target="_blank" rel="noopener"><strong>${item.title}</strong></a>
+            <p class="notice">${short}</p>
           `;
-          list.appendChild(card);
+          updatesEl.appendChild(div);
         });
-        if (note) note.textContent = '';
-      } catch {
-        if (note) note.textContent = 'No updates yet.';
-      }
-
-      function escapeHtml(s){
-        return String(s||'').replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+        updatesNote.textContent = "";
+      } catch (err) {
+        updatesNote.textContent = "Couldn’t fetch updates. If this keeps happening, use a small Netlify proxy.";
+        console.warn(err);
       }
     })();
   </script>
+</body>
+
+</html>
