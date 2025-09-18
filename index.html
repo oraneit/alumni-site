@@ -309,27 +309,6 @@
       color: #475569
     }
 
-    /* Updates grid */
-    .updates {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px
-    }
-
-    .update {
-      padding: 14px;
-      border: 1px solid #eef2f7;
-      border-radius: 14px;
-      background: #fff
-    }
-
-    .update time {
-      display: block;
-      color: #94a3b8;
-      font-size: 12px;
-      margin-bottom: 6px
-    }
-
     /* Footer */
     .footer {
       color: #6b7280;
@@ -373,10 +352,6 @@
         grid-template-columns: repeat(3, 1fr)
       }
 
-      .updates {
-        grid-template-columns: repeat(3, 1fr)
-      }
-
       .band-wrap {
         grid-template-columns: repeat(3, 1fr)
       }
@@ -403,10 +378,6 @@
         grid-template-columns: 1fr 1fr 1fr
       }
 
-      .updates {
-        grid-template-columns: repeat(2, 1fr)
-      }
-
       .band-wrap {
         grid-template-columns: repeat(2, 1fr)
       }
@@ -415,10 +386,6 @@
     @media (max-width: 520px) {
       .wrap {
         padding: 14px
-      }
-
-      .updates {
-        grid-template-columns: 1fr
       }
 
       .band-wrap {
@@ -564,22 +531,7 @@
             </details>
           </div>
         </div> <!-- closes .card.pad -->
-        <!-- App download section - uncomment when app URLs are available
-  <div class="app-links" style="margin-top:16px;display:grid;gap:12px;grid-template-columns:1fr 1fr;align-items:center">
-    <div style="display:grid;gap:8px">
-      <a class="store" href="#" target="_blank" rel="noopener" aria-label="Download on the App Store">
-        <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store" style="height:40px">
-      </a>
-      <a class="store" href="#" target="_blank" rel="noopener" aria-label="Get it on Google Play">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play" style="height:40px">
-      </a>
-    </div>
-    <div style="text-align:center">
-      <div style="width:80px;height:80px;background:#f0f0f0;border:1px solid #ddd;border-radius:8px;display:flex;align-items:center;justify-content:center;margin:0 auto">QR</div>
-      <div style="font-size:12px;color:#666;margin-top:4px">Scan to download</div>
-    </div>
-  </div>
-  -->
+
         <!-- RIGHT: signup form -->
         <div class="card pad" id="signup">
           <h2>Join the alumni network</h2>
@@ -661,15 +613,6 @@
           <img src="images/vasvi-kapoor.png" alt="Vasvi Kapoor placement card" loading="lazy">
           <div class="sp-meta">Vasvi Kapoor · Hair Stylist</div>
         </article>
-      </div>
-    </section>
-
-    <!-- LATEST UPDATES -->
-    <section class="section">
-      <div class="card pad">
-        <h2 id="updates">Latest updates</h2>
-        <div id="updates-list" class="updates" aria-live="polite"></div>
-        <div class="notice" id="updates-note">Fetching updates…</div>
       </div>
     </section>
 
@@ -787,74 +730,6 @@
         window.location.href = "directory.html";
       }
     });
-
-    // RSS updates (unchanged)
-    const FEEDS = [
-      "https://rss.app/feeds/U7tnzCEaszOSv8mi.xml",
-      "https://rss.app/feeds/MvdbwW0vWdVM1cak.xml"
-    ].map(u => `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(u)}`);
-
-    const updatesEl = document.getElementById('updates-list');
-    const updatesNote = document.getElementById('updates-note');
-
-    function sanitize(html) {
-      const tmp = document.createElement('div');
-      tmp.innerHTML = html || "";
-      return tmp.textContent || tmp.innerText || "";
-    }
-
-    async function fetchFeed(url) {
-      const r = await fetch(url);
-      if (!r.ok) throw new Error(`Feed fetch failed: ${r.status}`);
-      return r.json();
-    }
-
-    (async () => {
-      try {
-        const results = await Promise.allSettled(FEEDS.map(fetchFeed));
-        let items = [];
-        for (const r of results) {
-          if (r.status === "fulfilled" && r.value && Array.isArray(r.value.items)) {
-            items = items.concat(r.value.items);
-          }
-        }
-        if (!items.length) throw new Error("No feed items");
-
-        const seen = new Set();
-        const normalized = items.map(it => {
-          const d = new Date(it.pubDate || it.pub_date || it.date || it.created || Date.now());
-          return {
-            title: it.title || "Untitled",
-            link: it.link || it.url || "#",
-            date: d,
-            desc: sanitize(it.description || it.content || it.contentSnippet || "")
-          };
-        }).filter(it => {
-          const k = it.link + "|" + it.title;
-          if (seen.has(k)) return false;
-          seen.add(k);
-          return true;
-        }).sort((a, b) => b.date - a.date)
-          .slice(0, 8);
-
-        updatesEl.innerHTML = "";
-        normalized.forEach(item => {
-          const div = document.createElement('article');
-          div.className = "update";
-          const short = item.desc.length > 140 ? item.desc.slice(0, 140) + "…" : item.desc;
-          div.innerHTML = `
-            <time datetime="${item.date.toISOString()}">${item.date.toLocaleDateString()}</time>
-            <a href="${item.link}" target="_blank" rel="noopener"><strong>${item.title}</strong></a>
-            <p class="notice">${short}</p>
-          `;
-          updatesEl.appendChild(div);
-        });
-        updatesNote.textContent = "";
-      } catch (err) {
-        updatesNote.textContent = "Couldn’t fetch updates. If this keeps happening, use a small Netlify proxy.";
-        console.warn(err);
-      }
-    })();
   </script>
 </body>
 
