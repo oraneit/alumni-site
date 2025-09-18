@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Directory Debug</title>
+</head>
+<body>
+    <h1>Alumni Directory Debug</h1>
+    <div id="output"></div>
+    <button onclick="testEndpoint()">Test Endpoint</button>
+    <button onclick="testWithProxy()">Test with Proxy</button>
+
+    <script>
+        const ENDPOINT = "https://script.google.com/macros/s/AKfycby88hNEmXqnZ5D6T4LDUL96elLWI-MWyJruMXHccmN4q2VP8cRotIkUA0bpBIE6rj3m/exec";
+        const output = document.getElementById('output');
+
+        async function testEndpoint() {
+            output.innerHTML = '<p>Testing direct endpoint...</p>';
+            try {
+                const response = await fetch(ENDPOINT + '?list=1&t=' + Date.now());
+                const data = await response.json();
+                output.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            } catch (error) {
+                output.innerHTML = '<p style="color: red;">Error: ' + error.message + '</p>';
+            }
+        }
+
+        async function testWithProxy() {
+            output.innerHTML = '<p>Testing with proxy...</p>';
+            try {
+                const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(ENDPOINT + '?list=1');
+                const response = await fetch(proxyUrl);
+                const data = await response.json();
+                output.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            } catch (error) {
+                output.innerHTML = '<p style="color: red;">Proxy Error: ' + error.message + '</p>';
+            }
+        }
+
+        // Auto-test on load
+        testEndpoint();
+    </script>
+</body>
+</html>

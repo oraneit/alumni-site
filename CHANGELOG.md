@@ -124,3 +124,45 @@ The photo upload issue is now resolved with proper Google Drive integration.
 3. Carousel automatically includes new images
 
 The alumni spotlight section is now a dynamic, professional carousel that showcases success stories beautifully!
+##
+ Directory Update Fix - Latest Update
+
+### Fixed Issues:
+
+1. **Directory Not Updating with New Profiles**
+   - Enhanced Google Apps Script with better debugging and logging
+   - Added JSONP support for cross-origin requests
+   - Improved error handling and response formatting
+   - Added cache-busting mechanisms for real-time updates
+
+2. **Enhanced Directory Loading**
+   - Multiple fallback methods: direct fetch → JSONP → proxy
+   - Better error messages and debugging information
+   - Improved photo URL handling and fallback avatars
+   - Enhanced filtering and search functionality
+
+3. **Debugging Tools**
+   - Created `debug-directory.html` for troubleshooting
+   - Added comprehensive console logging
+   - Better error reporting and user feedback
+   - Real-time status updates during loading
+
+4. **Improved User Experience**
+   - Better photo handling with error fallbacks
+   - Enhanced profile cards with join dates
+   - Improved responsive design for mobile
+   - Loading states and progress indicators
+
+### Files Added/Modified:
+- `google-apps-script.js` - Enhanced with debugging and JSONP support
+- `directory.html` - Improved loading, error handling, and photo display
+- `debug-directory.html` - New debugging tool
+- `DIRECTORY_TROUBLESHOOTING.md` - Comprehensive troubleshooting guide
+
+### Troubleshooting Steps:
+1. Check Google Apps Script deployment and permissions
+2. Verify spreadsheet access and data structure
+3. Use debug page to test endpoint connectivity
+4. Clear browser cache and test in incognito mode
+
+The directory now properly updates with new alumni profiles and includes robust error handling and debugging tools!

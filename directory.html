@@ -49,21 +49,38 @@ const country = document.getElementById('country');
 
 function initials(a,b){return ((a||"")+" "+(b||"")).trim().split(/\s+/).slice(0,2).map(x=>x[0]||"").join("").toUpperCase()||"OR";}
 function card(p){
-  const img = p.photo_url ? `<img src="${p.photo_url}" alt="" class="avatar" style="object-fit:cover">`
-                          : `<div class="avatar">${initials(p.first_name,p.last_name)}</div>`;
+  // Handle photo URL - check both photo_url and photo_url fields
+  const photoUrl = p.photo_url || p['photo url'] || '';
+  const img = photoUrl ? 
+    `<img src="${photoUrl}" alt="${p.first_name} ${p.last_name}" class="avatar" style="object-fit:cover" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+     <div class="avatar" style="display:none">${initials(p.first_name,p.last_name)}</div>` :
+    `<div class="avatar">${initials(p.first_name,p.last_name)}</div>`;
+    
   const meta = [
     [p.city, p.country].filter(Boolean).join(", "),
     p.graduating_year ? `Class of ${p.graduating_year}` : "",
     p.profession
   ].filter(Boolean).join(" • ");
+  
   const soc = [
-    p.instagram && `<a href="${p.instagram}" target="_blank" rel="noopener">IG</a>`,
-    p.facebook && `<a href="${p.facebook}" target="_blank" rel="noopener">FB</a>`,
-    p.linkedin && `<a href="${p.linkedin}" target="_blank" rel="noopener">IN</a>`,
-    p.snapchat && `<a href="${p.snapchat}" target="_blank" rel="noopener">SC</a>`
+    p.instagram && p.instagram.startsWith('http') && `<a href="${p.instagram}" target="_blank" rel="noopener">IG</a>`,
+    p.facebook && p.facebook.startsWith('http') && `<a href="${p.facebook}" target="_blank" rel="noopener">FB</a>`,
+    p.linkedin && p.linkedin.startsWith('http') && `<a href="${p.linkedin}" target="_blank" rel="noopener">IN</a>`,
+    p.snapchat && p.snapchat.startsWith('http') && `<a href="${p.snapchat}" target="_blank" rel="noopener">SC</a>`
   ].filter(Boolean).join("");
-  const name = [p.first_name,p.last_name].filter(Boolean).join(" ")||"Unnamed";
-  return `<article class="card pad profile">${img}<div><div class="name">${name}</div><div class="meta">${meta}</div><div class="links">${soc}</div></div></article>`;
+  
+  const name = [p.first_name, p.last_name].filter(Boolean).join(" ") || "Alumni Member";
+  const joinDate = p.timestamp ? new Date(p.timestamp).toLocaleDateString() : '';
+  
+  return `<article class="card pad profile">
+    ${img}
+    <div>
+      <div class="name">${name}</div>
+      <div class="meta">${meta}</div>
+      ${soc ? `<div class="links">${soc}</div>` : ''}
+      ${joinDate ? `<div class="meta" style="font-size: 11px; margin-top: 4px;">Joined ${joinDate}</div>` : ''}
+    </div>
+  </article>`;
 }
 
 function render(list){
@@ -119,29 +136,90 @@ async function fetchViaProxy(url){
 
 async function load(){
   try{
-    statusEl.textContent='Loading…';
+    statusEl.textContent='Loading alumni profiles...';
     let data;
-    try { data = await jsonp(ENDPOINT+'?list=1'); }
-    catch { data = await fetchViaProxy(ENDPOINT+'?list=1'); }
+    let method = 'unknown';
+    
+    // Try direct fetch first
+    try {
+      console.log('Attempting direct fetch...');
+      const response = await fetch(ENDPOINT + '?list=1&t=' + Date.now(), {
+        method: 'GET',
+        cache: 'no-store'
+      });
+      
+      if (response.ok) {
+        data = await response.json();
+        method = 'direct';
+        console.log('Direct fetch successful:', data);
+      } else {
+        throw new Error(`HTTP ${response.status}`);
+      }
+    } catch (directError) {
+      console.log('Direct fetch failed:', directError.message);
+      
+      // Try JSONP
+      try {
+        console.log('Attempting JSONP...');
+        data = await jsonp(ENDPOINT+'?list=1');
+        method = 'jsonp';
+        console.log('JSONP successful:', data);
+      } catch (jsonpError) {
+        console.log('JSONP failed:', jsonpError.message);
+        
+        // Try proxy as last resort
+        console.log('Attempting proxy...');
+        data = await fetchViaProxy(ENDPOINT+'?list=1');
+        method = 'proxy';
+        console.log('Proxy successful:', data);
+      }
+    }
 
-    const rows = dedupe(Array.isArray(data.rows)?data.rows:[])
-      .filter(r => (r.first_name||r.last_name||r.email||r.whatsapp));
+    if (!data || !data.ok) {
+      throw new Error(data?.error || 'Invalid response from server');
+    }
 
-    const years=[...new Set(rows.map(r=>r.graduating_year).filter(Boolean))].sort();
-    year.innerHTML = '<option value="">Year</option>' + years.map(y=>`<option>${y}</option>`).join('');
-    const countries=[...new Set(rows.map(r=>r.country).filter(Boolean))].sort();
-    country.innerHTML = '<option value="">Country</option>' + countries.map(c=>`<option>${c}</option>`).join('');
+    const rows = dedupe(Array.isArray(data.rows) ? data.rows : [])
+      .filter(r => (r.first_name || r.last_name || r.email || r.whatsapp));
 
-    const state={all:rows};
-    function update(){ render(applyFilters(state.all)); }
-    q.addEventListener('input',update);
-    year.addEventListener('change',update);
-    country.addEventListener('change',update);
+    console.log(`Loaded ${rows.length} alumni profiles via ${method}`);
+
+    // Populate filter dropdowns
+    const years = [...new Set(rows.map(r => r.graduating_year).filter(Boolean))].sort();
+    year.innerHTML = '<option value="">All Years</option>' + years.map(y => `<option value="${y}">${y}</option>`).join('');
+    
+    const countries = [...new Set(rows.map(r => r.country).filter(Boolean))].sort();
+    country.innerHTML = '<option value="">All Countries</option>' + countries.map(c => `<option value="${c}">${c}</option>`).join('');
+
+    // Set up filtering
+    const state = { all: rows };
+    function update() { 
+      const filtered = applyFilters(state.all);
+      render(filtered);
+    }
+    
+    q.addEventListener('input', update);
+    year.addEventListener('change', update);
+    country.addEventListener('change', update);
+    
+    // Initial render
     update();
-  }catch(e){
-    console.error(e);
-    statusEl.textContent='Load failed';
-    grid.innerHTML="<p class='meta'>Could not load directory. Check access or proxy.</p>";
+    
+    // Show load method in status for debugging
+    if (rows.length === 0) {
+      statusEl.textContent = `No profiles found (loaded via ${method})`;
+    }
+
+  } catch(e) {
+    console.error('Load error:', e);
+    statusEl.textContent = `Load failed: ${e.message}`;
+    grid.innerHTML = `
+      <div class='meta' style='grid-column: 1/-1; text-align: center; padding: 40px;'>
+        <p><strong>Could not load alumni directory</strong></p>
+        <p>Error: ${e.message}</p>
+        <p><button onclick='location.reload()' style='padding: 8px 16px; margin-top: 10px;'>Try Again</button></p>
+      </div>
+    `;
   }
 }
 load();

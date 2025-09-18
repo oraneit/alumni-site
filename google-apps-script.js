@@ -77,47 +77,98 @@ function doPost(e) {
 function doGet(e) {
   // Handle GET requests for listing alumni (for directory)
   try {
+    console.log('doGet called with parameters:', e.parameter);
+    
     const action = e.parameter.action || e.parameter.list;
+    console.log('Action detected:', action);
     
     if (action === '1' || action === 'alumni') {
       const sheet = getOrCreateSpreadsheet();
       const data = sheet.getDataRange().getValues();
+      
+      if (data.length === 0) {
+        console.log('No data found in spreadsheet');
+        return ContentService
+          .createTextOutput(JSON.stringify({
+            ok: true,
+            rows: [],
+            message: 'No data found'
+          }))
+          .setMimeType(ContentService.MimeType.JSON)
+          .setHeader('Access-Control-Allow-Origin', '*')
+          .setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+          .setHeader('Access-Control-Allow-Headers', 'Content-Type');
+      }
+      
       const headers = data[0];
       const rows = data.slice(1);
+      console.log('Found', rows.length, 'rows of data');
       
       const alumni = rows.map(row => {
         const obj = {};
         headers.forEach((header, index) => {
-          obj[header.toLowerCase().replace(/\s+/g, '_')] = row[index] || '';
+          const key = header.toLowerCase().replace(/\s+/g, '_');
+          obj[key] = row[index] || '';
         });
         return obj;
+      }).filter(alumni => {
+        // Filter out empty rows
+        return alumni.first_name || alumni.last_name || alumni.email;
       });
+
+      console.log('Returning', alumni.length, 'alumni profiles');
 
       return ContentService
         .createTextOutput(JSON.stringify({
           ok: true,
-          rows: alumni
+          rows: alumni,
+          count: alumni.length,
+          timestamp: new Date().toISOString()
         }))
         .setMimeType(ContentService.MimeType.JSON)
-        .setHeader('Access-Control-Allow-Origin', '*');
+        .setHeader('Access-Control-Allow-Origin', '*')
+        .setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        .setHeader('Access-Control-Allow-Headers', 'Content-Type');
     }
 
+    // Handle callback parameter for JSONP
+    const callback = e.parameter.callback;
+    const response = {
+      ok: false,
+      error: 'Invalid action. Use ?list=1 to get alumni directory.'
+    };
+
+    const jsonResponse = callback ? 
+      `${callback}(${JSON.stringify(response)})` : 
+      JSON.stringify(response);
+
     return ContentService
-      .createTextOutput(JSON.stringify({
-        ok: false,
-        error: 'Invalid action'
-      }))
-      .setMimeType(ContentService.MimeType.JSON)
-      .setHeader('Access-Control-Allow-Origin', '*');
+      .createTextOutput(jsonResponse)
+      .setMimeType(callback ? ContentService.MimeType.JAVASCRIPT : ContentService.MimeType.JSON)
+      .setHeader('Access-Control-Allow-Origin', '*')
+      .setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+      .setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   } catch (error) {
+    console.error('doGet error:', error);
+    
+    const callback = e.parameter.callback;
+    const response = {
+      ok: false,
+      error: error.toString(),
+      stack: error.stack
+    };
+
+    const jsonResponse = callback ? 
+      `${callback}(${JSON.stringify(response)})` : 
+      JSON.stringify(response);
+
     return ContentService
-      .createTextOutput(JSON.stringify({
-        ok: false,
-        error: error.toString()
-      }))
-      .setMimeType(ContentService.MimeType.JSON)
-      .setHeader('Access-Control-Allow-Origin', '*');
+      .createTextOutput(jsonResponse)
+      .setMimeType(callback ? ContentService.MimeType.JAVASCRIPT : ContentService.MimeType.JSON)
+      .setHeader('Access-Control-Allow-Origin', '*')
+      .setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+      .setHeader('Access-Control-Allow-Headers', 'Content-Type');
   }
 }
 
