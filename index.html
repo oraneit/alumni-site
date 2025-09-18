@@ -566,8 +566,12 @@
 
             <div class="full">
               <label>Profile photo (optional)</label>
-              <input type="file" name="photo" accept="image/*">
+              <input type="file" name="photo" accept="image/*" id="photo-input">
               <div class="helper">Max ~5 MB. JPG or PNG.</div>
+              <div id="photo-preview" style="margin-top:8px;display:none">
+                <img id="preview-img" style="max-width:100px;max-height:100px;border-radius:8px;border:1px solid #ddd">
+                <div style="font-size:12px;color:#666;margin-top:4px" id="photo-info"></div>
+              </div>
             </div>
 
             <div class="full">
@@ -695,11 +699,61 @@
       });
     }
 
+    // Photo preview functionality
+    const photoInput = document.getElementById('photo-input');
+    const photoPreview = document.getElementById('photo-preview');
+    const previewImg = document.getElementById('preview-img');
+    const photoInfo = document.getElementById('photo-info');
+
+    if (photoInput) {
+      photoInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          // Validate file type
+          if (!file.type.startsWith('image/')) {
+            alert('Please select an image file.');
+            photoInput.value = '';
+            photoPreview.style.display = 'none';
+            return;
+          }
+
+          // Validate file size (5MB)
+          if (file.size > 5 * 1024 * 1024) {
+            alert('Image too large. Please select a file under 5MB.');
+            photoInput.value = '';
+            photoPreview.style.display = 'none';
+            return;
+          }
+
+          // Show preview
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            previewImg.src = e.target.result;
+            photoInfo.textContent = `${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+            photoPreview.style.display = 'block';
+          };
+          reader.readAsDataURL(file);
+        } else {
+          photoPreview.style.display = 'none';
+        }
+      });
+    }
+
     // Form submission (Apps Script; supports photo upload)
     const ENDPOINT = "https://script.google.com/macros/s/AKfycby88hNEmXqnZ5D6T4LDUL96elLWI-MWyJruMXHccmN4q2VP8cRotIkUA0bpBIE6rj3m/exec";
     const form = document.getElementById('alumni-form');
     const note = document.getElementById('form-note');
     const consent = document.getElementById('consent');
+
+    // Helper function to convert file to base64
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
+    }
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -708,26 +762,80 @@
         form.reportValidity();
         return;
       }
+
+      const submitBtn = form.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
       note.textContent = "Sending…";
 
-      const fd = new FormData(form); // includes file if chosen
-      const file = fd.get('photo');
-      if (file && file.size && file.size > 5 * 1024 * 1024) {
-        note.textContent = "Image too large (max 5 MB).";
-        return;
-      }
-
       try {
-        await Promise.race([
-          fetch(ENDPOINT, { method: "POST", mode: "no-cors", body: fd }),
-          new Promise(r => setTimeout(r, 1500))
-        ]);
-      } catch (e) {
-        console.warn(e);
-      } finally {
-        form.reset();
-        localStorage.setItem("justJoined", "1");
-        window.location.href = "directory.html";
+        // Get form data
+        const formData = new FormData(form);
+        const file = formData.get('photo');
+
+        // Check file size
+        if (file && file.size > 5 * 1024 * 1024) {
+          note.textContent = "Image too large (max 5 MB).";
+          submitBtn.disabled = false;
+          return;
+        }
+
+        // Prepare data for Google Apps Script
+        const data = {};
+        for (let [key, value] of formData.entries()) {
+          if (key !== 'photo') {
+            data[key] = value;
+          }
+        }
+
+        // Handle photo upload if present
+        if (file && file.size > 0) {
+          note.textContent = "Processing photo...";
+          try {
+            const base64 = await fileToBase64(file);
+            data.photo = base64;
+          } catch (error) {
+            console.warn('Photo processing failed:', error);
+            note.textContent = "Photo processing failed, submitting without photo...";
+          }
+        }
+
+        // Add user agent for debugging
+        data.user_agent = navigator.userAgent;
+
+        note.textContent = "Submitting...";
+
+        // Submit to Google Apps Script
+        const response = await fetch(ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: new URLSearchParams(data)
+        });
+
+        const result = await response.json();
+
+        if (result.ok) {
+          note.textContent = result.photoSaved ?
+            "Success! Registration complete with photo." :
+            "Success! Registration complete.";
+          note.style.color = "green";
+
+          // Reset form and redirect after delay
+          setTimeout(() => {
+            form.reset();
+            localStorage.setItem("justJoined", "1");
+            window.location.href = "directory.html";
+          }, 2000);
+        } else {
+          throw new Error(result.error || 'Submission failed');
+        }
+
+      } catch (error) {
+        console.error('Submission error:', error);
+        note.textContent = `Error: ${error.message}. Please try again.`;
+        note.style.color = "red";
+        submitBtn.disabled = false;
       }
     });
   </script>
