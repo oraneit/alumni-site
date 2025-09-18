@@ -2,11 +2,17 @@
   { "file": "samiksha.png", "name": "Samiksha", "role": "Makeup Artist" },
   { "file": "narinder-singh.png", "name": "Narinder Singh", "role": "Salon Owner" },
   { "file": "vasvi-kapoor.png", "name": "Vasvi Kapoor", "role": "Hair Stylist" },
+  { "file": "aarti.png", "name": "Aarti", "role": "Makeup Artist" },
+  { "file": "aarti-1.png", "name": "Aarti", "role": "Beauty Expert" },
+  { "file": "anamika.png", "name": "Anamika", "role": "Beauty Trainer" },
+  { "file": "anamika-2.png", "name": "Anamika", "role": "Hair Stylist" },
   { "file": "disha-bohral.png", "name": "Disha Bohral", "role": "Beauty Expert" },
-  { "file": "lovejeet-kaur.png", "name": "Lovejeet Kaur", "role": "Makeup Artist" },
+  { "file": "jyoti-pandey.png", "name": "Jyoti Pandey", "role": "Makeup Artist" },
+  { "file": "narinder-singh-2.png", "name": "Narinder Singh", "role": "Beauty Entrepreneur" },
+  { "file": "nisha-sharma.png", "name": "Nisha Sharma", "role": "Hair Stylist" },
+  { "file": "nitu-solanki.png", "name": "Nitu Solanki", "role": "Beauty Consultant" },
   { "file": "riya.png", "name": "Riya", "role": "Beauty Consultant" },
   { "file": "tannu.png", "name": "Tannu", "role": "Hair Stylist" },
-  { "file": "viney-1.png", "name": "Viney", "role": "Salon Manager" },
-  { "file": "anamika.png", "name": "Anamika", "role": "Beauty Trainer" },
-  { "file": "aarti-1.png", "name": "Aarti", "role": "Makeup Artist" }
+  { "file": "vasvi-kapoor-2.png", "name": "Vasvi Kapoor", "role": "Salon Manager" },
+  { "file": "viney.png", "name": "Viney", "role": "Beauty Trainer" }
 ]

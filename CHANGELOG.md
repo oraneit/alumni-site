@@ -165,4 +165,37 @@ The alumni spotlight section is now a dynamic, professional carousel that showca
 3. Use debug page to test endpoint connectivity
 4. Clear browser cache and test in incognito mode
 
-The directory now properly updates with new alumni profiles and includes robust error handling and debugging tools!
+The directory now properly updates with new alumni profiles and includes robust error handling and debugging tools!##
+ Alumni Images Update - Latest
+
+### Added New Alumni Images:
+
+1. **Expanded Alumni Showcase**
+   - Added 6 new alumni images to the carousel
+   - Moved all alumni images to proper `images/` directory structure
+   - Updated `alumni-images.json` with all 16 alumni profiles
+
+2. **New Alumni Added:**
+   - **Jyoti Pandey** - Makeup Artist
+   - **Nisha Sharma** - Hair Stylist  
+   - **Nitu Solanki** - Beauty Consultant
+   - **Additional photos** of existing alumni (Aarti, Anamika, Narinder, Vasvi)
+
+3. **Improved Organization:**
+   - Standardized image file naming (lowercase with hyphens)
+   - Cleaned up duplicate files from root directory
+   - Enhanced alumni roles and descriptions
+
+4. **Testing Tools:**
+   - Created `test-images.html` for verifying image loading
+   - Updated carousel guide with current alumni list
+   - Better error handling for missing images
+
+### Files Modified:
+- `alumni-images.json` - Updated with all 16 alumni profiles
+- `ALUMNI_CAROUSEL_GUIDE.md` - Updated alumni list
+- `images/` directory - Organized all alumni photos
+- `test-images.html` - New testing tool
+
+### Current Alumni Count: 16 profiles
+The carousel now showcases a diverse range of successful Orane alumni across different beauty and wellness specializations!

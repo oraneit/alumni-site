@@ -89,16 +89,18 @@ The carousel uses CSS custom properties for easy theming:
 
 ## 📊 **Current Alumni Images**
 
-The carousel currently includes:
-- Samiksha (Makeup Artist)
-- Narinder Singh (Salon Owner)  
-- Vasvi Kapoor (Hair Stylist)
-- Disha Bohral (Beauty Expert)
-- Lovejeet Kaur (Makeup Artist)
-- Riya (Beauty Consultant)
-- Tannu (Hair Stylist)
-- Viney (Salon Manager)
-- Anamika (Beauty Trainer)
-- Aarti (Makeup Artist)
+The carousel now includes 16 alumni profiles:
+- **Samiksha** (Makeup Artist)
+- **Narinder Singh** (Salon Owner & Beauty Entrepreneur)  
+- **Vasvi Kapoor** (Hair Stylist & Salon Manager)
+- **Aarti** (Makeup Artist & Beauty Expert)
+- **Anamika** (Beauty Trainer & Hair Stylist)
+- **Disha Bohral** (Beauty Expert)
+- **Jyoti Pandey** (Makeup Artist)
+- **Nisha Sharma** (Hair Stylist)
+- **Nitu Solanki** (Beauty Consultant)
+- **Riya** (Beauty Consultant)
+- **Tannu** (Hair Stylist)
+- **Viney** (Beauty Trainer)
 
 Simply add more images to the `images/` folder and update `alumni-images.json` to expand the carousel!

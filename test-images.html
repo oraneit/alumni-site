@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alumni Images Test</title>
+    <style>
+        body { font-family: system-ui; padding: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+        .card { border: 1px solid #ddd; border-radius: 8px; padding: 10px; text-align: center; }
+        .card img { width: 100%; height: 200px; object-fit: cover; border-radius: 4px; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <h1>Alumni Images Test</h1>
+    <p>Testing all images from alumni-images.json</p>
+    <div id="status">Loading...</div>
+    <div id="grid" class="grid"></div>
+
+    <script>
+        async function testImages() {
+            const status = document.getElementById('status');
+            const grid = document.getElementById('grid');
+            
+            try {
+                const response = await fetch('alumni-images.json');
+                const images = await response.json();
+                
+                status.innerHTML = `<span class="success">✅ Found ${images.length} images in JSON</span>`;
+                
+                grid.innerHTML = images.map(img => `
+                    <div class="card">
+                        <img src="images/${img.file}" 
+                             alt="${img.name}" 
+                             onload="this.nextElementSibling.innerHTML='✅ Loaded'"
+                             onerror="this.nextElementSibling.innerHTML='❌ Failed'; this.nextElementSibling.className='error'">
+                        <div>Loading...</div>
+                        <h3>${img.name}</h3>
+                        <p>${img.role}</p>
+                        <small>File: ${img.file}</small>
+                    </div>
+                `).join('');
+                
+            } catch (error) {
+                status.innerHTML = `<span class="error">❌ Error: ${error.message}</span>`;
+            }
+        }
+        
+        testImages();
+    </script>
+</body>
+</html>
