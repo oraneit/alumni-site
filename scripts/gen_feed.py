@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from urllib.parse import quote
 
 # Replace this with your live site URL (Netlify/GitHub Pages)
-SITE_BASE_URL = os.environ.get("SITE_BASE_URL", "https://your-site.example")
+SITE_BASE_URL = os.environ.get("SITE_BASE_URL", "https://orane-alumni.netlify.app")
 IMG_DIR = "placements"
 FEED_JSON = "feed.json"
 FEED_XML  = "feed.xml"

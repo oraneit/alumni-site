@@ -1095,7 +1095,11 @@
             <img src="images/${img.file}" 
                  alt="${img.name} - ${img.role}" 
                  loading="${index < 3 ? 'eager' : 'lazy'}"
-                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgwIiBoZWlnaHQ9IjMyMCIgdmlld0JveD0iMCAwIDI4MCAzMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyODAiIGhlaWdodD0iMzIwIiBmaWxsPSIjRjNGNEY2Ii8+CjxjaXJjbGUgY3g9IjE0MCIgY3k9IjEyMCIgcj0iMzAiIGZpbGw9IiNEMUQ1REIiLz4KPHJlY3QgeD0iMTEwIiB5PSIxNzAiIHdpZHRoPSI2MCIgaGVpZ2h0PSI4IiByeD0iNCIgZmlsbD0iI0QxRDVEQiIvPgo8cmVjdCB4PSI5MCIgeT0iMTkwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjYiIHJ4PSIzIiBmaWxsPSIjRTVFN0VCIi8+Cjx0ZXh0IHg9IjE0MCIgeT0iMjUwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOUI5QkEzIiBmb250LWZhbWlseT0ic3lzdGVtLXVpIiBmb250LXNpemU9IjEyIj5BbHVtbmkgUGhvdG88L3RleHQ+Cjwvc3ZnPg=='; this.onerror=null;">
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div style="display:none; width:100%; height:320px; background:#f3f4f6; align-items:center; justify-content:center; flex-direction:column; color:#9ca3af; font-size:14px;">
+              <div style="width:60px; height:60px; background:#d1d5db; border-radius:50%; margin-bottom:12px; display:flex; align-items:center; justify-content:center; font-size:24px;">👤</div>
+              <div>Alumni Photo</div>
+            </div>
             <div class="sp-meta">
               <div style="font-weight: 600; margin-bottom: 2px;">${img.name}</div>
               <div style="opacity: 0.9; font-size: 13px;">${img.role}</div>

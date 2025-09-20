@@ -18,5 +18,9 @@
       });
       updatesNote.textContent='';
     })
-    .catch(e=>{ console.warn(e); updatesNote.textContent="Couldn’t fetch updates."; });
+    .catch(e=>{ 
+      console.warn('Updates fetch error:', e); 
+      updatesNote.textContent="Couldn't fetch updates. Please try again later."; 
+      updatesEl.innerHTML = '<p style="color: #64748b; text-align: center; padding: 20px;">Updates temporarily unavailable</p>';
+    });
 })();

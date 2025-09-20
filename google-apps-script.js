@@ -37,7 +37,7 @@ function doPost(e) {
       formData.graduating_year || '',
       formData.country || '',
       formData.city || '',
-      formData.profession || '',
+      formData.profession || formData.occupation || '',
       formData.instagram || '',
       formData.facebook || '',
       formData.linkedin || '',

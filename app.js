@@ -1,6 +1,6 @@
-// app.js — sends the form to your Google Apps Script
-// This file is deprecated - form handling is now in index.html
-// Remove this file or update ENDPOINT if still needed
+// app.js — DEPRECATED FILE
+// This file is no longer used - form handling moved to index.html
+// This file should be removed to prevent conflicts
 const ENDPOINT = "https://script.google.com/macros/s/AKfycby88hNEmXqnZ5D6T4LDUL96elLWI-MWyJruMXHccmN4q2VP8cRotIkUA0bpBIE6rj3m/exec";
 
 function v(sel) { const el = document.querySelector(sel); return el ? (el.value || "").trim() : ""; }
