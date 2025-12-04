@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="step-indicator">
+    Step 1 &rarr; Step 2 &rarr; Step 3 &rarr; <span class="step-active">Step 4: Completion</span>
+</div>
+
+<h4 class="mb-4">Final Touches</h4>
+<p class="text-muted">Add peer references to boost your credibility (optional) and finish your profile.</p>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <h6 class="mb-3">Peer References</h6>
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label class="form-label">{{ form.peer1_name.label }}</label>
+            {{ form.peer1_name(class="form-control") }}
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">{{ form.peer1_mobile.label }}</label>
+            {{ form.peer1_mobile(class="form-control") }}
+        </div>
+        
+        <div class="col-md-6">
+            <label class="form-label">{{ form.peer2_name.label }}</label>
+            {{ form.peer2_name(class="form-control") }}
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">{{ form.peer2_mobile.label }}</label>
+            {{ form.peer2_mobile(class="form-control") }}
+        </div>
+    </div>
+
+    <div class="mt-4 d-grid">
+        <button type="submit" class="btn btn-success btn-lg">Complete Profile & View Showcase</button>
+    </div>
+</form>
+{% endblock %}

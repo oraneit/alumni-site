@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="text-center py-5">
+    <div class="display-1 text-success mb-3">✓</div>
+    <h2 class="fw-bold">All Done!</h2>
+    <p class="lead">Thank you, {{ alum.first_name }}. Your profile is active.</p>
+    
+    <div class="card bg-light border-0 mt-4 p-4">
+        <h5>Your Alumni Voucher</h5>
+        <p class="text-muted small">Use this code for exclusive alumni benefits.</p>
+        <div class="display-6 fw-bold text-primary tracking-wider">
+            {{ alum.voucher.code }}
+        </div>
+        <p class="small text-muted mt-2">Valid until: {{ alum.voucher.valid_until.strftime('%d %b %Y') }}</p>
+    </div>
+
+    <div class="mt-5 d-flex gap-2 justify-content-center">
+        <a href="{{ url_for('directory') }}" class="btn btn-primary">See Yourself in Directory</a>
+        <a href="{{ url_for('start') }}" class="btn btn-outline-secondary">Back to Home</a>
+    </div>
+</div>
+{% endblock %}

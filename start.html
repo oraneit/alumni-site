@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="step-indicator">
+    <span class="step-active">Step 1: Basics</span> &rarr; Status &rarr; Education &rarr; Finish
+</div>
+
+<h4 class="mb-4">Create your Profile</h4>
+<form method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label class="form-label">{{ form.first_name.label }}</label>
+            {{ form.first_name(class="form-control") }}
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">{{ form.last_name.label }}</label>
+            {{ form.last_name(class="form-control") }}
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">{{ form.email.label }} <span class="text-danger">*</span></label>
+            {{ form.email(class="form-control") }}
+            {% if form.email.errors %}
+                <div class="text-danger small">{{ form.email.errors[0] }}</div>
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">{{ form.mobile.label }} <span class="text-danger">*</span></label>
+            {{ form.mobile(class="form-control") }}
+            {% if form.mobile.errors %}
+                <div class="text-danger small">{{ form.mobile.errors[0] }}</div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">{{ form.city.label }}</label>
+            {{ form.city(class="form-control") }}
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">{{ form.country.label }}</label>
+            {{ form.country(class="form-control") }}
+        </div>
+
+        <div class="col-12"><hr></div>
+
+        <div class="col-md-6">
+            <label class="form-label">{{ form.center.label }} <span class="text-danger">*</span></label>
+            {{ form.center(class="form-select") }}
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">{{ form.program.label }} <span class="text-danger">*</span></label>
+            {{ form.program(class="form-select") }}
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">{{ form.batch_code.label }}</label>
+            {{ form.batch_code(class="form-control", placeholder="e.g. Batch 2023 or Sep '23") }}
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">{{ form.skills.label }} <span class="text-danger">*</span></label>
+            {{ form.skills(class="form-select") }}
+        </div>
+
+        <div class="col-12">
+            <label class="form-label">{{ form.about_me.label }}</label>
+            {{ form.about_me(class="form-control", rows=3) }}
+        </div>
+
+        <div class="col-12"><hr></div>
+        <h6 class="text-muted">Social Media (Optional)</h6>
+        
+        <div class="col-md-6">
+            <label class="form-label">{{ form.instagram_url.label }}</label>
+            {{ form.instagram_url(class="form-control") }}
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">{{ form.linkedin_url.label }}</label>
+            {{ form.linkedin_url(class="form-control") }}
+        </div>
+
+        <div class="col-12">
+            <label class="form-label">{{ form.showcase.label }}</label>
+            {{ form.showcase(class="form-control") }}
+            <div class="form-text">Upload up to 6 best images of your work. These will be shown in the directory.</div>
+        </div>
+
+        <div class="col-12 mt-3">
+            <div class="form-check">
+                {{ form.consent_directory(class="form-check-input") }}
+                <label class="form-check-label">{{ form.consent_directory.label }}</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4 d-grid">
+        <button type="submit" class="btn btn-primary btn-lg">Next Step &rarr;</button>
+    </div>
+</form>
+{% endblock %}

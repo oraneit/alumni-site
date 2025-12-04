@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="text-center py-5">
+    <h1 class="display-4 fw-bold text-primary mb-3">Orane Alumni Network</h1>
+    <p class="lead text-muted mb-5">Connect. Showcase. Grow.</p>
+    
+    <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+        <a href="{{ url_for('start') }}" class="btn btn-primary btn-lg px-5">Join the Network</a>
+        <a href="{{ url_for('directory') }}" class="btn btn-outline-dark btn-lg px-5">View Directory</a>
+    </div>
+    
+    <div class="row mt-5 pt-5 text-start">
+        <div class="col-md-4">
+            <h5>For Alumni</h5>
+            <p class="small text-muted">Create a professional portfolio, get listed in our directory, and receive exclusive vouchers.</p>
+        </div>
+        <div class="col-md-4">
+            <h5>For Recruiters</h5>
+            <p class="small text-muted">Find top talent categorized by specialization and validated by their training history.</p>
+        </div>
+        <div class="col-md-4">
+            <h5>Community</h5>
+            <p class="small text-muted">Reconnect with batchmates and stay updated with the latest in the beauty industry.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

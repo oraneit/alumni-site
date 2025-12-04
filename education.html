@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="step-indicator">
+    Step 1 &rarr; Step 2 &rarr; <span class="step-active">Step 3: Education Details</span> &rarr; Finish
+</div>
+
+<h4 class="mb-4">Training Details</h4>
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <div class="row g-3">
+        <div class="col-md-12">
+            <label class="form-label">{{ form.course_name.label }} <span class="text-danger">*</span></label>
+            {{ form.course_name(class="form-control") }}
+        </div>
+        
+        <div class="col-md-6">
+            <label class="form-label">{{ form.trainer_name.label }}</label>
+            {{ form.trainer_name(class="form-control") }}
+        </div>
+        
+        <div class="col-md-6">
+            <label class="form-label">{{ form.completion_ym.label }}</label>
+            {{ form.completion_ym(class="form-control", placeholder="YYYY-MM") }}
+        </div>
+
+        <div class="col-12"><hr></div>
+        <h6 class="text-muted">Reference Student (Someone you studied with)</h6>
+
+        <div class="col-md-6">
+            <label class="form-label">{{ form.reference_student_name.label }}</label>
+            {{ form.reference_student_name(class="form-control") }}
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">{{ form.reference_student_phone.label }}</label>
+            {{ form.reference_student_phone(class="form-control") }}
+        </div>
+    </div>
+
+    <div class="mt-4 d-grid">
+        <button type="submit" class="btn btn-primary btn-lg">Next Step &rarr;</button>
+    </div>
+</form>
+{% endblock %}
